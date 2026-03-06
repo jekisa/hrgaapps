@@ -8,7 +8,9 @@ const nextConfig = {
       },
     ],
   },
-  serverExternalPackages: ['@prisma/client', 'bcryptjs'],
+  experimental: {
+    serverComponentsExternalPackages: ['@prisma/client', 'bcryptjs'],
+  },
 }
 
 module.exports = nextConfig

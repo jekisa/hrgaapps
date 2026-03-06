@@ -1,7 +1,9 @@
 {
-  "/_not-found/page": "app/_not-found/page.js",
   "/api/auth/[...nextauth]/route": "app/api/auth/[...nextauth]/route.js",
   "/api/notifikasi/route": "app/api/notifikasi/route.js",
   "/api/dashboard/route": "app/api/dashboard/route.js",
-  "/(dashboard)/page": "app/(dashboard)/page.js"
+  "/api/karyawan/route": "app/api/karyawan/route.js",
+  "/(dashboard)/page": "app/(dashboard)/page.js",
+  "/(auth)/login/page": "app/(auth)/login/page.js",
+  "/(dashboard)/karyawan/page": "app/(dashboard)/karyawan/page.js"
 }

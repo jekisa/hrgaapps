@@ -8,6 +8,7 @@ export async function GET() {
   const session = await getServerSession(authOptions)
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
+  try {
   const now = new Date()
   const thirtyDaysLater = addDays(now, 30)
 
@@ -122,4 +123,8 @@ export async function GET() {
       createdAt: log.createdAt,
     })),
   })
+  } catch (error) {
+    console.error('Dashboard API error:', error)
+    return NextResponse.json({ error: 'Gagal memuat data dashboard' }, { status: 500 })
+  }
 }
