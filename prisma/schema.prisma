@@ -1,0 +1,242 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int        @id @default(autoincrement())
+  name      String
+  email     String     @unique
+  password  String
+  role      String     @default("STAFF")
+  isActive  Boolean    @default(true)
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  auditLogs AuditLog[]
+}
+
+model Karyawan {
+  id                     Int                  @id @default(autoincrement())
+  nik                    String               @unique
+  nama                   String
+  tempatLahir            String?
+  tanggalLahir           DateTime?
+  jenisKelamin           String?
+  agama                  String?
+  alamat                 String?
+  telepon                String?
+  email                  String?
+  foto                   String?
+  statusKontrak          String               @default("PKWTT")
+  tanggalMasuk           DateTime?
+  tanggalKontrakBerakhir DateTime?
+  departemen             String?
+  jabatan                String?
+  statusAktif            Boolean              @default(true)
+  createdAt              DateTime             @default(now())
+  updatedAt              DateTime             @updatedAt
+  riwayatJabatan         RiwayatJabatan[]
+  dokumen                DokumenKaryawan[]
+  peminjaman             PeminjamanAset[]
+  logPerjalanan          LogPerjalanan[]
+}
+
+model RiwayatJabatan {
+  id             Int       @id @default(autoincrement())
+  karyawanId     Int
+  jabatan        String
+  departemen     String?
+  tanggalMulai   DateTime
+  tanggalSelesai DateTime?
+  keterangan     String?
+  karyawan       Karyawan  @relation(fields: [karyawanId], references: [id], onDelete: Cascade)
+  createdAt      DateTime  @default(now())
+}
+
+model DokumenKaryawan {
+  id         Int      @id @default(autoincrement())
+  karyawanId Int
+  namaFile   String
+  tipeFile   String
+  urlFile    String
+  karyawan   Karyawan @relation(fields: [karyawanId], references: [id], onDelete: Cascade)
+  createdAt  DateTime @default(now())
+}
+
+model Aset {
+  id             Int              @id @default(autoincrement())
+  kodeAset       String           @unique
+  namaAset       String
+  kategori       String
+  merk           String?
+  model          String?
+  serialNumber   String?
+  tahunPerolehan Int?
+  nilaiPerolehan Float?
+  kondisi        String           @default("BAIK")
+  status         String           @default("AKTIF")
+  lokasi         String?
+  keterangan     String?
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+  peminjaman     PeminjamanAset[]
+}
+
+model PeminjamanAset {
+  id                    Int       @id @default(autoincrement())
+  asetId                Int
+  karyawanId            Int
+  tanggalPinjam         DateTime
+  tanggalRencanaKembali DateTime?
+  tanggalKembali        DateTime?
+  keperluan             String?
+  status                String    @default("DIPINJAM")
+  keterangan            String?
+  aset                  Aset      @relation(fields: [asetId], references: [id])
+  karyawan              Karyawan  @relation(fields: [karyawanId], references: [id])
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+}
+
+model MaintenanceRequest {
+  id             Int       @id @default(autoincrement())
+  judul          String
+  lokasi         String?
+  kategori       String?
+  deskripsi      String?
+  prioritas      String    @default("NORMAL")
+  status         String    @default("PENDING")
+  tanggalRequest DateTime  @default(now())
+  tanggalSelesai DateTime?
+  pemohon        String?
+  pelaksana      String?
+  biaya          Float?
+  keterangan     String?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+}
+
+model Utilitas {
+  id          Int       @id @default(autoincrement())
+  jenis       String
+  bulan       Int
+  tahun       Int
+  tagihan     Float?
+  penggunaan  Float?
+  satuan      String?
+  statusBayar String    @default("BELUM")
+  tanggalBayar DateTime?
+  keterangan  String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Kendaraan {
+  id                   Int                  @id @default(autoincrement())
+  noPol                String               @unique
+  merk                 String
+  model                String?
+  tahun                Int?
+  warna                String?
+  jenisKendaraan       String?
+  noRangka             String?
+  noMesin              String?
+  status               String               @default("TERSEDIA")
+  tanggalPajakBerakhir DateTime?
+  tanggalSTNKBerakhir  DateTime?
+  keterangan           String?
+  createdAt            DateTime             @default(now())
+  updatedAt            DateTime             @updatedAt
+  jadwalPemakaian      JadwalKendaraan[]
+  logPerjalanan        LogPerjalanan[]
+  perawatan            PerawatanKendaraan[]
+  pembayaranPajak      PembayaranPajak[]
+}
+
+model JadwalKendaraan {
+  id               Int       @id @default(autoincrement())
+  kendaraanId      Int
+  pengemudi        String?
+  keperluan        String?
+  tujuan           String?
+  tanggalBerangkat DateTime
+  tanggalKembali   DateTime?
+  status           String    @default("TERJADWAL")
+  keterangan       String?
+  kendaraan        Kendaraan @relation(fields: [kendaraanId], references: [id])
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+}
+
+model LogPerjalanan {
+  id          Int       @id @default(autoincrement())
+  kendaraanId Int
+  karyawanId  Int?
+  tanggal     DateTime
+  tujuan      String?
+  keperluan   String?
+  kmAwal      Int?
+  kmAkhir     Int?
+  totalKm     Int?
+  bbm         Float?
+  keterangan  String?
+  kendaraan   Kendaraan @relation(fields: [kendaraanId], references: [id])
+  karyawan    Karyawan? @relation(fields: [karyawanId], references: [id])
+  createdAt   DateTime  @default(now())
+}
+
+model PerawatanKendaraan {
+  id                 Int       @id @default(autoincrement())
+  kendaraanId        Int
+  tanggal            DateTime
+  jenisPerawatan     String?
+  deskripsi          String?
+  biaya              Float?
+  bengkel            String?
+  kmServis           Int?
+  kmServisBerikutnya Int?
+  status             String    @default("TERJADWAL")
+  kendaraan          Kendaraan @relation(fields: [kendaraanId], references: [id])
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
+}
+
+model PembayaranPajak {
+  id                Int       @id @default(autoincrement())
+  kendaraanId       Int
+  jenisPajak        String
+  tahun             Int?
+  tanggalBayar      DateTime?
+  tanggalJatuhTempo DateTime?
+  jumlah            Float?
+  status            String    @default("BELUM")
+  keterangan        String?
+  kendaraan         Kendaraan @relation(fields: [kendaraanId], references: [id])
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+}
+
+model AuditLog {
+  id        Int      @id @default(autoincrement())
+  userId    Int?
+  aksi      String
+  modul     String
+  detail    String?
+  ipAddress String?
+  createdAt DateTime @default(now())
+  user      User?    @relation(fields: [userId], references: [id])
+}
+
+model Notifikasi {
+  id        Int      @id @default(autoincrement())
+  judul     String
+  pesan     String?
+  tipe      String
+  status    String   @default("BELUM_DIBACA")
+  targetId  Int?
+  createdAt DateTime @default(now())
+}
