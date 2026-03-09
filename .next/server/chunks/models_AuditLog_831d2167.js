@@ -1,0 +1,3 @@
+module.exports=[21421,e=>{"use strict";var t=e.i(64328);let d=new t.default.Schema({userId:{type:t.default.Schema.Types.ObjectId,ref:"User",default:null},aksi:{type:String,required:!0},modul:{type:String,required:!0},detail:{type:String,default:null},ipAddress:{type:String,default:null}},{timestamps:!0,toJSON:{virtuals:!0,transform:(e,t)=>(delete t._id,delete t.__v,t)}}),l=t.default.models.AuditLog||t.default.model("AuditLog",d);e.s(["default",0,l])}];
+
+//# sourceMappingURL=models_AuditLog_831d2167.js.map

@@ -1,24 +1,18 @@
 'use client'
 
-import { useState, useEffect, useCallback } from 'react'
-import { Plus, CheckCircle, FileText, AlertTriangle } from 'lucide-react'
+import { useState, useMemo } from 'react'
+import { Plus, CheckCircle, AlertTriangle } from 'lucide-react'
 import toast from 'react-hot-toast'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
+import { useForm } from 'react-hook-form'
 import PageHeader from '@/components/ui/PageHeader'
 import Badge from '@/components/ui/Badge'
-import EmptyState from '@/components/ui/EmptyState'
+import DataTable from '@/components/ui/DataTable'
 import Modal from '@/components/ui/Modal'
-import { PageLoader } from '@/components/ui/LoadingSpinner'
 import { formatDate, formatCurrency, getDaysDiff } from '@/lib/utils'
-import { useForm } from 'react-hook-form'
 
 function BayarModal({ isOpen, onClose, onSaved, pajakData }) {
-  const { register, handleSubmit, reset, formState: { isSubmitting } } = useForm()
-
-  useEffect(() => {
-    if (pajakData) {
-      reset({ jumlah: pajakData.jumlah, tanggalPajakBaruBerakhir: '' })
-    }
-  }, [pajakData, reset])
+  const { register, handleSubmit, formState: { isSubmitting } } = useForm()
 
   const onSubmit = async (data) => {
     try {
@@ -50,7 +44,7 @@ function BayarModal({ isOpen, onClose, onSaved, pajakData }) {
         )}
         <div>
           <label className="form-label">Jumlah Bayar (Rp)</label>
-          <input type="number" className="form-input" {...register('jumlah')} />
+          <input type="number" className="form-input" {...register('jumlah')} defaultValue={pajakData?.jumlah} />
         </div>
         <div>
           <label className="form-label">Keterangan</label>
@@ -66,15 +60,16 @@ function BayarModal({ isOpen, onClose, onSaved, pajakData }) {
 }
 
 function TambahPajakModal({ isOpen, onClose, onSaved }) {
-  const { register, handleSubmit, reset, formState: { isSubmitting } } = useForm()
-  const [kendaraanList, setKendaraanList] = useState([])
+  const { register, handleSubmit, formState: { isSubmitting } } = useForm()
 
-  useEffect(() => {
-    if (isOpen) {
-      fetch('/api/kendaraan?limit=100').then(r => r.json()).then(d => setKendaraanList(d.data || []))
-      reset({ jenisPajak: 'PKB', tahun: new Date().getFullYear(), status: 'BELUM' })
-    }
-  }, [isOpen, reset])
+  const { data: kendaraanResult } = useQuery({
+    queryKey: ['kendaraan-all'],
+    queryFn: () => fetch('/api/kendaraan?limit=100').then(r => r.json()),
+    enabled: isOpen,
+    staleTime: 1000 * 60 * 5,
+  })
+
+  const kendaraanList = kendaraanResult?.data || []
 
   const onSubmit = async (data) => {
     try {
@@ -112,7 +107,7 @@ function TambahPajakModal({ isOpen, onClose, onSaved }) {
           </div>
           <div>
             <label className="form-label">Tahun</label>
-            <input type="number" className="form-input" {...register('tahun')} />
+            <input type="number" className="form-input" {...register('tahun')} defaultValue={new Date().getFullYear()} />
           </div>
           <div>
             <label className="form-label">Jatuh Tempo</label>
@@ -133,30 +128,95 @@ function TambahPajakModal({ isOpen, onClose, onSaved }) {
 }
 
 export default function PajakKendaraanPage() {
-  const [data, setData] = useState([])
-  const [loading, setLoading] = useState(true)
+  const queryClient = useQueryClient()
   const [statusFilter, setStatusFilter] = useState('')
   const [showBayar, setShowBayar] = useState(false)
   const [showTambah, setShowTambah] = useState(false)
   const [selectedPajak, setSelectedPajak] = useState(null)
 
-  const fetchData = useCallback(async () => {
-    setLoading(true)
-    try {
-      const params = new URLSearchParams(statusFilter ? { status: statusFilter } : {})
-      const res = await fetch(`/api/kendaraan/pajak?${params}`)
-      const json = await res.json()
-      setData(json || [])
-    } finally { setLoading(false) }
-  }, [statusFilter])
+  const params = new URLSearchParams(statusFilter ? { status: statusFilter } : {})
 
-  useEffect(() => { fetchData() }, [fetchData])
+  const { data: rows = [], isLoading } = useQuery({
+    queryKey: ['pajak-kendaraan', statusFilter],
+    queryFn: () => fetch(`/api/kendaraan/pajak?${params}`).then(r => r.json()),
+  })
 
-  const belumBayar = data.filter((d) => d.status === 'BELUM')
+  const belumBayar = rows.filter((d) => d.status === 'BELUM')
   const jatuhTempo30 = belumBayar.filter((d) => {
     const diff = getDaysDiff(d.tanggalJatuhTempo)
     return diff !== null && diff >= 0 && diff <= 30
   })
+
+  const handleSaved = () => {
+    setShowBayar(false)
+    setShowTambah(false)
+    setSelectedPajak(null)
+    queryClient.invalidateQueries({ queryKey: ['pajak-kendaraan'] })
+  }
+
+  const columns = useMemo(() => [
+    {
+      id: 'kendaraan',
+      header: 'Kendaraan',
+      cell: ({ row }) => (
+        <div>
+          <p className="font-mono font-bold text-sm">{row.original.kendaraan?.noPol}</p>
+          <p className="text-xs text-gray-400">{row.original.kendaraan?.merk} {row.original.kendaraan?.model}</p>
+        </div>
+      ),
+    },
+    {
+      accessorKey: 'jenisPajak',
+      header: 'Jenis Pajak',
+      cell: ({ getValue }) => <span className="font-medium">{getValue()}</span>,
+    },
+    {
+      accessorKey: 'tahun',
+      header: 'Tahun',
+      cell: ({ getValue }) => getValue() || '-',
+    },
+    {
+      accessorKey: 'tanggalJatuhTempo',
+      header: 'Jatuh Tempo',
+      cell: ({ getValue, row }) => {
+        const diff = getDaysDiff(getValue())
+        const isUrgent = row.original.status === 'BELUM' && diff !== null && diff <= 30
+        return (
+          <span className={isUrgent ? 'text-red-600 font-bold' : ''}>
+            {formatDate(getValue())}
+            {isUrgent && diff >= 0 && <span className="text-xs ml-1">({diff}h)</span>}
+            {isUrgent && diff < 0 && <span className="text-xs ml-1">(Lewat!)</span>}
+          </span>
+        )
+      },
+    },
+    {
+      accessorKey: 'jumlah',
+      header: 'Jumlah',
+      cell: ({ getValue }) => <span className="font-semibold">{formatCurrency(getValue())}</span>,
+    },
+    {
+      accessorKey: 'tanggalBayar',
+      header: 'Tgl Bayar',
+      cell: ({ getValue }) => getValue() ? formatDate(getValue()) : '-',
+    },
+    {
+      accessorKey: 'status',
+      header: 'Status',
+      cell: ({ getValue }) => <Badge status={getValue()} />,
+    },
+    {
+      id: 'aksi',
+      header: 'Aksi',
+      cell: ({ row }) => row.original.status === 'BELUM' ? (
+        <button onClick={() => { setSelectedPajak(row.original); setShowBayar(true) }}
+          className="flex items-center gap-1 text-xs text-green-600 hover:bg-green-50 px-2 py-1 rounded"
+        >
+          <CheckCircle className="w-3.5 h-3.5" /> Bayar
+        </button>
+      ) : null,
+    },
+  ], [])
 
   return (
     <div>
@@ -171,7 +231,6 @@ export default function PajakKendaraanPage() {
         }
       />
 
-      {/* Alerts */}
       {jatuhTempo30.length > 0 && (
         <div className="bg-red-50 border border-red-200 rounded-xl p-4 mb-4 flex items-start gap-3">
           <AlertTriangle className="w-5 h-5 text-red-500 mt-0.5 shrink-0" />
@@ -191,7 +250,7 @@ export default function PajakKendaraanPage() {
         </div>
         <div className="card p-4">
           <p className="text-sm text-gray-500">Sudah Dibayar</p>
-          <p className="text-2xl font-bold text-green-600">{data.filter((d) => d.status === 'SUDAH').length}</p>
+          <p className="text-2xl font-bold text-green-600">{rows.filter((d) => d.status === 'SUDAH').length}</p>
         </div>
       </div>
 
@@ -207,65 +266,12 @@ export default function PajakKendaraanPage() {
         </div>
       </div>
 
-      <div className="card overflow-hidden">
-        {loading ? <PageLoader /> : data.length === 0 ? <EmptyState icon={FileText} title="Tidak ada data pajak" /> : (
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead>
-                <tr>
-                  <th className="table-th">Kendaraan</th>
-                  <th className="table-th">Jenis Pajak</th>
-                  <th className="table-th">Tahun</th>
-                  <th className="table-th">Jatuh Tempo</th>
-                  <th className="table-th">Jumlah</th>
-                  <th className="table-th">Tgl Bayar</th>
-                  <th className="table-th">Status</th>
-                  <th className="table-th">Aksi</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-gray-50">
-                {data.map((p) => {
-                  const diff = getDaysDiff(p.tanggalJatuhTempo)
-                  const isUrgent = p.status === 'BELUM' && diff !== null && diff <= 30
-                  return (
-                    <tr key={p.id} className={`hover:bg-gray-50 ${isUrgent ? 'bg-red-50/30' : ''}`}>
-                      <td className="table-td">
-                        <p className="font-mono font-bold text-sm">{p.kendaraan?.noPol}</p>
-                        <p className="text-xs text-gray-400">{p.kendaraan?.merk} {p.kendaraan?.model}</p>
-                      </td>
-                      <td className="table-td font-medium">{p.jenisPajak}</td>
-                      <td className="table-td">{p.tahun || '-'}</td>
-                      <td className="table-td">
-                        <span className={isUrgent ? 'text-red-600 font-bold' : ''}>
-                          {formatDate(p.tanggalJatuhTempo)}
-                          {isUrgent && diff >= 0 && <span className="text-xs ml-1">({diff}h)</span>}
-                          {isUrgent && diff < 0 && <span className="text-xs ml-1">(Lewat!)</span>}
-                        </span>
-                      </td>
-                      <td className="table-td font-semibold">{formatCurrency(p.jumlah)}</td>
-                      <td className="table-td">{p.tanggalBayar ? formatDate(p.tanggalBayar) : '-'}</td>
-                      <td className="table-td"><Badge status={p.status} /></td>
-                      <td className="table-td">
-                        {p.status === 'BELUM' && (
-                          <button
-                            onClick={() => { setSelectedPajak(p); setShowBayar(true) }}
-                            className="flex items-center gap-1 text-xs text-green-600 hover:bg-green-50 px-2 py-1 rounded"
-                          >
-                            <CheckCircle className="w-3.5 h-3.5" /> Bayar
-                          </button>
-                        )}
-                      </td>
-                    </tr>
-                  )
-                })}
-              </tbody>
-            </table>
-          </div>
-        )}
+      <div className="page-section">
+        <DataTable data={rows} columns={columns} isLoading={isLoading} emptyMessage="Tidak ada data pajak" />
       </div>
 
-      <BayarModal isOpen={showBayar} onClose={() => { setShowBayar(false); setSelectedPajak(null) }} onSaved={() => { setShowBayar(false); setSelectedPajak(null); fetchData() }} pajakData={selectedPajak} />
-      <TambahPajakModal isOpen={showTambah} onClose={() => setShowTambah(false)} onSaved={() => { setShowTambah(false); fetchData() }} />
+      <BayarModal isOpen={showBayar} onClose={() => { setShowBayar(false); setSelectedPajak(null) }} onSaved={handleSaved} pajakData={selectedPajak} />
+      <TambahPajakModal isOpen={showTambah} onClose={() => setShowTambah(false)} onSaved={handleSaved} />
     </div>
   )
 }

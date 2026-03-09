@@ -79,7 +79,7 @@ export default function LaporanPage() {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {reports.map((report) => (
-          <div key={report.id} className="card p-6">
+          <div key={report.id} className="card p-6 card-hover">
             <div className="flex items-start gap-4">
               <div className={`p-3 rounded-xl ${report.color}`}>
                 <report.icon className="w-6 h-6" />
@@ -89,7 +89,7 @@ export default function LaporanPage() {
                 <p className="text-sm text-gray-500 mt-1">{report.description}</p>
               </div>
             </div>
-            <div className="mt-4 flex gap-2">
+            <div className="mt-4">
               <button
                 onClick={() => downloadReport(report)}
                 disabled={loading[report.id]}
@@ -114,7 +114,6 @@ export default function LaporanPage() {
         ))}
       </div>
 
-      {/* Info */}
       <div className="mt-6 card p-5 bg-blue-50 border-blue-100">
         <div className="flex items-start gap-3">
           <FileText className="w-5 h-5 text-blue-600 shrink-0 mt-0.5" />

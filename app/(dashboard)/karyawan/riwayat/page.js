@@ -1,36 +1,64 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useMemo } from 'react'
+import { Search } from 'lucide-react'
+import { useQuery } from '@tanstack/react-query'
 import PageHeader from '@/components/ui/PageHeader'
-import { PageLoader } from '@/components/ui/LoadingSpinner'
+import DataTable from '@/components/ui/DataTable'
 import { formatDate } from '@/lib/utils'
 
 export default function RiwayatJabatanPage() {
-  const [data, setData] = useState([])
-  const [loading, setLoading] = useState(true)
   const [search, setSearch] = useState('')
 
-  useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true)
-      try {
-        const res = await fetch('/api/karyawan/riwayat')
-        const json = await res.json()
-        setData(json || [])
-      } finally {
-        setLoading(false)
-      }
-    }
-    fetchData()
-  }, [])
+  const { data: rawData = [], isLoading } = useQuery({
+    queryKey: ['riwayat-jabatan'],
+    queryFn: () => fetch('/api/karyawan/riwayat').then(r => r.json()),
+    staleTime: 1000 * 60 * 5,
+  })
 
-  const filtered = data.filter(
+  const filtered = useMemo(() => rawData.filter(
     (r) =>
       r.karyawan?.nama?.toLowerCase().includes(search.toLowerCase()) ||
       r.jabatan?.toLowerCase().includes(search.toLowerCase())
-  )
+  ), [rawData, search])
 
-  if (loading) return <PageLoader />
+  const columns = useMemo(() => [
+    {
+      id: 'karyawan',
+      header: 'Karyawan',
+      cell: ({ row }) => (
+        <div>
+          <p className="font-medium">{row.original.karyawan?.nama}</p>
+          <p className="text-xs text-gray-400">{row.original.karyawan?.nik}</p>
+        </div>
+      ),
+    },
+    {
+      accessorKey: 'jabatan',
+      header: 'Jabatan',
+      cell: ({ getValue }) => <span className="font-medium">{getValue()}</span>,
+    },
+    {
+      accessorKey: 'departemen',
+      header: 'Departemen',
+      cell: ({ getValue }) => getValue() || '-',
+    },
+    {
+      accessorKey: 'tanggalMulai',
+      header: 'Mulai',
+      cell: ({ getValue }) => formatDate(getValue()),
+    },
+    {
+      accessorKey: 'tanggalSelesai',
+      header: 'Selesai',
+      cell: ({ getValue }) => getValue() ? formatDate(getValue()) : <span className="text-green-600 font-medium">Sekarang</span>,
+    },
+    {
+      accessorKey: 'keterangan',
+      header: 'Keterangan',
+      cell: ({ getValue }) => <span className="text-gray-500">{getValue() || '-'}</span>,
+    },
+  ], [])
 
   return (
     <div>
@@ -45,45 +73,20 @@ export default function RiwayatJabatanPage() {
       />
 
       <div className="card p-4 mb-4">
-        <input
-          type="text"
-          placeholder="Cari nama atau jabatan..."
-          className="form-input max-w-sm"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-        />
+        <div className="relative max-w-sm">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+          <input
+            type="text"
+            placeholder="Cari nama atau jabatan..."
+            className="form-input pl-9"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+        </div>
       </div>
 
-      <div className="card overflow-hidden">
-        <div className="overflow-x-auto">
-          <table className="w-full">
-            <thead>
-              <tr>
-                <th className="table-th">Karyawan</th>
-                <th className="table-th">Jabatan</th>
-                <th className="table-th">Departemen</th>
-                <th className="table-th">Mulai</th>
-                <th className="table-th">Selesai</th>
-                <th className="table-th">Keterangan</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-50">
-              {filtered.map((r) => (
-                <tr key={r.id} className="hover:bg-gray-50">
-                  <td className="table-td">
-                    <p className="font-medium">{r.karyawan?.nama}</p>
-                    <p className="text-xs text-gray-400">{r.karyawan?.nik}</p>
-                  </td>
-                  <td className="table-td font-medium">{r.jabatan}</td>
-                  <td className="table-td">{r.departemen || '-'}</td>
-                  <td className="table-td">{formatDate(r.tanggalMulai)}</td>
-                  <td className="table-td">{r.tanggalSelesai ? formatDate(r.tanggalSelesai) : <span className="text-green-600 font-medium">Sekarang</span>}</td>
-                  <td className="table-td text-gray-500">{r.keterangan || '-'}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+      <div className="page-section">
+        <DataTable data={filtered} columns={columns} isLoading={isLoading} emptyMessage="Belum ada riwayat jabatan" />
       </div>
     </div>
   )

@@ -1,0 +1,17 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/(dashboard)/layout,_N_T_/(dashboard)/aset/layout,_N_T_/(dashboard)/aset/peminjaman/layout,_N_T_/(dashboard)/aset/peminjaman/page,_N_T_/aset/peminjaman"
+  },
+  "segmentPaths": [
+    "/_tree",
+    "/_full",
+    "/!KGRhc2hib2FyZCk/aset/peminjaman/__PAGE__",
+    "/!KGRhc2hib2FyZCk/aset/peminjaman",
+    "/!KGRhc2hib2FyZCk/aset",
+    "/!KGRhc2hib2FyZCk",
+    "/_index",
+    "/_head"
+  ]
+}

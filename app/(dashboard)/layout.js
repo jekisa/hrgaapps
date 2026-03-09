@@ -14,10 +14,10 @@ export default function DashboardLayout({ children }) {
       <div
         className={cn(
           'flex-1 flex flex-col transition-all duration-300',
-          collapsed ? 'ml-16' : 'ml-64'
+          collapsed ? 'ml-16' : 'ml-60'
         )}
       >
-        <Header />
+        <Header collapsed={collapsed} setCollapsed={setCollapsed} />
         <main className="flex-1 p-6 overflow-auto">
           {children}
         </main>

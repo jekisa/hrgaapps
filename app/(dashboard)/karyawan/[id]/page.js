@@ -1,40 +1,49 @@
 'use client'
 
-import { useState, useEffect, useCallback } from 'react'
+import { useState } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
 import {
-  User, Phone, Mail, MapPin, Calendar, Briefcase, FileText,
-  ArrowLeft, Edit, Clock, Package
+  User, MapPin, Briefcase, FileText,
+  ArrowLeft, Edit
 } from 'lucide-react'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 import toast from 'react-hot-toast'
 import PageHeader from '@/components/ui/PageHeader'
 import Badge from '@/components/ui/Badge'
-import { PageLoader } from '@/components/ui/LoadingSpinner'
-import { formatDate, formatCurrency } from '@/lib/utils'
+import { formatDate } from '@/lib/utils'
 import KaryawanModal from '@/components/karyawan/KaryawanModal'
 
 export default function KaryawanDetailPage() {
   const { id } = useParams()
   const router = useRouter()
-  const [data, setData] = useState(null)
-  const [loading, setLoading] = useState(true)
+  const queryClient = useQueryClient()
   const [showEdit, setShowEdit] = useState(false)
   const [activeTab, setActiveTab] = useState('biodata')
 
-  const fetchData = useCallback(async () => {
-    try {
+  const { data, isLoading } = useQuery({
+    queryKey: ['karyawan-detail', id],
+    queryFn: async () => {
       const res = await fetch(`/api/karyawan/${id}`)
-      if (!res.ok) { toast.error('Data tidak ditemukan'); router.push('/karyawan'); return }
-      setData(await res.json())
-    } finally {
-      setLoading(false)
-    }
-  }, [id, router])
+      if (!res.ok) { toast.error('Data tidak ditemukan'); router.push('/karyawan'); return null }
+      return res.json()
+    },
+    retry: false,
+  })
 
-  useEffect(() => { fetchData() }, [fetchData])
+  if (isLoading) {
+    return (
+      <div className="animate-pulse space-y-4">
+        <div className="h-20 bg-gray-100 rounded-xl" />
+        <div className="h-12 bg-gray-100 rounded-xl" />
+        <div className="grid grid-cols-2 gap-4">
+          <div className="h-48 bg-gray-100 rounded-xl" />
+          <div className="h-48 bg-gray-100 rounded-xl" />
+        </div>
+      </div>
+    )
+  }
 
-  if (loading) return <PageLoader />
   if (!data) return null
 
   const tabs = [
@@ -244,7 +253,10 @@ export default function KaryawanDetailPage() {
       <KaryawanModal
         isOpen={showEdit}
         onClose={() => setShowEdit(false)}
-        onSaved={() => { setShowEdit(false); fetchData() }}
+        onSaved={() => {
+          setShowEdit(false)
+          queryClient.invalidateQueries({ queryKey: ['karyawan-detail', id] })
+        }}
         editData={data}
       />
     </div>

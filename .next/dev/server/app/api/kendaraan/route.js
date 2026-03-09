@@ -1,0 +1,11 @@
+var R=require("../../../chunks/[turbopack]_runtime.js")("server/app/api/kendaraan/route.js")
+R.c("server/chunks/_0fe361fa._.js")
+R.c("server/chunks/node_modules_next_e836b27d._.js")
+R.c("server/chunks/node_modules_next-auth_1810886e._.js")
+R.c("server/chunks/node_modules_openid-client_d15f72b3._.js")
+R.c("server/chunks/node_modules_jose_dist_node_cjs_bd88468e._.js")
+R.c("server/chunks/[root-of-the-server]__227fdcc9._.js")
+R.c("server/chunks/[root-of-the-server]__99fbe760._.js")
+R.c("server/chunks/_next-internal_server_app_api_kendaraan_route_actions_5262f086.js")
+R.m("[project]/node_modules/next/dist/esm/build/templates/app-route.js { INNER_APP_ROUTE => \"[project]/app/api/kendaraan/route.js [app-route] (ecmascript)\" } [app-route] (ecmascript)")
+module.exports=R.m("[project]/node_modules/next/dist/esm/build/templates/app-route.js { INNER_APP_ROUTE => \"[project]/app/api/kendaraan/route.js [app-route] (ecmascript)\" } [app-route] (ecmascript)").exports

@@ -1,15 +1,16 @@
 'use client'
 
-import { useState, useEffect } from 'react'
-import { Plus, Edit, Shield, UserCheck } from 'lucide-react'
+import { useState, useMemo } from 'react'
+import { Plus, Edit, Shield } from 'lucide-react'
 import toast from 'react-hot-toast'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 import PageHeader from '@/components/ui/PageHeader'
 import Badge from '@/components/ui/Badge'
-import EmptyState from '@/components/ui/EmptyState'
+import DataTable from '@/components/ui/DataTable'
 import Modal from '@/components/ui/Modal'
-import { PageLoader } from '@/components/ui/LoadingSpinner'
 import { formatDate } from '@/lib/utils'
 import { useForm } from 'react-hook-form'
+import { useEffect } from 'react'
 
 function UserModal({ isOpen, onClose, onSaved, editData }) {
   const { register, handleSubmit, reset, formState: { errors, isSubmitting } } = useForm()
@@ -25,7 +26,8 @@ function UserModal({ isOpen, onClose, onSaved, editData }) {
   const onSubmit = async (data) => {
     try {
       const method = editData ? 'PUT' : 'POST'
-      const body = editData ? { ...data, id: editData.id } : data
+      const id = editData?._id || editData?.id
+      const body = id ? { ...data, id } : data
       const res = await fetch('/api/pengguna', { method, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })
       const json = await res.json()
       if (!res.ok) throw new Error(json.error)
@@ -39,7 +41,9 @@ function UserModal({ isOpen, onClose, onSaved, editData }) {
       footer={
         <>
           <button type="button" onClick={onClose} className="btn-secondary">Batal</button>
-          <button type="submit" form="user-form" disabled={isSubmitting} className="btn-primary">{isSubmitting ? 'Menyimpan...' : 'Simpan'}</button>
+          <button type="submit" form="user-form" disabled={isSubmitting} className="btn-primary">
+            {isSubmitting ? 'Menyimpan...' : 'Simpan'}
+          </button>
         </>
       }
     >
@@ -54,13 +58,12 @@ function UserModal({ isOpen, onClose, onSaved, editData }) {
           <input type="email" className="form-input" {...register('email', { required: true })} disabled={!!editData} />
           {errors.email && <p className="text-xs text-red-500 mt-1">Email wajib diisi</p>}
         </div>
-        {!editData && (
+        {!editData ? (
           <div>
             <label className="form-label">Password <span className="text-red-500">*</span></label>
-            <input type="password" className="form-input" placeholder="Min. 6 karakter" {...register('password', { required: !editData, minLength: 6 })} />
+            <input type="password" className="form-input" placeholder="Min. 6 karakter" {...register('password', { required: true, minLength: 6 })} />
           </div>
-        )}
-        {editData && (
+        ) : (
           <div>
             <label className="form-label">Password Baru (opsional)</label>
             <input type="password" className="form-input" placeholder="Kosongkan jika tidak ganti" {...register('password')} />
@@ -85,20 +88,70 @@ function UserModal({ isOpen, onClose, onSaved, editData }) {
 }
 
 export default function PenggunaPage() {
-  const [data, setData] = useState([])
-  const [loading, setLoading] = useState(true)
+  const queryClient = useQueryClient()
   const [showModal, setShowModal] = useState(false)
   const [editData, setEditData] = useState(null)
 
-  const fetchData = async () => {
-    setLoading(true)
-    try {
-      const res = await fetch('/api/pengguna')
-      if (res.ok) setData(await res.json())
-    } finally { setLoading(false) }
-  }
+  const { data: users = [], isLoading } = useQuery({
+    queryKey: ['pengguna'],
+    queryFn: () => fetch('/api/pengguna').then(r => r.json()),
+  })
 
-  useEffect(() => { fetchData() }, [])
+  const columns = useMemo(() => [
+    {
+      id: 'nama',
+      header: 'Nama',
+      accessorKey: 'name',
+      enableSorting: true,
+      cell: ({ row }) => (
+        <div className="flex items-center gap-3">
+          <div className="w-8 h-8 rounded-full bg-primary-100 text-primary-700 flex items-center justify-center font-bold text-sm shrink-0">
+            {row.original.name?.charAt(0)}
+          </div>
+          <span className="font-semibold text-gray-900">{row.original.name}</span>
+        </div>
+      ),
+    },
+    {
+      accessorKey: 'email',
+      header: 'Email',
+      cell: ({ getValue }) => <span className="text-gray-600">{getValue()}</span>,
+    },
+    {
+      accessorKey: 'role',
+      header: 'Role',
+      cell: ({ getValue }) => {
+        const isAdmin = getValue() === 'ADMIN'
+        return (
+          <span className={`badge ${isAdmin ? 'bg-violet-100 text-violet-700' : 'bg-gray-100 text-gray-600'}`}>
+            {isAdmin && <Shield className="w-3 h-3 inline mr-1" />}
+            {getValue()}
+          </span>
+        )
+      },
+    },
+    {
+      accessorKey: 'isActive',
+      header: 'Status',
+      cell: ({ getValue }) => <Badge status={getValue() ? 'AKTIF' : 'TIDAK_AKTIF'} label={getValue() ? 'Aktif' : 'Non-Aktif'} />,
+    },
+    {
+      accessorKey: 'createdAt',
+      header: 'Bergabung',
+      cell: ({ getValue }) => formatDate(getValue()),
+    },
+    {
+      id: 'aksi',
+      header: 'Aksi',
+      enableSorting: false,
+      cell: ({ row }) => (
+        <button onClick={() => { setEditData(row.original); setShowModal(true) }}
+          className="p-1.5 rounded-lg hover:bg-emerald-50 text-emerald-600 transition-colors">
+          <Edit className="w-4 h-4" />
+        </button>
+      ),
+    },
+  ], [])
 
   return (
     <div>
@@ -113,53 +166,16 @@ export default function PenggunaPage() {
         }
       />
 
-      <div className="card overflow-hidden">
-        {loading ? <PageLoader /> : data.length === 0 ? <EmptyState icon={Shield} title="Tidak ada pengguna" /> : (
-          <table className="w-full">
-            <thead>
-              <tr>
-                <th className="table-th">Nama</th>
-                <th className="table-th">Email</th>
-                <th className="table-th">Role</th>
-                <th className="table-th">Status</th>
-                <th className="table-th">Bergabung</th>
-                <th className="table-th">Aksi</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-50">
-              {data.map((u) => (
-                <tr key={u.id} className="hover:bg-gray-50">
-                  <td className="table-td">
-                    <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 rounded-full bg-primary-100 text-primary-600 flex items-center justify-center font-semibold text-sm">
-                        {u.name.charAt(0)}
-                      </div>
-                      <span className="font-medium">{u.name}</span>
-                    </div>
-                  </td>
-                  <td className="table-td">{u.email}</td>
-                  <td className="table-td">
-                    <span className={`badge ${u.role === 'ADMIN' ? 'bg-purple-100 text-purple-700' : 'bg-gray-100 text-gray-700'}`}>
-                      {u.role === 'ADMIN' ? <><Shield className="w-3 h-3 inline mr-1" />Admin</> : 'Staff'}
-                    </span>
-                  </td>
-                  <td className="table-td">
-                    <Badge status={u.isActive ? 'AKTIF' : 'TIDAK_AKTIF'} label={u.isActive ? 'Aktif' : 'Non-Aktif'} />
-                  </td>
-                  <td className="table-td">{formatDate(u.createdAt)}</td>
-                  <td className="table-td">
-                    <button onClick={() => { setEditData(u); setShowModal(true) }} className="p-1.5 rounded hover:bg-green-50 text-green-600">
-                      <Edit className="w-4 h-4" />
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        )}
+      <div className="page-section">
+        <DataTable data={users} columns={columns} isLoading={isLoading} emptyMessage="Tidak ada pengguna" />
       </div>
 
-      <UserModal isOpen={showModal} onClose={() => { setShowModal(false); setEditData(null) }} onSaved={() => { setShowModal(false); setEditData(null); fetchData() }} editData={editData} />
+      <UserModal
+        isOpen={showModal}
+        onClose={() => { setShowModal(false); setEditData(null) }}
+        onSaved={() => { setShowModal(false); setEditData(null); queryClient.invalidateQueries({ queryKey: ['pengguna'] }) }}
+        editData={editData}
+      />
     </div>
   )
 }

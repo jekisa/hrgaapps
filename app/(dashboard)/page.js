@@ -1,73 +1,59 @@
 'use client'
 
-import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import {
-  Users, Package, Wrench, Car, Bell, TrendingUp,
-  AlertTriangle, CheckCircle, Clock, Activity
+  Users, Package, Car, Bell,
+  AlertTriangle, Clock, Activity
 } from 'lucide-react'
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
   PieChart, Pie, Cell, Legend
 } from 'recharts'
-import { formatCurrency, formatDate } from '@/lib/utils'
+import { formatDate } from '@/lib/utils'
 import { PageLoader } from '@/components/ui/LoadingSpinner'
-import Badge from '@/components/ui/Badge'
+import { useQuery } from '@tanstack/react-query'
 
 const COLORS = ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#06b6d4']
 
-function StatCard({ title, value, subtitle, icon: Icon, color, href, change }) {
+function StatCard({ title, value, subtitle, icon: Icon, iconBg, iconColor, href }) {
   const content = (
-    <div className={`card p-5 ${href ? 'hover:shadow-md transition-shadow cursor-pointer' : ''}`}>
-      <div className="flex items-start justify-between">
-        <div>
-          <p className="text-sm text-gray-500 font-medium">{title}</p>
-          <p className="text-3xl font-bold text-gray-900 mt-1">{value ?? '-'}</p>
-          {subtitle && <p className="text-xs text-gray-500 mt-1">{subtitle}</p>}
-          {change !== undefined && (
-            <p className={`text-xs mt-1 font-medium ${change >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-              {change >= 0 ? '▲' : '▼'} {Math.abs(change)} dari bulan lalu
-            </p>
-          )}
+    <div className="card-hover p-5 group">
+      <div className="flex items-start gap-4">
+        <div className={`w-12 h-12 rounded-xl flex items-center justify-center shrink-0 ${iconBg}`}>
+          <Icon className={`w-6 h-6 ${iconColor}`} />
         </div>
-        <div className={`p-3 rounded-xl ${color}`}>
-          <Icon className="w-6 h-6" />
+        <div className="flex-1 min-w-0">
+          <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide">{title}</p>
+          <p className="text-3xl font-bold text-gray-900 mt-1 leading-none">{value ?? '-'}</p>
+          {subtitle && <p className="text-xs text-gray-400 mt-1.5">{subtitle}</p>}
         </div>
       </div>
     </div>
   )
-
   return href ? <Link href={href}>{content}</Link> : content
 }
 
 function AlertCard({ icon: Icon, title, value, color, href }) {
   return (
-    <Link href={href || '#'} className={`flex items-center gap-3 p-3 rounded-lg border ${color} hover:opacity-80 transition-opacity`}>
-      <Icon className="w-5 h-5 shrink-0" />
+    <Link href={href || '#'} className={`flex items-center gap-3 p-3.5 rounded-xl border ${color} hover:opacity-90 transition-all`}>
+      <div className="shrink-0">
+        <Icon className="w-5 h-5" />
+      </div>
       <div>
-        <p className="text-sm font-semibold">{value}</p>
-        <p className="text-xs">{title}</p>
+        <p className="text-sm font-bold">{value}</p>
+        <p className="text-xs opacity-80">{title}</p>
       </div>
     </Link>
   )
 }
 
 export default function DashboardPage() {
-  const [data, setData] = useState(null)
-  const [loading, setLoading] = useState(true)
+  const { data, isLoading } = useQuery({
+    queryKey: ['dashboard'],
+    queryFn: () => fetch('/api/dashboard').then(r => r.json()),
+  })
 
-  useEffect(() => {
-    fetch('/api/dashboard')
-      .then((r) => {
-        if (!r.ok) throw new Error(`HTTP ${r.status}`)
-        return r.json()
-      })
-      .then(setData)
-      .catch((err) => console.error('Dashboard error:', err))
-      .finally(() => setLoading(false))
-  }, [])
-
-  if (loading) return <PageLoader />
+  if (isLoading) return <PageLoader />
 
   const { stats, charts, recentActivity } = data || {}
 
@@ -117,33 +103,37 @@ export default function DashboardPage() {
         <StatCard
           title="Total Karyawan"
           value={stats?.totalKaryawan}
-          subtitle={`${stats?.karyawanAktif} aktif`}
+          subtitle={`${stats?.karyawanAktif ?? 0} aktif`}
           icon={Users}
-          color="bg-blue-100 text-blue-600"
+          iconBg="bg-blue-50"
+          iconColor="text-blue-600"
           href="/karyawan"
         />
         <StatCard
           title="Total Aset"
           value={stats?.totalAset}
-          subtitle={`${stats?.asetDipinjam} sedang dipinjam`}
+          subtitle={`${stats?.asetDipinjam ?? 0} sedang dipinjam`}
           icon={Package}
-          color="bg-green-100 text-green-600"
+          iconBg="bg-emerald-50"
+          iconColor="text-emerald-600"
           href="/aset"
         />
         <StatCard
           title="Kendaraan"
           value={stats?.totalKendaraan}
-          subtitle={`${stats?.kendaraanTersedia} tersedia`}
+          subtitle={`${stats?.kendaraanTersedia ?? 0} tersedia`}
           icon={Car}
-          color="bg-purple-100 text-purple-600"
+          iconBg="bg-violet-50"
+          iconColor="text-violet-600"
           href="/kendaraan"
         />
         <StatCard
-          title="Notifikasi"
+          title="Notifikasi Baru"
           value={stats?.notifikasiUnread}
           subtitle="belum dibaca"
           icon={Bell}
-          color="bg-orange-100 text-orange-600"
+          iconBg="bg-amber-50"
+          iconColor="text-amber-600"
           href="/notifikasi"
         />
       </div>

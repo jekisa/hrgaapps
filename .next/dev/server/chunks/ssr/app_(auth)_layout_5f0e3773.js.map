@@ -1,0 +1,6 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 4, "column": 0}, "map": {"version":3,"sources":["file:///D:/GA/HRGA%20APPS/hrga_apps/app/%28auth%29/layout.js"],"sourcesContent":["export const metadata = {\n  title: 'Login - HRGA Apps',\n}\n\nexport default function AuthLayout({ children }) {\n  return (\n    <div className=\"min-h-screen\">\n      {children}\n    </div>\n  )\n}\n"],"names":[],"mappings":";;;;;;;;AAAO,MAAM,WAAW;IACtB,OAAO;AACT;AAEe,SAAS,WAAW,EAAE,QAAQ,EAAE;IAC7C,qBACE,8OAAC;QAAI,WAAU;kBACZ;;;;;;AAGP"}}]
+}

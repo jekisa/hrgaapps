@@ -1,0 +1,346 @@
+{
+  "version": 3,
+  "pages404": true,
+  "appType": "app",
+  "caseSensitive": false,
+  "basePath": "",
+  "redirects": [
+    {
+      "source": "/:path+/",
+      "destination": "/:path+",
+      "internal": true,
+      "priority": true,
+      "statusCode": 308,
+      "regex": "^(?:/((?:[^/]+?)(?:/(?:[^/]+?))*))/$"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "Content-Security-Policy",
+          "value": "default-src 'self'; script-src 'self' 'unsafe-eval' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: blob: https:; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self'; frame-src 'none'"
+        }
+      ],
+      "regex": "^(?:/(.*))(?:/)?$"
+    }
+  ],
+  "rewrites": {
+    "beforeFiles": [],
+    "afterFiles": [],
+    "fallback": []
+  },
+  "dynamicRoutes": [
+    {
+      "page": "/api/aset/[id]",
+      "regex": "^/api/aset/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPid": "nxtPid"
+      },
+      "namedRegex": "^/api/aset/(?<nxtPid>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/api/auth/[...nextauth]",
+      "regex": "^/api/auth/(.+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPnextauth": "nxtPnextauth"
+      },
+      "namedRegex": "^/api/auth/(?<nxtPnextauth>.+?)(?:/)?$"
+    },
+    {
+      "page": "/api/gedung/maintenance/[id]",
+      "regex": "^/api/gedung/maintenance/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPid": "nxtPid"
+      },
+      "namedRegex": "^/api/gedung/maintenance/(?<nxtPid>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/api/karyawan/[id]",
+      "regex": "^/api/karyawan/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPid": "nxtPid"
+      },
+      "namedRegex": "^/api/karyawan/(?<nxtPid>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/api/kendaraan/[id]",
+      "regex": "^/api/kendaraan/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPid": "nxtPid"
+      },
+      "namedRegex": "^/api/kendaraan/(?<nxtPid>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/api/notifikasi/[id]",
+      "regex": "^/api/notifikasi/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPid": "nxtPid"
+      },
+      "namedRegex": "^/api/notifikasi/(?<nxtPid>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/karyawan/[id]",
+      "regex": "^/karyawan/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPid": "nxtPid"
+      },
+      "namedRegex": "^/karyawan/(?<nxtPid>[^/]+?)(?:/)?$"
+    }
+  ],
+  "staticRoutes": [
+    {
+      "page": "/",
+      "regex": "^/(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/(?:/)?$"
+    },
+    {
+      "page": "/_global-error",
+      "regex": "^/_global\\-error(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/_global\\-error(?:/)?$"
+    },
+    {
+      "page": "/_not-found",
+      "regex": "^/_not\\-found(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/_not\\-found(?:/)?$"
+    },
+    {
+      "page": "/api/aset",
+      "regex": "^/api/aset(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/aset(?:/)?$"
+    },
+    {
+      "page": "/api/aset/peminjaman",
+      "regex": "^/api/aset/peminjaman(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/aset/peminjaman(?:/)?$"
+    },
+    {
+      "page": "/api/audit-trail",
+      "regex": "^/api/audit\\-trail(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/audit\\-trail(?:/)?$"
+    },
+    {
+      "page": "/api/dashboard",
+      "regex": "^/api/dashboard(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/dashboard(?:/)?$"
+    },
+    {
+      "page": "/api/gedung/maintenance",
+      "regex": "^/api/gedung/maintenance(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/gedung/maintenance(?:/)?$"
+    },
+    {
+      "page": "/api/gedung/utilitas",
+      "regex": "^/api/gedung/utilitas(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/gedung/utilitas(?:/)?$"
+    },
+    {
+      "page": "/api/karyawan",
+      "regex": "^/api/karyawan(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/karyawan(?:/)?$"
+    },
+    {
+      "page": "/api/karyawan/riwayat",
+      "regex": "^/api/karyawan/riwayat(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/karyawan/riwayat(?:/)?$"
+    },
+    {
+      "page": "/api/kendaraan",
+      "regex": "^/api/kendaraan(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/kendaraan(?:/)?$"
+    },
+    {
+      "page": "/api/kendaraan/jadwal",
+      "regex": "^/api/kendaraan/jadwal(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/kendaraan/jadwal(?:/)?$"
+    },
+    {
+      "page": "/api/kendaraan/log-perjalanan",
+      "regex": "^/api/kendaraan/log\\-perjalanan(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/kendaraan/log\\-perjalanan(?:/)?$"
+    },
+    {
+      "page": "/api/kendaraan/pajak",
+      "regex": "^/api/kendaraan/pajak(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/kendaraan/pajak(?:/)?$"
+    },
+    {
+      "page": "/api/kendaraan/perawatan",
+      "regex": "^/api/kendaraan/perawatan(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/kendaraan/perawatan(?:/)?$"
+    },
+    {
+      "page": "/api/laporan/aset",
+      "regex": "^/api/laporan/aset(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/laporan/aset(?:/)?$"
+    },
+    {
+      "page": "/api/laporan/karyawan",
+      "regex": "^/api/laporan/karyawan(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/laporan/karyawan(?:/)?$"
+    },
+    {
+      "page": "/api/laporan/kendaraan",
+      "regex": "^/api/laporan/kendaraan(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/laporan/kendaraan(?:/)?$"
+    },
+    {
+      "page": "/api/laporan/maintenance",
+      "regex": "^/api/laporan/maintenance(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/laporan/maintenance(?:/)?$"
+    },
+    {
+      "page": "/api/notifikasi",
+      "regex": "^/api/notifikasi(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/notifikasi(?:/)?$"
+    },
+    {
+      "page": "/api/pengguna",
+      "regex": "^/api/pengguna(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/pengguna(?:/)?$"
+    },
+    {
+      "page": "/aset",
+      "regex": "^/aset(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/aset(?:/)?$"
+    },
+    {
+      "page": "/aset/peminjaman",
+      "regex": "^/aset/peminjaman(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/aset/peminjaman(?:/)?$"
+    },
+    {
+      "page": "/audit-trail",
+      "regex": "^/audit\\-trail(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/audit\\-trail(?:/)?$"
+    },
+    {
+      "page": "/gedung/maintenance",
+      "regex": "^/gedung/maintenance(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/gedung/maintenance(?:/)?$"
+    },
+    {
+      "page": "/gedung/utilitas",
+      "regex": "^/gedung/utilitas(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/gedung/utilitas(?:/)?$"
+    },
+    {
+      "page": "/karyawan",
+      "regex": "^/karyawan(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/karyawan(?:/)?$"
+    },
+    {
+      "page": "/karyawan/kontrak",
+      "regex": "^/karyawan/kontrak(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/karyawan/kontrak(?:/)?$"
+    },
+    {
+      "page": "/karyawan/riwayat",
+      "regex": "^/karyawan/riwayat(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/karyawan/riwayat(?:/)?$"
+    },
+    {
+      "page": "/kendaraan",
+      "regex": "^/kendaraan(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/kendaraan(?:/)?$"
+    },
+    {
+      "page": "/kendaraan/jadwal",
+      "regex": "^/kendaraan/jadwal(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/kendaraan/jadwal(?:/)?$"
+    },
+    {
+      "page": "/kendaraan/log-perjalanan",
+      "regex": "^/kendaraan/log\\-perjalanan(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/kendaraan/log\\-perjalanan(?:/)?$"
+    },
+    {
+      "page": "/kendaraan/pajak",
+      "regex": "^/kendaraan/pajak(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/kendaraan/pajak(?:/)?$"
+    },
+    {
+      "page": "/kendaraan/perawatan",
+      "regex": "^/kendaraan/perawatan(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/kendaraan/perawatan(?:/)?$"
+    },
+    {
+      "page": "/laporan",
+      "regex": "^/laporan(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/laporan(?:/)?$"
+    },
+    {
+      "page": "/login",
+      "regex": "^/login(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/login(?:/)?$"
+    },
+    {
+      "page": "/notifikasi",
+      "regex": "^/notifikasi(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/notifikasi(?:/)?$"
+    },
+    {
+      "page": "/pengguna",
+      "regex": "^/pengguna(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/pengguna(?:/)?$"
+    }
+  ],
+  "dataRoutes": [],
+  "rsc": {
+    "header": "rsc",
+    "varyHeader": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch",
+    "prefetchHeader": "next-router-prefetch",
+    "didPostponeHeader": "x-nextjs-postponed",
+    "contentTypeHeader": "text/x-component",
+    "suffix": ".rsc",
+    "prefetchSegmentHeader": "next-router-segment-prefetch",
+    "prefetchSegmentSuffix": ".segment.rsc",
+    "prefetchSegmentDirSuffix": ".segments",
+    "clientParamParsing": false,
+    "dynamicRSCPrerender": false
+  },
+  "rewriteHeaders": {
+    "pathHeader": "x-nextjs-rewritten-path",
+    "queryHeader": "x-nextjs-rewritten-query"
+  }
+}

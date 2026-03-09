@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 4, "column": 0}, "map": {"version":3,"sources":["file:///D:/GA/HRGA%20APPS/hrga_apps/components/providers/SessionProvider.js"],"sourcesContent":["'use client'\n\nimport { SessionProvider } from 'next-auth/react'\n\nexport default function SessionProviderWrapper({ children }) {\n  return <SessionProvider>{children}</SessionProvider>\n}\n"],"names":[],"mappings":";;;;;AAEA;AAFA;;;AAIe,SAAS,uBAAuB,EAAE,QAAQ,EAAE;IACzD,qBAAO,6LAAC,oKAAe;kBAAE;;;;;;AAC3B;KAFwB"}},
+    {"offset": {"line": 32, "column": 0}, "map": {"version":3,"sources":["file:///D:/GA/HRGA%20APPS/hrga_apps/components/providers/QueryProvider.js"],"sourcesContent":["'use client'\n\nimport { QueryClient, QueryClientProvider } from '@tanstack/react-query'\nimport { useState } from 'react'\n\nexport default function QueryProvider({ children }) {\n  const [queryClient] = useState(\n    () =>\n      new QueryClient({\n        defaultOptions: {\n          queries: {\n            staleTime: 1000 * 60, // 1 minute\n            retry: 1,\n          },\n        },\n      })\n  )\n\n  return <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>\n}\n"],"names":[],"mappings":";;;;;AAEA;AAAA;AACA;;;AAHA;;;AAKe,SAAS,cAAc,EAAE,QAAQ,EAAE;;IAChD,MAAM,CAAC,YAAY,GAAG,IAAA,yKAAQ;kCAC5B,IACE,IAAI,+LAAW,CAAC;gBACd,gBAAgB;oBACd,SAAS;wBACP,WAAW,OAAO;wBAClB,OAAO;oBACT;gBACF;YACF;;IAGJ,qBAAO,6LAAC,gNAAmB;QAAC,QAAQ;kBAAc;;;;;;AACpD;GAdwB;KAAA"}}]
+}

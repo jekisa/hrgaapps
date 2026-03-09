@@ -1,6 +1,7 @@
 import './globals.css'
 import { Toaster } from 'react-hot-toast'
 import SessionProviderWrapper from '@/components/providers/SessionProvider'
+import QueryProvider from '@/components/providers/QueryProvider'
 
 export const metadata = {
   title: 'HRGA Apps',
@@ -12,6 +13,7 @@ export default function RootLayout({ children }) {
     <html lang="id">
       <body>
         <SessionProviderWrapper>
+          <QueryProvider>
           {children}
           <Toaster
             position="top-right"
@@ -30,6 +32,7 @@ export default function RootLayout({ children }) {
               },
             }}
           />
+          </QueryProvider>
         </SessionProviderWrapper>
       </body>
     </html>
