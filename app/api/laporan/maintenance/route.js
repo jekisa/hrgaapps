@@ -1,13 +1,16 @@
 import { NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
-import prisma from '@/lib/prisma'
+import dbConnect from '@/lib/db'
+import MaintenanceRequest from '@/models/MaintenanceRequest'
 
 export async function GET(request) {
   const session = await getServerSession(authOptions)
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
-  const data = await prisma.maintenanceRequest.findMany({ orderBy: { tanggalRequest: 'desc' } })
+  await dbConnect()
+
+  const data = await MaintenanceRequest.find().sort({ tanggalRequest: -1 })
 
   const headers = ['Judul', 'Lokasi', 'Kategori', 'Prioritas', 'Status', 'Pemohon', 'Pelaksana', 'Tgl Request', 'Tgl Selesai', 'Biaya']
   const rows = data.map((d) => [

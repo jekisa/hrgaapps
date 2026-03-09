@@ -1,8 +1,10 @@
 import { NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
-import prisma from '@/lib/prisma'
-import { createAuditLog, getIpAddress } from '@/lib/utils'
+import dbConnect from '@/lib/db'
+import Kendaraan from '@/models/Kendaraan'
+import PembayaranPajak from '@/models/PembayaranPajak'
+import { createAuditLog, getIpAddress } from '@/lib/server-utils'
 
 export async function GET(request) {
   const session = await getServerSession(authOptions)
@@ -11,15 +13,22 @@ export async function GET(request) {
   const { searchParams } = new URL(request.url)
   const status = searchParams.get('status') || ''
 
-  const where = status ? { status } : {}
+  await dbConnect()
 
-  const data = await prisma.pembayaranPajak.findMany({
-    where,
-    orderBy: { tanggalJatuhTempo: 'asc' },
-    include: { kendaraan: { select: { noPol: true, merk: true, model: true } } },
+  const query = status ? { status } : {}
+
+  const data = await PembayaranPajak.find(query)
+    .sort({ tanggalJatuhTempo: 1 })
+    .populate('kendaraanId', 'noPol merk model')
+
+  const result = data.map((d) => {
+    const item = d.toJSON()
+    item.kendaraan = item.kendaraanId
+    delete item.kendaraanId
+    return item
   })
 
-  return NextResponse.json(data)
+  return NextResponse.json(result)
 }
 
 export async function POST(request) {
@@ -28,18 +37,19 @@ export async function POST(request) {
 
   try {
     const body = await request.json()
-    const record = await prisma.pembayaranPajak.create({
-      data: {
-        kendaraanId: parseInt(body.kendaraanId),
-        jenisPajak: body.jenisPajak,
-        tahun: body.tahun ? parseInt(body.tahun) : null,
-        tanggalJatuhTempo: body.tanggalJatuhTempo ? new Date(body.tanggalJatuhTempo) : null,
-        jumlah: body.jumlah ? parseFloat(body.jumlah) : null,
-        status: body.status || 'BELUM',
-        keterangan: body.keterangan || null,
-      },
+    await dbConnect()
+
+    const record = await PembayaranPajak.create({
+      kendaraanId: body.kendaraanId,
+      jenisPajak: body.jenisPajak,
+      tahun: body.tahun ? parseInt(body.tahun) : null,
+      tanggalJatuhTempo: body.tanggalJatuhTempo ? new Date(body.tanggalJatuhTempo) : null,
+      jumlah: body.jumlah ? parseFloat(body.jumlah) : null,
+      status: body.status || 'BELUM',
+      keterangan: body.keterangan || null,
     })
-    await createAuditLog(prisma, session.user.id, 'CREATE', 'PAJAK_KENDARAAN', `Tambah pajak kendaraan`, getIpAddress(request))
+
+    await createAuditLog(session.user.id, 'CREATE', 'PAJAK_KENDARAAN', 'Tambah pajak kendaraan', getIpAddress(request))
     return NextResponse.json(record, { status: 201 })
   } catch {
     return NextResponse.json({ error: 'Gagal' }, { status: 500 })
@@ -52,25 +62,28 @@ export async function PATCH(request) {
 
   try {
     const body = await request.json()
-    const record = await prisma.pembayaranPajak.update({
-      where: { id: parseInt(body.id) },
-      data: {
+    await dbConnect()
+
+    const record = await PembayaranPajak.findByIdAndUpdate(
+      body.id,
+      {
         status: 'SUDAH',
         tanggalBayar: new Date(),
         jumlah: body.jumlah ? parseFloat(body.jumlah) : undefined,
         keterangan: body.keterangan || null,
       },
-    })
+      { new: true }
+    )
 
-    // Update kendaraan's tax date if provided
+    if (!record) return NextResponse.json({ error: 'Tidak ditemukan' }, { status: 404 })
+
     if (body.tanggalPajakBaruBerakhir) {
-      await prisma.kendaraan.update({
-        where: { id: record.kendaraanId },
-        data: { tanggalPajakBerakhir: new Date(body.tanggalPajakBaruBerakhir) },
+      await Kendaraan.findByIdAndUpdate(record.kendaraanId, {
+        tanggalPajakBerakhir: new Date(body.tanggalPajakBaruBerakhir),
       })
     }
 
-    await createAuditLog(prisma, session.user.id, 'UPDATE', 'PAJAK_KENDARAAN', `Bayar pajak ID: ${body.id}`, getIpAddress(request))
+    await createAuditLog(session.user.id, 'UPDATE', 'PAJAK_KENDARAAN', 'Bayar pajak kendaraan', getIpAddress(request))
     return NextResponse.json(record)
   } catch {
     return NextResponse.json({ error: 'Gagal bayar pajak' }, { status: 500 })

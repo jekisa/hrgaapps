@@ -1,8 +1,9 @@
 import { NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
-import prisma from '@/lib/prisma'
-import { createAuditLog, getIpAddress } from '@/lib/utils'
+import dbConnect from '@/lib/db'
+import MaintenanceRequest from '@/models/MaintenanceRequest'
+import { createAuditLog, getIpAddress } from '@/lib/server-utils'
 
 export async function PUT(request, { params }) {
   const session = await getServerSession(authOptions)
@@ -10,11 +11,11 @@ export async function PUT(request, { params }) {
 
   try {
     const body = await request.json()
-    const id = parseInt(params.id)
+    await dbConnect()
 
-    const record = await prisma.maintenanceRequest.update({
-      where: { id },
-      data: {
+    const record = await MaintenanceRequest.findByIdAndUpdate(
+      params.id,
+      {
         judul: body.judul,
         lokasi: body.lokasi || null,
         kategori: body.kategori || null,
@@ -26,9 +27,12 @@ export async function PUT(request, { params }) {
         tanggalSelesai: body.status === 'SELESAI' ? new Date() : null,
         keterangan: body.keterangan || null,
       },
-    })
+      { new: true }
+    )
 
-    await createAuditLog(prisma, session.user.id, 'UPDATE', 'MAINTENANCE', `Update maintenance: ${body.judul}`, getIpAddress(request))
+    if (!record) return NextResponse.json({ error: 'Tidak ditemukan' }, { status: 404 })
+
+    await createAuditLog(session.user.id, 'UPDATE', 'MAINTENANCE', 'Update maintenance request', getIpAddress(request))
     return NextResponse.json(record)
   } catch {
     return NextResponse.json({ error: 'Gagal update' }, { status: 500 })
@@ -40,7 +44,8 @@ export async function DELETE(request, { params }) {
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
   try {
-    await prisma.maintenanceRequest.delete({ where: { id: parseInt(params.id) } })
+    await dbConnect()
+    await MaintenanceRequest.findByIdAndDelete(params.id)
     return NextResponse.json({ success: true })
   } catch {
     return NextResponse.json({ error: 'Gagal hapus' }, { status: 500 })

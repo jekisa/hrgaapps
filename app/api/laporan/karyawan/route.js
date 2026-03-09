@@ -1,7 +1,8 @@
 import { NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
-import prisma from '@/lib/prisma'
+import dbConnect from '@/lib/db'
+import Karyawan from '@/models/Karyawan'
 
 export async function GET(request) {
   const session = await getServerSession(authOptions)
@@ -10,17 +11,13 @@ export async function GET(request) {
   const { searchParams } = new URL(request.url)
   const format = searchParams.get('format') || 'json'
 
-  const data = await prisma.karyawan.findMany({
-    orderBy: { nama: 'asc' },
-    select: {
-      nik: true, nama: true, jabatan: true, departemen: true,
-      statusKontrak: true, tanggalMasuk: true, tanggalKontrakBerakhir: true,
-      telepon: true, email: true, statusAktif: true,
-    },
-  })
+  await dbConnect()
+
+  const data = await Karyawan.find()
+    .sort({ nama: 1 })
+    .select('nik nama jabatan departemen statusKontrak tanggalMasuk tanggalKontrakBerakhir telepon email statusAktif')
 
   if (format === 'excel') {
-    // Return CSV for now (xlsx requires server-side lib)
     const headers = ['NIK', 'Nama', 'Jabatan', 'Departemen', 'Status Kontrak', 'Tgl Masuk', 'Kontrak Berakhir', 'Telepon', 'Email', 'Status']
     const rows = data.map((d) => [
       d.nik, d.nama, d.jabatan || '', d.departemen || '',

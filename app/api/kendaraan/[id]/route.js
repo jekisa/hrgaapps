@@ -1,8 +1,9 @@
 import { NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
-import prisma from '@/lib/prisma'
-import { createAuditLog, getIpAddress } from '@/lib/utils'
+import dbConnect from '@/lib/db'
+import Kendaraan from '@/models/Kendaraan'
+import { createAuditLog, getIpAddress } from '@/lib/server-utils'
 
 export async function PUT(request, { params }) {
   const session = await getServerSession(authOptions)
@@ -10,11 +11,11 @@ export async function PUT(request, { params }) {
 
   try {
     const body = await request.json()
-    const id = parseInt(params.id)
+    await dbConnect()
 
-    const kendaraan = await prisma.kendaraan.update({
-      where: { id },
-      data: {
+    const kendaraan = await Kendaraan.findByIdAndUpdate(
+      params.id,
+      {
         merk: body.merk,
         model: body.model || null,
         tahun: body.tahun ? parseInt(body.tahun) : null,
@@ -27,9 +28,12 @@ export async function PUT(request, { params }) {
         tanggalSTNKBerakhir: body.tanggalSTNKBerakhir ? new Date(body.tanggalSTNKBerakhir) : null,
         keterangan: body.keterangan || null,
       },
-    })
+      { new: true }
+    )
 
-    await createAuditLog(prisma, session.user.id, 'UPDATE', 'KENDARAAN', `Update kendaraan: ${kendaraan.noPol}`, getIpAddress(request))
+    if (!kendaraan) return NextResponse.json({ error: 'Tidak ditemukan' }, { status: 404 })
+
+    await createAuditLog(session.user.id, 'UPDATE', 'KENDARAAN', 'Update kendaraan', getIpAddress(request))
     return NextResponse.json(kendaraan)
   } catch {
     return NextResponse.json({ error: 'Gagal update' }, { status: 500 })
@@ -42,9 +46,9 @@ export async function DELETE(request, { params }) {
   if (session.user.role !== 'ADMIN') return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
 
   try {
-    const id = parseInt(params.id)
-    await prisma.kendaraan.delete({ where: { id } })
-    await createAuditLog(prisma, session.user.id, 'DELETE', 'KENDARAAN', `Hapus kendaraan ID: ${id}`, getIpAddress(request))
+    await dbConnect()
+    await Kendaraan.findByIdAndDelete(params.id)
+    await createAuditLog(session.user.id, 'DELETE', 'KENDARAAN', 'Hapus kendaraan', getIpAddress(request))
     return NextResponse.json({ success: true })
   } catch {
     return NextResponse.json({ error: 'Gagal hapus' }, { status: 500 })

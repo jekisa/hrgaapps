@@ -1,25 +1,33 @@
 import { NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
-import prisma from '@/lib/prisma'
-import { createAuditLog, getIpAddress } from '@/lib/utils'
+import dbConnect from '@/lib/db'
+import Aset from '@/models/Aset'
+import PeminjamanAset from '@/models/PeminjamanAset'
+import { createAuditLog, getIpAddress } from '@/lib/server-utils'
 
 export async function GET(request, { params }) {
   const session = await getServerSession(authOptions)
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
-  const aset = await prisma.aset.findUnique({
-    where: { id: parseInt(params.id) },
-    include: {
-      peminjaman: {
-        orderBy: { createdAt: 'desc' },
-        include: { karyawan: { select: { nama: true, nik: true } } },
-      },
-    },
+  await dbConnect()
+
+  const aset = await Aset.findById(params.id)
+  if (!aset) return NextResponse.json({ error: 'Tidak ditemukan' }, { status: 404 })
+
+  const peminjaman = await PeminjamanAset.find({ asetId: params.id })
+    .sort({ createdAt: -1 })
+    .populate('karyawanId', 'nama nik')
+
+  const result = aset.toJSON()
+  result.peminjaman = peminjaman.map((p) => {
+    const pj = p.toJSON()
+    pj.karyawan = pj.karyawanId
+    delete pj.karyawanId
+    return pj
   })
 
-  if (!aset) return NextResponse.json({ error: 'Tidak ditemukan' }, { status: 404 })
-  return NextResponse.json(aset)
+  return NextResponse.json(result)
 }
 
 export async function PUT(request, { params }) {
@@ -28,11 +36,11 @@ export async function PUT(request, { params }) {
 
   try {
     const body = await request.json()
-    const id = parseInt(params.id)
+    await dbConnect()
 
-    const aset = await prisma.aset.update({
-      where: { id },
-      data: {
+    const aset = await Aset.findByIdAndUpdate(
+      params.id,
+      {
         namaAset: body.namaAset,
         kategori: body.kategori,
         merk: body.merk || null,
@@ -45,9 +53,12 @@ export async function PUT(request, { params }) {
         lokasi: body.lokasi || null,
         keterangan: body.keterangan || null,
       },
-    })
+      { new: true }
+    )
 
-    await createAuditLog(prisma, session.user.id, 'UPDATE', 'ASET', `Update aset: ${body.namaAset}`, getIpAddress(request))
+    if (!aset) return NextResponse.json({ error: 'Tidak ditemukan' }, { status: 404 })
+
+    await createAuditLog(session.user.id, 'UPDATE', 'ASET', 'Update aset', getIpAddress(request))
     return NextResponse.json(aset)
   } catch (error) {
     return NextResponse.json({ error: 'Gagal update aset' }, { status: 500 })
@@ -60,12 +71,12 @@ export async function DELETE(request, { params }) {
   if (session.user.role !== 'ADMIN') return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
 
   try {
-    const id = parseInt(params.id)
-    const aset = await prisma.aset.findUnique({ where: { id } })
+    await dbConnect()
+    const aset = await Aset.findById(params.id)
     if (!aset) return NextResponse.json({ error: 'Tidak ditemukan' }, { status: 404 })
 
-    await prisma.aset.delete({ where: { id } })
-    await createAuditLog(prisma, session.user.id, 'DELETE', 'ASET', `Hapus aset: ${aset.namaAset}`, getIpAddress(request))
+    await Aset.findByIdAndDelete(params.id)
+    await createAuditLog(session.user.id, 'DELETE', 'ASET', 'Hapus aset', getIpAddress(request))
     return NextResponse.json({ success: true })
   } catch {
     return NextResponse.json({ error: 'Gagal menghapus aset' }, { status: 500 })

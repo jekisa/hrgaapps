@@ -1,8 +1,9 @@
 import { NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
-import prisma from '@/lib/prisma'
-import { createAuditLog, getIpAddress } from '@/lib/utils'
+import dbConnect from '@/lib/db'
+import PerawatanKendaraan from '@/models/PerawatanKendaraan'
+import { createAuditLog, getIpAddress } from '@/lib/server-utils'
 
 export async function GET(request) {
   const session = await getServerSession(authOptions)
@@ -13,20 +14,27 @@ export async function GET(request) {
   const limit = parseInt(searchParams.get('limit') || '10')
   const status = searchParams.get('status') || ''
 
-  const where = status ? { status } : {}
+  await dbConnect()
+
+  const query = status ? { status } : {}
 
   const [total, data] = await Promise.all([
-    prisma.perawatanKendaraan.count({ where }),
-    prisma.perawatanKendaraan.findMany({
-      where,
-      orderBy: { tanggal: 'desc' },
-      skip: (page - 1) * limit,
-      take: limit,
-      include: { kendaraan: { select: { noPol: true, merk: true, model: true } } },
-    }),
+    PerawatanKendaraan.countDocuments(query),
+    PerawatanKendaraan.find(query)
+      .sort({ tanggal: -1 })
+      .skip((page - 1) * limit)
+      .limit(limit)
+      .populate('kendaraanId', 'noPol merk model'),
   ])
 
-  return NextResponse.json({ data, total, totalPages: Math.ceil(total / limit) })
+  const result = data.map((d) => {
+    const item = d.toJSON()
+    item.kendaraan = item.kendaraanId
+    delete item.kendaraanId
+    return item
+  })
+
+  return NextResponse.json({ data: result, total, totalPages: Math.ceil(total / limit) })
 }
 
 export async function POST(request) {
@@ -35,21 +43,21 @@ export async function POST(request) {
 
   try {
     const body = await request.json()
-    const record = await prisma.perawatanKendaraan.create({
-      data: {
-        kendaraanId: parseInt(body.kendaraanId),
-        tanggal: new Date(body.tanggal),
-        jenisPerawatan: body.jenisPerawatan || null,
-        deskripsi: body.deskripsi || null,
-        biaya: body.biaya ? parseFloat(body.biaya) : null,
-        bengkel: body.bengkel || null,
-        kmServis: body.kmServis ? parseInt(body.kmServis) : null,
-        kmServisBerikutnya: body.kmServisBerikutnya ? parseInt(body.kmServisBerikutnya) : null,
-        status: body.status || 'TERJADWAL',
-      },
+    await dbConnect()
+
+    const record = await PerawatanKendaraan.create({
+      kendaraanId: body.kendaraanId,
+      tanggal: new Date(body.tanggal),
+      jenisPerawatan: body.jenisPerawatan || null,
+      deskripsi: body.deskripsi || null,
+      biaya: body.biaya ? parseFloat(body.biaya) : null,
+      bengkel: body.bengkel || null,
+      kmServis: body.kmServis ? parseInt(body.kmServis) : null,
+      kmServisBerikutnya: body.kmServisBerikutnya ? parseInt(body.kmServisBerikutnya) : null,
+      status: body.status || 'TERJADWAL',
     })
 
-    await createAuditLog(prisma, session.user.id, 'CREATE', 'PERAWATAN_KENDARAAN', `Tambah jadwal perawatan`, getIpAddress(request))
+    await createAuditLog(session.user.id, 'CREATE', 'PERAWATAN_KENDARAAN', 'Tambah jadwal perawatan', getIpAddress(request))
     return NextResponse.json(record, { status: 201 })
   } catch {
     return NextResponse.json({ error: 'Gagal' }, { status: 500 })
@@ -62,9 +70,11 @@ export async function PUT(request) {
 
   try {
     const body = await request.json()
-    const record = await prisma.perawatanKendaraan.update({
-      where: { id: parseInt(body.id) },
-      data: {
+    await dbConnect()
+
+    const record = await PerawatanKendaraan.findByIdAndUpdate(
+      body.id,
+      {
         tanggal: new Date(body.tanggal),
         jenisPerawatan: body.jenisPerawatan || null,
         deskripsi: body.deskripsi || null,
@@ -74,7 +84,9 @@ export async function PUT(request) {
         kmServisBerikutnya: body.kmServisBerikutnya ? parseInt(body.kmServisBerikutnya) : null,
         status: body.status || 'TERJADWAL',
       },
-    })
+      { new: true }
+    )
+
     return NextResponse.json(record)
   } catch {
     return NextResponse.json({ error: 'Gagal update' }, { status: 500 })

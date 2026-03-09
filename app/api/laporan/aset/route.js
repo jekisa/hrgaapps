@@ -1,15 +1,16 @@
 import { NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
-import prisma from '@/lib/prisma'
+import dbConnect from '@/lib/db'
+import Aset from '@/models/Aset'
 
 export async function GET(request) {
   const session = await getServerSession(authOptions)
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
-  const data = await prisma.aset.findMany({
-    orderBy: { namaAset: 'asc' },
-  })
+  await dbConnect()
+
+  const data = await Aset.find().sort({ namaAset: 1 })
 
   const headers = ['Kode Aset', 'Nama Aset', 'Kategori', 'Merk', 'Model', 'SN', 'Tahun', 'Nilai', 'Kondisi', 'Status', 'Lokasi']
   const rows = data.map((d) => [

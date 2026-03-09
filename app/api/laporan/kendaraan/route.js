@@ -1,13 +1,16 @@
 import { NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
-import prisma from '@/lib/prisma'
+import dbConnect from '@/lib/db'
+import Kendaraan from '@/models/Kendaraan'
 
 export async function GET(request) {
   const session = await getServerSession(authOptions)
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
-  const data = await prisma.kendaraan.findMany({ orderBy: { noPol: 'asc' } })
+  await dbConnect()
+
+  const data = await Kendaraan.find().sort({ noPol: 1 })
 
   const headers = ['No Pol', 'Merk', 'Model', 'Tahun', 'Warna', 'Jenis', 'Status', 'Pajak Berakhir', 'STNK Berakhir']
   const rows = data.map((d) => [

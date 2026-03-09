@@ -1,27 +1,40 @@
 import { NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
-import prisma from '@/lib/prisma'
-import { createAuditLog, getIpAddress } from '@/lib/utils'
+import dbConnect from '@/lib/db'
+import Karyawan from '@/models/Karyawan'
+import RiwayatJabatan from '@/models/RiwayatJabatan'
+import DokumenKaryawan from '@/models/DokumenKaryawan'
+import PeminjamanAset from '@/models/PeminjamanAset'
+import { createAuditLog, getIpAddress } from '@/lib/server-utils'
 
 export async function GET(request, { params }) {
   const session = await getServerSession(authOptions)
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
-  const karyawan = await prisma.karyawan.findUnique({
-    where: { id: parseInt(params.id) },
-    include: {
-      riwayatJabatan: { orderBy: { tanggalMulai: 'desc' } },
-      dokumen: { orderBy: { createdAt: 'desc' } },
-      peminjaman: {
-        where: { status: 'DIPINJAM' },
-        include: { aset: { select: { namaAset: true, kodeAset: true } } },
-      },
-    },
+  await dbConnect()
+
+  const karyawan = await Karyawan.findById(params.id)
+  if (!karyawan) return NextResponse.json({ error: 'Tidak ditemukan' }, { status: 404 })
+
+  const [riwayatJabatan, dokumen, peminjaman] = await Promise.all([
+    RiwayatJabatan.find({ karyawanId: params.id }).sort({ tanggalMulai: -1 }),
+    DokumenKaryawan.find({ karyawanId: params.id }).sort({ createdAt: -1 }),
+    PeminjamanAset.find({ karyawanId: params.id, status: 'DIPINJAM' })
+      .populate('asetId', 'namaAset kodeAset'),
+  ])
+
+  const result = karyawan.toJSON()
+  result.riwayatJabatan = riwayatJabatan.map((r) => r.toJSON())
+  result.dokumen = dokumen.map((d) => d.toJSON())
+  result.peminjaman = peminjaman.map((p) => {
+    const pj = p.toJSON()
+    pj.aset = pj.asetId
+    delete pj.asetId
+    return pj
   })
 
-  if (!karyawan) return NextResponse.json({ error: 'Tidak ditemukan' }, { status: 404 })
-  return NextResponse.json(karyawan)
+  return NextResponse.json(result)
 }
 
 export async function PUT(request, { params }) {
@@ -30,19 +43,16 @@ export async function PUT(request, { params }) {
 
   try {
     const body = await request.json()
-    const id = parseInt(params.id)
+    await dbConnect()
 
-    // Check NIK uniqueness if changed
     if (body.nik) {
-      const existing = await prisma.karyawan.findFirst({
-        where: { nik: body.nik, NOT: { id } },
-      })
+      const existing = await Karyawan.findOne({ nik: body.nik, _id: { $ne: params.id } })
       if (existing) return NextResponse.json({ error: 'NIK sudah digunakan' }, { status: 400 })
     }
 
-    const karyawan = await prisma.karyawan.update({
-      where: { id },
-      data: {
+    const karyawan = await Karyawan.findByIdAndUpdate(
+      params.id,
+      {
         nik: body.nik,
         nama: body.nama,
         tempatLahir: body.tempatLahir || null,
@@ -54,24 +64,17 @@ export async function PUT(request, { params }) {
         email: body.email || null,
         statusKontrak: body.statusKontrak,
         tanggalMasuk: body.tanggalMasuk ? new Date(body.tanggalMasuk) : null,
-        tanggalKontrakBerakhir: body.tanggalKontrakBerakhir
-          ? new Date(body.tanggalKontrakBerakhir)
-          : null,
+        tanggalKontrakBerakhir: body.tanggalKontrakBerakhir ? new Date(body.tanggalKontrakBerakhir) : null,
         departemen: body.departemen || null,
         jabatan: body.jabatan || null,
         statusAktif: body.statusAktif !== undefined ? body.statusAktif : true,
       },
-    })
-
-    await createAuditLog(
-      prisma,
-      session.user.id,
-      'UPDATE',
-      'KARYAWAN',
-      `Update karyawan: ${body.nama}`,
-      getIpAddress(request)
+      { new: true }
     )
 
+    if (!karyawan) return NextResponse.json({ error: 'Tidak ditemukan' }, { status: 404 })
+
+    await createAuditLog(session.user.id, 'UPDATE', 'KARYAWAN', `Update karyawan: ${body.nama}`, getIpAddress(request))
     return NextResponse.json(karyawan)
   } catch (error) {
     return NextResponse.json({ error: 'Gagal update karyawan' }, { status: 500 })
@@ -86,21 +89,13 @@ export async function DELETE(request, { params }) {
   }
 
   try {
-    const id = parseInt(params.id)
-    const karyawan = await prisma.karyawan.findUnique({ where: { id } })
+    await dbConnect()
+    const karyawan = await Karyawan.findById(params.id)
     if (!karyawan) return NextResponse.json({ error: 'Tidak ditemukan' }, { status: 404 })
 
-    await prisma.karyawan.delete({ where: { id } })
+    await Karyawan.findByIdAndDelete(params.id)
 
-    await createAuditLog(
-      prisma,
-      session.user.id,
-      'DELETE',
-      'KARYAWAN',
-      `Hapus karyawan: ${karyawan.nama}`,
-      getIpAddress(request)
-    )
-
+    await createAuditLog(session.user.id, 'DELETE', 'KARYAWAN', `Hapus karyawan: ${karyawan.nama}`, getIpAddress(request))
     return NextResponse.json({ success: true })
   } catch (error) {
     return NextResponse.json({ error: 'Gagal menghapus karyawan' }, { status: 500 })

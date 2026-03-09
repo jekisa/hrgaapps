@@ -1,7 +1,8 @@
 import { NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
-import prisma from '@/lib/prisma'
+import dbConnect from '@/lib/db'
+import AuditLog from '@/models/AuditLog'
 
 export async function GET(request) {
   const session = await getServerSession(authOptions)
@@ -14,23 +15,27 @@ export async function GET(request) {
   const search = searchParams.get('search') || ''
   const modul = searchParams.get('modul') || ''
 
-  const where = {
-    AND: [
-      search ? { OR: [{ detail: { contains: search } }, { user: { name: { contains: search } } }] } : {},
-      modul ? { modul } : {},
-    ],
-  }
+  await dbConnect()
+
+  const query = {}
+  if (search) query.detail = { $regex: search, $options: 'i' }
+  if (modul) query.modul = modul
 
   const [total, data] = await Promise.all([
-    prisma.auditLog.count({ where }),
-    prisma.auditLog.findMany({
-      where,
-      orderBy: { createdAt: 'desc' },
-      skip: (page - 1) * limit,
-      take: limit,
-      include: { user: { select: { name: true, email: true } } },
-    }),
+    AuditLog.countDocuments(query),
+    AuditLog.find(query)
+      .sort({ createdAt: -1 })
+      .skip((page - 1) * limit)
+      .limit(limit)
+      .populate('userId', 'name email'),
   ])
 
-  return NextResponse.json({ data, total, totalPages: Math.ceil(total / limit) })
+  const result = data.map((d) => {
+    const obj = d.toJSON()
+    obj.user = obj.userId
+    delete obj.userId
+    return obj
+  })
+
+  return NextResponse.json({ data: result, total, totalPages: Math.ceil(total / limit) })
 }

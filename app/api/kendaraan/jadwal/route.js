@@ -1,8 +1,10 @@
 import { NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
-import prisma from '@/lib/prisma'
-import { createAuditLog, getIpAddress } from '@/lib/utils'
+import dbConnect from '@/lib/db'
+import Kendaraan from '@/models/Kendaraan'
+import JadwalKendaraan from '@/models/JadwalKendaraan'
+import { createAuditLog, getIpAddress } from '@/lib/server-utils'
 
 export async function GET(request) {
   const session = await getServerSession(authOptions)
@@ -13,20 +15,27 @@ export async function GET(request) {
   const limit = parseInt(searchParams.get('limit') || '10')
   const status = searchParams.get('status') || ''
 
-  const where = status ? { status } : {}
+  await dbConnect()
+
+  const query = status ? { status } : {}
 
   const [total, data] = await Promise.all([
-    prisma.jadwalKendaraan.count({ where }),
-    prisma.jadwalKendaraan.findMany({
-      where,
-      orderBy: { tanggalBerangkat: 'desc' },
-      skip: (page - 1) * limit,
-      take: limit,
-      include: { kendaraan: { select: { noPol: true, merk: true, model: true } } },
-    }),
+    JadwalKendaraan.countDocuments(query),
+    JadwalKendaraan.find(query)
+      .sort({ tanggalBerangkat: -1 })
+      .skip((page - 1) * limit)
+      .limit(limit)
+      .populate('kendaraanId', 'noPol merk model'),
   ])
 
-  return NextResponse.json({ data, total, totalPages: Math.ceil(total / limit) })
+  const result = data.map((d) => {
+    const item = d.toJSON()
+    item.kendaraan = item.kendaraanId
+    delete item.kendaraanId
+    return item
+  })
+
+  return NextResponse.json({ data: result, total, totalPages: Math.ceil(total / limit) })
 }
 
 export async function POST(request) {
@@ -35,22 +44,21 @@ export async function POST(request) {
 
   try {
     const body = await request.json()
+    await dbConnect()
 
-    const record = await prisma.jadwalKendaraan.create({
-      data: {
-        kendaraanId: parseInt(body.kendaraanId),
-        pengemudi: body.pengemudi || null,
-        keperluan: body.keperluan || null,
-        tujuan: body.tujuan || null,
-        tanggalBerangkat: new Date(body.tanggalBerangkat),
-        tanggalKembali: body.tanggalKembali ? new Date(body.tanggalKembali) : null,
-        status: 'TERJADWAL',
-        keterangan: body.keterangan || null,
-      },
+    const record = await JadwalKendaraan.create({
+      kendaraanId: body.kendaraanId,
+      pengemudi: body.pengemudi || null,
+      keperluan: body.keperluan || null,
+      tujuan: body.tujuan || null,
+      tanggalBerangkat: new Date(body.tanggalBerangkat),
+      tanggalKembali: body.tanggalKembali ? new Date(body.tanggalKembali) : null,
+      status: 'TERJADWAL',
+      keterangan: body.keterangan || null,
     })
 
-    await prisma.kendaraan.update({ where: { id: parseInt(body.kendaraanId) }, data: { status: 'DIGUNAKAN' } })
-    await createAuditLog(prisma, session.user.id, 'CREATE', 'JADWAL_KENDARAAN', `Buat jadwal kendaraan`, getIpAddress(request))
+    await Kendaraan.findByIdAndUpdate(body.kendaraanId, { status: 'DIGUNAKAN' })
+    await createAuditLog(session.user.id, 'CREATE', 'JADWAL_KENDARAAN', 'Buat jadwal kendaraan', getIpAddress(request))
     return NextResponse.json(record, { status: 201 })
   } catch {
     return NextResponse.json({ error: 'Gagal membuat jadwal' }, { status: 500 })
@@ -64,15 +72,18 @@ export async function PATCH(request) {
   try {
     const body = await request.json()
     const { id, status } = body
+    await dbConnect()
 
-    const record = await prisma.jadwalKendaraan.update({
-      where: { id: parseInt(id) },
-      data: { status, ...(status === 'SELESAI' && { tanggalKembali: new Date() }) },
-      include: { kendaraan: true },
-    })
+    const record = await JadwalKendaraan.findByIdAndUpdate(
+      id,
+      { status, ...(status === 'SELESAI' && { tanggalKembali: new Date() }) },
+      { new: true }
+    )
+
+    if (!record) return NextResponse.json({ error: 'Tidak ditemukan' }, { status: 404 })
 
     if (status === 'SELESAI' || status === 'DIBATALKAN') {
-      await prisma.kendaraan.update({ where: { id: record.kendaraanId }, data: { status: 'TERSEDIA' } })
+      await Kendaraan.findByIdAndUpdate(record.kendaraanId, { status: 'TERSEDIA' })
     }
 
     return NextResponse.json(record)

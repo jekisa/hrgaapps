@@ -1,8 +1,9 @@
 import { NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
-import prisma from '@/lib/prisma'
-import { createAuditLog, getIpAddress } from '@/lib/utils'
+import dbConnect from '@/lib/db'
+import MaintenanceRequest from '@/models/MaintenanceRequest'
+import { createAuditLog, getIpAddress } from '@/lib/server-utils'
 
 export async function GET(request) {
   const session = await getServerSession(authOptions)
@@ -15,17 +16,24 @@ export async function GET(request) {
   const prioritas = searchParams.get('prioritas') || ''
   const search = searchParams.get('search') || ''
 
-  const where = {
-    AND: [
-      search ? { OR: [{ judul: { contains: search } }, { lokasi: { contains: search } }] } : {},
-      status ? { status } : {},
-      prioritas ? { prioritas } : {},
-    ],
+  await dbConnect()
+
+  const query = {}
+  if (search) {
+    query.$or = [
+      { judul: { $regex: search, $options: 'i' } },
+      { lokasi: { $regex: search, $options: 'i' } },
+    ]
   }
+  if (status) query.status = status
+  if (prioritas) query.prioritas = prioritas
 
   const [total, data] = await Promise.all([
-    prisma.maintenanceRequest.count({ where }),
-    prisma.maintenanceRequest.findMany({ where, orderBy: { createdAt: 'desc' }, skip: (page - 1) * limit, take: limit }),
+    MaintenanceRequest.countDocuments(query),
+    MaintenanceRequest.find(query)
+      .sort({ createdAt: -1 })
+      .skip((page - 1) * limit)
+      .limit(limit),
   ])
 
   return NextResponse.json({ data, total, page, totalPages: Math.ceil(total / limit) })
@@ -37,18 +45,19 @@ export async function POST(request) {
 
   try {
     const body = await request.json()
-    const record = await prisma.maintenanceRequest.create({
-      data: {
-        judul: body.judul,
-        lokasi: body.lokasi || null,
-        kategori: body.kategori || null,
-        deskripsi: body.deskripsi || null,
-        prioritas: body.prioritas || 'NORMAL',
-        status: 'PENDING',
-        pemohon: body.pemohon || null,
-      },
+    await dbConnect()
+
+    const record = await MaintenanceRequest.create({
+      judul: body.judul,
+      lokasi: body.lokasi || null,
+      kategori: body.kategori || null,
+      deskripsi: body.deskripsi || null,
+      prioritas: body.prioritas || 'NORMAL',
+      status: 'PENDING',
+      pemohon: body.pemohon || null,
     })
-    await createAuditLog(prisma, session.user.id, 'CREATE', 'MAINTENANCE', `Buat request: ${body.judul}`, getIpAddress(request))
+
+    await createAuditLog(session.user.id, 'CREATE', 'MAINTENANCE', 'Tambah maintenance request', getIpAddress(request))
     return NextResponse.json(record, { status: 201 })
   } catch {
     return NextResponse.json({ error: 'Gagal membuat request' }, { status: 500 })
