@@ -4,7 +4,8 @@ import { authOptions } from '@/lib/auth'
 import dbConnect from '@/lib/db'
 import Notifikasi from '@/models/Notifikasi'
 
-export async function PATCH(request, { params }) {
+export async function PATCH(request, { params: paramsPromise }) {
+  const params = await paramsPromise
   const session = await getServerSession(authOptions)
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
@@ -18,7 +19,8 @@ export async function PATCH(request, { params }) {
   return NextResponse.json(notif)
 }
 
-export async function DELETE(request, { params }) {
+export async function DELETE(request, { params: paramsPromise }) {
+  const params = await paramsPromise
   const session = await getServerSession(authOptions)
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 

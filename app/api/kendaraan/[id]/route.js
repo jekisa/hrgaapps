@@ -5,7 +5,8 @@ import dbConnect from '@/lib/db'
 import Kendaraan from '@/models/Kendaraan'
 import { createAuditLog, getIpAddress } from '@/lib/server-utils'
 
-export async function PUT(request, { params }) {
+export async function PUT(request, { params: paramsPromise }) {
+  const params = await paramsPromise
   const session = await getServerSession(authOptions)
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
@@ -40,7 +41,8 @@ export async function PUT(request, { params }) {
   }
 }
 
-export async function DELETE(request, { params }) {
+export async function DELETE(request, { params: paramsPromise }) {
+  const params = await paramsPromise
   const session = await getServerSession(authOptions)
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   if (session.user.role !== 'ADMIN') return NextResponse.json({ error: 'Forbidden' }, { status: 403 })

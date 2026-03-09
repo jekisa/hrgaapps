@@ -6,7 +6,8 @@ import Aset from '@/models/Aset'
 import PeminjamanAset from '@/models/PeminjamanAset'
 import { createAuditLog, getIpAddress } from '@/lib/server-utils'
 
-export async function GET(request, { params }) {
+export async function GET(request, { params: paramsPromise }) {
+  const params = await paramsPromise
   const session = await getServerSession(authOptions)
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
@@ -30,7 +31,8 @@ export async function GET(request, { params }) {
   return NextResponse.json(result)
 }
 
-export async function PUT(request, { params }) {
+export async function PUT(request, { params: paramsPromise }) {
+  const params = await paramsPromise
   const session = await getServerSession(authOptions)
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
@@ -65,7 +67,8 @@ export async function PUT(request, { params }) {
   }
 }
 
-export async function DELETE(request, { params }) {
+export async function DELETE(request, { params: paramsPromise }) {
+  const params = await paramsPromise
   const session = await getServerSession(authOptions)
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   if (session.user.role !== 'ADMIN') return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
