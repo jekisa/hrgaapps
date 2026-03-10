@@ -1,5 +1,4 @@
 {
-  "/(auth)/login/page": "app/(auth)/login/page.js",
   "/(dashboard)/aset/page": "app/(dashboard)/aset/page.js",
   "/(dashboard)/aset/peminjaman/page": "app/(dashboard)/aset/peminjaman/page.js",
   "/(dashboard)/audit-trail/page": "app/(dashboard)/audit-trail/page.js",
@@ -23,21 +22,17 @@
   "/api/audit-trail/route": "app/api/audit-trail/route.js",
   "/api/auth/[...nextauth]/route": "app/api/auth/[...nextauth]/route.js",
   "/api/dashboard/route": "app/api/dashboard/route.js",
-  "/api/gedung/maintenance/[id]/route": "app/api/gedung/maintenance/[id]/route.js",
   "/api/gedung/maintenance/route": "app/api/gedung/maintenance/route.js",
   "/api/gedung/utilitas/route": "app/api/gedung/utilitas/route.js",
   "/api/karyawan/[id]/route": "app/api/karyawan/[id]/route.js",
   "/api/karyawan/riwayat/route": "app/api/karyawan/riwayat/route.js",
   "/api/karyawan/route": "app/api/karyawan/route.js",
-  "/api/kendaraan/[id]/route": "app/api/kendaraan/[id]/route.js",
   "/api/kendaraan/jadwal/route": "app/api/kendaraan/jadwal/route.js",
   "/api/kendaraan/log-perjalanan/route": "app/api/kendaraan/log-perjalanan/route.js",
   "/api/kendaraan/pajak/route": "app/api/kendaraan/pajak/route.js",
   "/api/kendaraan/perawatan/route": "app/api/kendaraan/perawatan/route.js",
   "/api/kendaraan/route": "app/api/kendaraan/route.js",
-  "/api/laporan/aset/route": "app/api/laporan/aset/route.js",
   "/api/laporan/karyawan/route": "app/api/laporan/karyawan/route.js",
-  "/api/notifikasi/[id]/route": "app/api/notifikasi/[id]/route.js",
   "/api/notifikasi/route": "app/api/notifikasi/route.js",
   "/api/pengguna/route": "app/api/pengguna/route.js"
 }

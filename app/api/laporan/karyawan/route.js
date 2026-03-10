@@ -3,13 +3,11 @@ import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import dbConnect from '@/lib/db'
 import Karyawan from '@/models/Karyawan'
+import * as XLSX from 'xlsx'
 
 export async function GET(request) {
   const session = await getServerSession(authOptions)
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-
-  const { searchParams } = new URL(request.url)
-  const format = searchParams.get('format') || 'json'
 
   await dbConnect()
 
@@ -17,25 +15,37 @@ export async function GET(request) {
     .sort({ nama: 1 })
     .select('nik nama jabatan departemen statusKontrak tanggalMasuk tanggalKontrakBerakhir telepon email statusAktif')
 
-  if (format === 'excel') {
-    const headers = ['NIK', 'Nama', 'Jabatan', 'Departemen', 'Status Kontrak', 'Tgl Masuk', 'Kontrak Berakhir', 'Telepon', 'Email', 'Status']
-    const rows = data.map((d) => [
-      d.nik, d.nama, d.jabatan || '', d.departemen || '',
-      d.statusKontrak,
-      d.tanggalMasuk ? new Date(d.tanggalMasuk).toLocaleDateString('id-ID') : '',
-      d.tanggalKontrakBerakhir ? new Date(d.tanggalKontrakBerakhir).toLocaleDateString('id-ID') : '',
-      d.telepon || '', d.email || '',
-      d.statusAktif ? 'Aktif' : 'Non-Aktif',
-    ])
+  const rows = data.map((d) => ({
+    NIK: d.nik,
+    Nama: d.nama,
+    Jabatan: d.jabatan || '',
+    Departemen: d.departemen || '',
+    'Status Kontrak': d.statusKontrak,
+    'Tgl Masuk': d.tanggalMasuk ? new Date(d.tanggalMasuk).toLocaleDateString('id-ID') : '',
+    'Kontrak Berakhir': d.tanggalKontrakBerakhir ? new Date(d.tanggalKontrakBerakhir).toLocaleDateString('id-ID') : '',
+    Telepon: d.telepon || '',
+    Email: d.email || '',
+    Status: d.statusAktif ? 'Aktif' : 'Non-Aktif',
+  }))
 
-    const csv = [headers, ...rows].map((r) => r.map((c) => `"${c}"`).join(',')).join('\n')
-    return new NextResponse(csv, {
-      headers: {
-        'Content-Type': 'text/csv; charset=utf-8',
-        'Content-Disposition': 'attachment; filename="data-karyawan.csv"',
-      },
-    })
-  }
+  const wb = XLSX.utils.book_new()
+  const ws = XLSX.utils.json_to_sheet(rows)
 
-  return NextResponse.json(data)
+  // Column widths
+  ws['!cols'] = [
+    { wch: 18 }, { wch: 30 }, { wch: 20 }, { wch: 20 },
+    { wch: 16 }, { wch: 14 }, { wch: 16 },
+    { wch: 16 }, { wch: 28 }, { wch: 12 },
+  ]
+
+  XLSX.utils.book_append_sheet(wb, ws, 'Data Karyawan')
+
+  const buf = XLSX.write(wb, { type: 'buffer', bookType: 'xlsx' })
+
+  return new NextResponse(buf, {
+    headers: {
+      'Content-Type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      'Content-Disposition': 'attachment; filename="laporan-karyawan.xlsx"',
+    },
+  })
 }

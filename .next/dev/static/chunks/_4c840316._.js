@@ -114,6 +114,15 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$re
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$triangle$2d$alert$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__AlertTriangle$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/triangle-alert.js [app-client] (ecmascript) <export default as AlertTriangle>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$clock$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Clock$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/clock.js [app-client] (ecmascript) <export default as Clock>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$activity$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Activity$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/activity.js [app-client] (ecmascript) <export default as Activity>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$trending$2d$up$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__TrendingUp$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/trending-up.js [app-client] (ecmascript) <export default as TrendingUp>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$arrow$2d$right$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__ArrowRight$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/arrow-right.js [app-client] (ecmascript) <export default as ArrowRight>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$plus$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Plus$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/plus.js [app-client] (ecmascript) <export default as Plus>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$pen$2d$line$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Edit3$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/pen-line.js [app-client] (ecmascript) <export default as Edit3>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$trash$2d$2$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Trash2$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/trash-2.js [app-client] (ecmascript) <export default as Trash2>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$eye$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Eye$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/eye.js [app-client] (ecmascript) <export default as Eye>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$zap$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Zap$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/zap.js [app-client] (ecmascript) <export default as Zap>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$chart$2d$no$2d$axes$2d$column$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__BarChart2$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/chart-no-axes-column.js [app-client] (ecmascript) <export default as BarChart2>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$chart$2d$pie$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__PieChart$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/chart-pie.js [app-client] (ecmascript) <export default as PieChart>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$recharts$2f$es6$2f$chart$2f$BarChart$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/recharts/es6/chart/BarChart.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$recharts$2f$es6$2f$cartesian$2f$Bar$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/recharts/es6/cartesian/Bar.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$recharts$2f$es6$2f$cartesian$2f$XAxis$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/recharts/es6/cartesian/XAxis.js [app-client] (ecmascript)");
@@ -145,122 +154,146 @@ const COLORS = [
     '#8b5cf6',
     '#06b6d4'
 ];
-function StatCard({ title, value, subtitle, icon: Icon, iconBg, iconColor, href }) {
+const actionIcon = (aksi = '')=>{
+    const a = aksi.toUpperCase();
+    if (a.includes('TAMBAH') || a.includes('CREATE')) return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$plus$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Plus$3e$__["Plus"], {
+        className: "w-3.5 h-3.5"
+    }, void 0, false, {
+        fileName: "[project]/app/(dashboard)/page.js",
+        lineNumber: 22,
+        columnNumber: 60
+    }, ("TURBOPACK compile-time value", void 0));
+    if (a.includes('EDIT') || a.includes('UPDATE')) return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$pen$2d$line$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Edit3$3e$__["Edit3"], {
+        className: "w-3.5 h-3.5"
+    }, void 0, false, {
+        fileName: "[project]/app/(dashboard)/page.js",
+        lineNumber: 23,
+        columnNumber: 58
+    }, ("TURBOPACK compile-time value", void 0));
+    if (a.includes('HAPUS') || a.includes('DELETE')) return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$trash$2d$2$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Trash2$3e$__["Trash2"], {
+        className: "w-3.5 h-3.5"
+    }, void 0, false, {
+        fileName: "[project]/app/(dashboard)/page.js",
+        lineNumber: 24,
+        columnNumber: 59
+    }, ("TURBOPACK compile-time value", void 0));
+    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$eye$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Eye$3e$__["Eye"], {
+        className: "w-3.5 h-3.5"
+    }, void 0, false, {
+        fileName: "[project]/app/(dashboard)/page.js",
+        lineNumber: 25,
+        columnNumber: 10
+    }, ("TURBOPACK compile-time value", void 0));
+};
+const actionColor = (aksi = '')=>{
+    const a = aksi.toUpperCase();
+    if (a.includes('TAMBAH') || a.includes('CREATE')) return 'bg-emerald-100 text-emerald-600';
+    if (a.includes('EDIT') || a.includes('UPDATE')) return 'bg-blue-100 text-blue-600';
+    if (a.includes('HAPUS') || a.includes('DELETE')) return 'bg-red-100 text-red-600';
+    return 'bg-gray-100 text-gray-500';
+};
+function StatCard({ title, value, subtitle, icon: Icon, iconBg, iconColor, href, trend }) {
     const content = /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-        className: "card-hover p-5 group",
-        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-            className: "flex items-start gap-4",
-            children: [
-                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                    className: `w-12 h-12 rounded-xl flex items-center justify-center shrink-0 ${iconBg}`,
-                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Icon, {
-                        className: `w-6 h-6 ${iconColor}`
-                    }, void 0, false, {
-                        fileName: "[project]/app/(dashboard)/page.js",
-                        lineNumber: 23,
-                        columnNumber: 11
-                    }, this)
-                }, void 0, false, {
-                    fileName: "[project]/app/(dashboard)/page.js",
-                    lineNumber: 22,
-                    columnNumber: 9
-                }, this),
-                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                    className: "flex-1 min-w-0",
-                    children: [
-                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                            className: "text-xs font-semibold text-gray-500 uppercase tracking-wide",
-                            children: title
-                        }, void 0, false, {
-                            fileName: "[project]/app/(dashboard)/page.js",
-                            lineNumber: 26,
-                            columnNumber: 11
-                        }, this),
-                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                            className: "text-3xl font-bold text-gray-900 mt-1 leading-none",
-                            children: value ?? '-'
-                        }, void 0, false, {
-                            fileName: "[project]/app/(dashboard)/page.js",
-                            lineNumber: 27,
-                            columnNumber: 11
-                        }, this),
-                        subtitle && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                            className: "text-xs text-gray-400 mt-1.5",
-                            children: subtitle
-                        }, void 0, false, {
-                            fileName: "[project]/app/(dashboard)/page.js",
-                            lineNumber: 28,
-                            columnNumber: 24
-                        }, this)
-                    ]
-                }, void 0, true, {
-                    fileName: "[project]/app/(dashboard)/page.js",
-                    lineNumber: 25,
-                    columnNumber: 9
-                }, this)
-            ]
-        }, void 0, true, {
-            fileName: "[project]/app/(dashboard)/page.js",
-            lineNumber: 21,
-            columnNumber: 7
-        }, this)
-    }, void 0, false, {
-        fileName: "[project]/app/(dashboard)/page.js",
-        lineNumber: 20,
-        columnNumber: 5
-    }, this);
-    return href ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
-        href: href,
-        children: content
-    }, void 0, false, {
-        fileName: "[project]/app/(dashboard)/page.js",
-        lineNumber: 33,
-        columnNumber: 17
-    }, this) : content;
-}
-_c = StatCard;
-function AlertCard({ icon: Icon, title, value, color, href }) {
-    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
-        href: href || '#',
-        className: `flex items-center gap-3 p-3.5 rounded-xl border ${color} hover:opacity-90 transition-all`,
+        className: "card p-5 card-hover group relative overflow-hidden",
         children: [
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: "shrink-0",
-                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Icon, {
-                    className: "w-5 h-5"
-                }, void 0, false, {
-                    fileName: "[project]/app/(dashboard)/page.js",
-                    lineNumber: 40,
-                    columnNumber: 9
-                }, this)
+                className: "absolute top-0 right-0 w-24 h-24 rounded-full opacity-5 -translate-y-6 translate-x-6",
+                style: {
+                    background: iconColor?.replace('text-', '')
+                }
             }, void 0, false, {
                 fileName: "[project]/app/(dashboard)/page.js",
                 lineNumber: 39,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                className: "flex items-start gap-4",
                 children: [
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                        className: "text-sm font-bold",
-                        children: value
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        className: `w-12 h-12 rounded-2xl flex items-center justify-center shrink-0 shadow-sm ${iconBg}`,
+                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Icon, {
+                            className: `w-6 h-6 ${iconColor}`
+                        }, void 0, false, {
+                            fileName: "[project]/app/(dashboard)/page.js",
+                            lineNumber: 43,
+                            columnNumber: 11
+                        }, this)
                     }, void 0, false, {
                         fileName: "[project]/app/(dashboard)/page.js",
-                        lineNumber: 43,
+                        lineNumber: 42,
                         columnNumber: 9
                     }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                        className: "text-xs opacity-80",
-                        children: title
-                    }, void 0, false, {
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        className: "flex-1 min-w-0",
+                        children: [
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                className: "text-[11px] font-bold text-gray-400 uppercase tracking-wider",
+                                children: title
+                            }, void 0, false, {
+                                fileName: "[project]/app/(dashboard)/page.js",
+                                lineNumber: 46,
+                                columnNumber: 11
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                className: "text-3xl font-extrabold text-gray-900 mt-1 leading-none tabular-nums",
+                                children: value ?? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                    className: "text-gray-300",
+                                    children: "—"
+                                }, void 0, false, {
+                                    fileName: "[project]/app/(dashboard)/page.js",
+                                    lineNumber: 48,
+                                    columnNumber: 23
+                                }, this)
+                            }, void 0, false, {
+                                fileName: "[project]/app/(dashboard)/page.js",
+                                lineNumber: 47,
+                                columnNumber: 11
+                            }, this),
+                            subtitle && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                className: "text-xs text-gray-400 mt-1.5 flex items-center gap-1",
+                                children: [
+                                    trend && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$trending$2d$up$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__TrendingUp$3e$__["TrendingUp"], {
+                                        className: "w-3 h-3 text-emerald-500"
+                                    }, void 0, false, {
+                                        fileName: "[project]/app/(dashboard)/page.js",
+                                        lineNumber: 51,
+                                        columnNumber: 23
+                                    }, this),
+                                    subtitle
+                                ]
+                            }, void 0, true, {
+                                fileName: "[project]/app/(dashboard)/page.js",
+                                lineNumber: 50,
+                                columnNumber: 24
+                            }, this)
+                        ]
+                    }, void 0, true, {
                         fileName: "[project]/app/(dashboard)/page.js",
-                        lineNumber: 44,
+                        lineNumber: 45,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/app/(dashboard)/page.js",
-                lineNumber: 42,
+                lineNumber: 41,
                 columnNumber: 7
+            }, this),
+            href && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                className: "mt-4 flex items-center gap-1 text-xs font-semibold text-primary-600 opacity-0 group-hover:opacity-100 transition-opacity duration-200",
+                children: [
+                    "Lihat detail ",
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$arrow$2d$right$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__ArrowRight$3e$__["ArrowRight"], {
+                        className: "w-3 h-3"
+                    }, void 0, false, {
+                        fileName: "[project]/app/(dashboard)/page.js",
+                        lineNumber: 58,
+                        columnNumber: 24
+                    }, this)
+                ]
+            }, void 0, true, {
+                fileName: "[project]/app/(dashboard)/page.js",
+                lineNumber: 57,
+                columnNumber: 9
             }, this)
         ]
     }, void 0, true, {
@@ -268,8 +301,119 @@ function AlertCard({ icon: Icon, title, value, color, href }) {
         lineNumber: 38,
         columnNumber: 5
     }, this);
+    return href ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
+        href: href,
+        children: content
+    }, void 0, false, {
+        fileName: "[project]/app/(dashboard)/page.js",
+        lineNumber: 63,
+        columnNumber: 17
+    }, this) : content;
+}
+_c = StatCard;
+function AlertCard({ icon: Icon, title, value, color, href }) {
+    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
+        href: href || '#',
+        className: `flex items-center gap-3 p-3.5 rounded-2xl border transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md ${color}`,
+        children: [
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                className: "w-9 h-9 rounded-xl flex items-center justify-center bg-white/40 shrink-0",
+                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Icon, {
+                    className: "w-4.5 h-4.5"
+                }, void 0, false, {
+                    fileName: "[project]/app/(dashboard)/page.js",
+                    lineNumber: 73,
+                    columnNumber: 9
+                }, this)
+            }, void 0, false, {
+                fileName: "[project]/app/(dashboard)/page.js",
+                lineNumber: 72,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                className: "flex-1 min-w-0",
+                children: [
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                        className: "text-sm font-bold leading-none",
+                        children: value
+                    }, void 0, false, {
+                        fileName: "[project]/app/(dashboard)/page.js",
+                        lineNumber: 76,
+                        columnNumber: 9
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                        className: "text-xs opacity-75 mt-0.5 leading-snug",
+                        children: title
+                    }, void 0, false, {
+                        fileName: "[project]/app/(dashboard)/page.js",
+                        lineNumber: 77,
+                        columnNumber: 9
+                    }, this)
+                ]
+            }, void 0, true, {
+                fileName: "[project]/app/(dashboard)/page.js",
+                lineNumber: 75,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$arrow$2d$right$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__ArrowRight$3e$__["ArrowRight"], {
+                className: "w-3.5 h-3.5 opacity-40 shrink-0"
+            }, void 0, false, {
+                fileName: "[project]/app/(dashboard)/page.js",
+                lineNumber: 79,
+                columnNumber: 7
+            }, this)
+        ]
+    }, void 0, true, {
+        fileName: "[project]/app/(dashboard)/page.js",
+        lineNumber: 68,
+        columnNumber: 5
+    }, this);
 }
 _c1 = AlertCard;
+const CustomTooltip = ({ active, payload, label })=>{
+    if (active && payload?.length) {
+        return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+            className: "bg-white border border-gray-100 rounded-xl shadow-lg px-3 py-2 text-xs",
+            children: [
+                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                    className: "font-semibold text-gray-700 mb-1",
+                    children: label
+                }, void 0, false, {
+                    fileName: "[project]/app/(dashboard)/page.js",
+                    lineNumber: 88,
+                    columnNumber: 9
+                }, ("TURBOPACK compile-time value", void 0)),
+                payload.map((p, i)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                        style: {
+                            color: p.color
+                        },
+                        children: [
+                            p.name,
+                            ": ",
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                className: "font-bold",
+                                children: p.value
+                            }, void 0, false, {
+                                fileName: "[project]/app/(dashboard)/page.js",
+                                lineNumber: 90,
+                                columnNumber: 59
+                            }, ("TURBOPACK compile-time value", void 0))
+                        ]
+                    }, i, true, {
+                        fileName: "[project]/app/(dashboard)/page.js",
+                        lineNumber: 90,
+                        columnNumber: 11
+                    }, ("TURBOPACK compile-time value", void 0)))
+            ]
+        }, void 0, true, {
+            fileName: "[project]/app/(dashboard)/page.js",
+            lineNumber: 87,
+            columnNumber: 7
+        }, ("TURBOPACK compile-time value", void 0));
+    }
+    return null;
+};
+_c2 = CustomTooltip;
 function DashboardPage() {
     _s();
     const { data, isLoading } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$tanstack$2f$react$2d$query$2f$build$2f$modern$2f$useQuery$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useQuery"])({
@@ -284,7 +428,7 @@ function DashboardPage() {
     });
     if (isLoading) return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$LoadingSpinner$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["PageLoader"], {}, void 0, false, {
         fileName: "[project]/app/(dashboard)/page.js",
-        lineNumber: 56,
+        lineNumber: 104,
         columnNumber: 25
     }, this);
     const { stats, charts, recentActivity } = data || {};
@@ -292,27 +436,58 @@ function DashboardPage() {
         className: "space-y-6",
         children: [
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                children: [
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h1", {
-                        className: "text-2xl font-bold text-gray-900",
-                        children: "Dashboard"
-                    }, void 0, false, {
-                        fileName: "[project]/app/(dashboard)/page.js",
-                        lineNumber: 64,
-                        columnNumber: 9
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                        className: "text-sm text-gray-500 mt-0.5",
-                        children: "Selamat datang di HRGA Apps Management System"
-                    }, void 0, false, {
-                        fileName: "[project]/app/(dashboard)/page.js",
-                        lineNumber: 65,
-                        columnNumber: 9
-                    }, this)
-                ]
-            }, void 0, true, {
+                className: "flex items-start justify-between",
+                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                    children: [
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                            className: "flex items-center gap-2 mb-1",
+                            children: [
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$zap$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Zap$3e$__["Zap"], {
+                                    className: "w-5 h-5 text-primary-500"
+                                }, void 0, false, {
+                                    fileName: "[project]/app/(dashboard)/page.js",
+                                    lineNumber: 114,
+                                    columnNumber: 13
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                    className: "text-xs font-bold text-primary-600 uppercase tracking-widest",
+                                    children: "Dashboard"
+                                }, void 0, false, {
+                                    fileName: "[project]/app/(dashboard)/page.js",
+                                    lineNumber: 115,
+                                    columnNumber: 13
+                                }, this)
+                            ]
+                        }, void 0, true, {
+                            fileName: "[project]/app/(dashboard)/page.js",
+                            lineNumber: 113,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h1", {
+                            className: "text-2xl font-extrabold text-gray-900 tracking-tight",
+                            children: "HRGA Management System"
+                        }, void 0, false, {
+                            fileName: "[project]/app/(dashboard)/page.js",
+                            lineNumber: 117,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                            className: "text-sm text-gray-400 mt-0.5",
+                            children: "Ringkasan data dan aktivitas terkini"
+                        }, void 0, false, {
+                            fileName: "[project]/app/(dashboard)/page.js",
+                            lineNumber: 120,
+                            columnNumber: 11
+                        }, this)
+                    ]
+                }, void 0, true, {
+                    fileName: "[project]/app/(dashboard)/page.js",
+                    lineNumber: 112,
+                    columnNumber: 9
+                }, this)
+            }, void 0, false, {
                 fileName: "[project]/app/(dashboard)/page.js",
-                lineNumber: 63,
+                lineNumber: 111,
                 columnNumber: 7
             }, this),
             (stats?.kontrakBerakhir > 0 || stats?.pajakJatuhTempo > 0 || stats?.maintenancePending > 0) && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -322,39 +497,39 @@ function DashboardPage() {
                         icon: __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$triangle$2d$alert$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__AlertTriangle$3e$__["AlertTriangle"],
                         title: "Kontrak karyawan berakhir (30 hari)",
                         value: `${stats.kontrakBerakhir} Karyawan`,
-                        color: "border-orange-200 bg-orange-50 text-orange-700",
+                        color: "border-orange-200 bg-gradient-to-r from-orange-50 to-amber-50 text-orange-700",
                         href: "/karyawan/kontrak"
                     }, void 0, false, {
                         fileName: "[project]/app/(dashboard)/page.js",
-                        lineNumber: 72,
+                        lineNumber: 128,
                         columnNumber: 13
                     }, this),
                     stats?.pajakJatuhTempo > 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(AlertCard, {
                         icon: __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$triangle$2d$alert$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__AlertTriangle$3e$__["AlertTriangle"],
                         title: "Pajak kendaraan jatuh tempo",
                         value: `${stats.pajakJatuhTempo} Kendaraan`,
-                        color: "border-red-200 bg-red-50 text-red-700",
+                        color: "border-red-200 bg-gradient-to-r from-red-50 to-rose-50 text-red-700",
                         href: "/kendaraan/pajak"
                     }, void 0, false, {
                         fileName: "[project]/app/(dashboard)/page.js",
-                        lineNumber: 81,
+                        lineNumber: 137,
                         columnNumber: 13
                     }, this),
                     stats?.maintenancePending > 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(AlertCard, {
                         icon: __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$clock$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Clock$3e$__["Clock"],
                         title: "Maintenance belum selesai",
                         value: `${stats.maintenancePending} Request`,
-                        color: "border-yellow-200 bg-yellow-50 text-yellow-700",
+                        color: "border-yellow-200 bg-gradient-to-r from-yellow-50 to-amber-50 text-yellow-700",
                         href: "/gedung/maintenance"
                     }, void 0, false, {
                         fileName: "[project]/app/(dashboard)/page.js",
-                        lineNumber: 90,
+                        lineNumber: 146,
                         columnNumber: 13
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/app/(dashboard)/page.js",
-                lineNumber: 70,
+                lineNumber: 126,
                 columnNumber: 9
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -367,10 +542,11 @@ function DashboardPage() {
                         icon: __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$users$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Users$3e$__["Users"],
                         iconBg: "bg-blue-50",
                         iconColor: "text-blue-600",
-                        href: "/karyawan"
+                        href: "/karyawan",
+                        trend: true
                     }, void 0, false, {
                         fileName: "[project]/app/(dashboard)/page.js",
-                        lineNumber: 103,
+                        lineNumber: 159,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(StatCard, {
@@ -383,7 +559,7 @@ function DashboardPage() {
                         href: "/aset"
                     }, void 0, false, {
                         fileName: "[project]/app/(dashboard)/page.js",
-                        lineNumber: 112,
+                        lineNumber: 169,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(StatCard, {
@@ -396,7 +572,7 @@ function DashboardPage() {
                         href: "/kendaraan"
                     }, void 0, false, {
                         fileName: "[project]/app/(dashboard)/page.js",
-                        lineNumber: 121,
+                        lineNumber: 178,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(StatCard, {
@@ -409,13 +585,13 @@ function DashboardPage() {
                         href: "/notifikasi"
                     }, void 0, false, {
                         fileName: "[project]/app/(dashboard)/page.js",
-                        lineNumber: 130,
+                        lineNumber: 187,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/app/(dashboard)/page.js",
-                lineNumber: 102,
+                lineNumber: 158,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -424,12 +600,28 @@ function DashboardPage() {
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                         className: "card p-5 lg:col-span-2",
                         children: [
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
-                                className: "font-semibold text-gray-800 mb-4",
-                                children: "Trend Karyawan (6 Bulan)"
-                            }, void 0, false, {
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                className: "flex items-center gap-2 mb-4",
+                                children: [
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$chart$2d$no$2d$axes$2d$column$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__BarChart2$3e$__["BarChart2"], {
+                                        className: "w-4 h-4 text-primary-500"
+                                    }, void 0, false, {
+                                        fileName: "[project]/app/(dashboard)/page.js",
+                                        lineNumber: 203,
+                                        columnNumber: 13
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
+                                        className: "font-semibold text-gray-800",
+                                        children: "Trend Karyawan (6 Bulan)"
+                                    }, void 0, false, {
+                                        fileName: "[project]/app/(dashboard)/page.js",
+                                        lineNumber: 204,
+                                        columnNumber: 13
+                                    }, this)
+                                ]
+                            }, void 0, true, {
                                 fileName: "[project]/app/(dashboard)/page.js",
-                                lineNumber: 145,
+                                lineNumber: 202,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$recharts$2f$es6$2f$component$2f$ResponsiveContainer$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["ResponsiveContainer"], {
@@ -437,80 +629,116 @@ function DashboardPage() {
                                 height: 220,
                                 children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$recharts$2f$es6$2f$chart$2f$BarChart$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BarChart"], {
                                     data: charts?.monthlyKaryawan || [],
+                                    barSize: 28,
                                     children: [
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$recharts$2f$es6$2f$cartesian$2f$CartesianGrid$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CartesianGrid"], {
                                             strokeDasharray: "3 3",
-                                            stroke: "#f0f0f0"
+                                            stroke: "#f3f4f6",
+                                            vertical: false
                                         }, void 0, false, {
                                             fileName: "[project]/app/(dashboard)/page.js",
-                                            lineNumber: 148,
+                                            lineNumber: 208,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$recharts$2f$es6$2f$cartesian$2f$XAxis$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["XAxis"], {
                                             dataKey: "month",
                                             tick: {
-                                                fontSize: 12
-                                            }
+                                                fontSize: 11,
+                                                fill: '#9ca3af'
+                                            },
+                                            axisLine: false,
+                                            tickLine: false
                                         }, void 0, false, {
                                             fileName: "[project]/app/(dashboard)/page.js",
-                                            lineNumber: 149,
+                                            lineNumber: 209,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$recharts$2f$es6$2f$cartesian$2f$YAxis$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["YAxis"], {
                                             tick: {
-                                                fontSize: 12
-                                            }
+                                                fontSize: 11,
+                                                fill: '#9ca3af'
+                                            },
+                                            axisLine: false,
+                                            tickLine: false
                                         }, void 0, false, {
                                             fileName: "[project]/app/(dashboard)/page.js",
-                                            lineNumber: 150,
+                                            lineNumber: 210,
                                             columnNumber: 15
                                         }, this),
-                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$recharts$2f$es6$2f$component$2f$Tooltip$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Tooltip"], {}, void 0, false, {
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$recharts$2f$es6$2f$component$2f$Tooltip$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Tooltip"], {
+                                            content: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(CustomTooltip, {}, void 0, false, {
+                                                fileName: "[project]/app/(dashboard)/page.js",
+                                                lineNumber: 211,
+                                                columnNumber: 33
+                                            }, void 0)
+                                        }, void 0, false, {
                                             fileName: "[project]/app/(dashboard)/page.js",
-                                            lineNumber: 151,
+                                            lineNumber: 211,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$recharts$2f$es6$2f$cartesian$2f$Bar$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Bar"], {
                                             dataKey: "total",
-                                            fill: "#3b82f6",
                                             radius: [
-                                                4,
-                                                4,
+                                                6,
+                                                6,
                                                 0,
                                                 0
                                             ],
-                                            name: "Karyawan"
+                                            name: "Karyawan",
+                                            children: (charts?.monthlyKaryawan || []).map((_, idx, arr)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$recharts$2f$es6$2f$component$2f$Cell$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Cell"], {
+                                                    fill: idx === arr.length - 1 ? '#3b82f6' : '#bfdbfe'
+                                                }, idx, false, {
+                                                    fileName: "[project]/app/(dashboard)/page.js",
+                                                    lineNumber: 214,
+                                                    columnNumber: 19
+                                                }, this))
                                         }, void 0, false, {
                                             fileName: "[project]/app/(dashboard)/page.js",
-                                            lineNumber: 152,
+                                            lineNumber: 212,
                                             columnNumber: 15
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/app/(dashboard)/page.js",
-                                    lineNumber: 147,
+                                    lineNumber: 207,
                                     columnNumber: 13
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/app/(dashboard)/page.js",
-                                lineNumber: 146,
+                                lineNumber: 206,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/app/(dashboard)/page.js",
-                        lineNumber: 144,
+                        lineNumber: 201,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                         className: "card p-5",
                         children: [
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
-                                className: "font-semibold text-gray-800 mb-4",
-                                children: "Status Kontrak"
-                            }, void 0, false, {
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                className: "flex items-center gap-2 mb-4",
+                                children: [
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$chart$2d$pie$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__PieChart$3e$__["PieChart"], {
+                                        className: "w-4 h-4 text-primary-500"
+                                    }, void 0, false, {
+                                        fileName: "[project]/app/(dashboard)/page.js",
+                                        lineNumber: 227,
+                                        columnNumber: 13
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
+                                        className: "font-semibold text-gray-800",
+                                        children: "Status Kontrak"
+                                    }, void 0, false, {
+                                        fileName: "[project]/app/(dashboard)/page.js",
+                                        lineNumber: 228,
+                                        columnNumber: 13
+                                    }, this)
+                                ]
+                            }, void 0, true, {
                                 fileName: "[project]/app/(dashboard)/page.js",
-                                lineNumber: 159,
+                                lineNumber: 226,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$recharts$2f$es6$2f$component$2f$ResponsiveContainer$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["ResponsiveContainer"], {
@@ -521,62 +749,68 @@ function DashboardPage() {
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$recharts$2f$es6$2f$polar$2f$Pie$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Pie"], {
                                             data: charts?.karyawanByKontrak || [],
                                             cx: "50%",
-                                            cy: "50%",
-                                            innerRadius: 55,
-                                            outerRadius: 80,
-                                            paddingAngle: 3,
+                                            cy: "45%",
+                                            innerRadius: 52,
+                                            outerRadius: 78,
+                                            paddingAngle: 4,
                                             dataKey: "value",
+                                            strokeWidth: 0,
                                             children: (charts?.karyawanByKontrak || []).map((entry, index)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$recharts$2f$es6$2f$component$2f$Cell$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Cell"], {
                                                     fill: COLORS[index % COLORS.length]
                                                 }, index, false, {
                                                     fileName: "[project]/app/(dashboard)/page.js",
-                                                    lineNumber: 172,
+                                                    lineNumber: 243,
                                                     columnNumber: 19
                                                 }, this))
                                         }, void 0, false, {
                                             fileName: "[project]/app/(dashboard)/page.js",
-                                            lineNumber: 162,
+                                            lineNumber: 232,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$recharts$2f$es6$2f$component$2f$Tooltip$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Tooltip"], {
-                                            formatter: (val, name)=>[
-                                                    val,
-                                                    name
-                                                ]
+                                            content: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(CustomTooltip, {}, void 0, false, {
+                                                fileName: "[project]/app/(dashboard)/page.js",
+                                                lineNumber: 246,
+                                                columnNumber: 33
+                                            }, void 0)
                                         }, void 0, false, {
                                             fileName: "[project]/app/(dashboard)/page.js",
-                                            lineNumber: 175,
+                                            lineNumber: 246,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$recharts$2f$es6$2f$component$2f$Legend$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Legend"], {
-                                            iconSize: 10,
-                                            iconType: "circle"
+                                            iconSize: 8,
+                                            iconType: "circle",
+                                            wrapperStyle: {
+                                                fontSize: '11px',
+                                                paddingTop: '8px'
+                                            }
                                         }, void 0, false, {
                                             fileName: "[project]/app/(dashboard)/page.js",
-                                            lineNumber: 176,
+                                            lineNumber: 247,
                                             columnNumber: 15
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/app/(dashboard)/page.js",
-                                    lineNumber: 161,
+                                    lineNumber: 231,
                                     columnNumber: 13
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/app/(dashboard)/page.js",
-                                lineNumber: 160,
+                                lineNumber: 230,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/app/(dashboard)/page.js",
-                        lineNumber: 158,
+                        lineNumber: 225,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/app/(dashboard)/page.js",
-                lineNumber: 142,
+                lineNumber: 199,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -590,101 +824,84 @@ function DashboardPage() {
                                 children: "Aset per Kategori"
                             }, void 0, false, {
                                 fileName: "[project]/app/(dashboard)/page.js",
-                                lineNumber: 186,
+                                lineNumber: 261,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                className: "space-y-3",
+                                className: "space-y-3.5",
                                 children: [
-                                    (charts?.asetByKategori || []).map((item, idx)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                            className: "flex items-center gap-3",
+                                    (charts?.asetByKategori || []).map((item, idx)=>{
+                                        const pct = Math.min(100, item.value / (stats?.totalAset || 1) * 100);
+                                        return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                             children: [
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                    className: "w-3 h-3 rounded-full shrink-0",
-                                                    style: {
-                                                        background: COLORS[idx % COLORS.length]
-                                                    }
-                                                }, void 0, false, {
-                                                    fileName: "[project]/app/(dashboard)/page.js",
-                                                    lineNumber: 190,
-                                                    columnNumber: 17
-                                                }, this),
-                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                    className: "flex-1",
+                                                    className: "flex justify-between text-xs mb-1.5",
                                                     children: [
-                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                            className: "flex justify-between text-sm mb-1",
-                                                            children: [
-                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                                    className: "text-gray-600 capitalize",
-                                                                    children: item.name.toLowerCase()
-                                                                }, void 0, false, {
-                                                                    fileName: "[project]/app/(dashboard)/page.js",
-                                                                    lineNumber: 196,
-                                                                    columnNumber: 21
-                                                                }, this),
-                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                                    className: "font-semibold text-gray-800",
-                                                                    children: item.value
-                                                                }, void 0, false, {
-                                                                    fileName: "[project]/app/(dashboard)/page.js",
-                                                                    lineNumber: 197,
-                                                                    columnNumber: 21
-                                                                }, this)
-                                                            ]
-                                                        }, void 0, true, {
-                                                            fileName: "[project]/app/(dashboard)/page.js",
-                                                            lineNumber: 195,
-                                                            columnNumber: 19
-                                                        }, this),
-                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                            className: "h-2 bg-gray-100 rounded-full overflow-hidden",
-                                                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                                className: "h-full rounded-full",
-                                                                style: {
-                                                                    width: `${Math.min(100, item.value / (stats?.totalAset || 1) * 100)}%`,
-                                                                    background: COLORS[idx % COLORS.length]
-                                                                }
-                                                            }, void 0, false, {
-                                                                fileName: "[project]/app/(dashboard)/page.js",
-                                                                lineNumber: 200,
-                                                                columnNumber: 21
-                                                            }, this)
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                            className: "text-gray-600 font-medium capitalize",
+                                                            children: item.name.toLowerCase()
                                                         }, void 0, false, {
                                                             fileName: "[project]/app/(dashboard)/page.js",
-                                                            lineNumber: 199,
-                                                            columnNumber: 19
+                                                            lineNumber: 268,
+                                                            columnNumber: 21
+                                                        }, this),
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                            className: "font-bold text-gray-800 tabular-nums",
+                                                            children: item.value
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/app/(dashboard)/page.js",
+                                                            lineNumber: 269,
+                                                            columnNumber: 21
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/app/(dashboard)/page.js",
-                                                    lineNumber: 194,
-                                                    columnNumber: 17
+                                                    lineNumber: 267,
+                                                    columnNumber: 19
+                                                }, this),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                    className: "h-2 bg-gray-100 rounded-full overflow-hidden",
+                                                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                        className: "h-full rounded-full transition-all duration-700",
+                                                        style: {
+                                                            width: `${pct}%`,
+                                                            background: COLORS[idx % COLORS.length]
+                                                        }
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/app/(dashboard)/page.js",
+                                                        lineNumber: 272,
+                                                        columnNumber: 21
+                                                    }, this)
+                                                }, void 0, false, {
+                                                    fileName: "[project]/app/(dashboard)/page.js",
+                                                    lineNumber: 271,
+                                                    columnNumber: 19
                                                 }, this)
                                             ]
                                         }, idx, true, {
                                             fileName: "[project]/app/(dashboard)/page.js",
-                                            lineNumber: 189,
-                                            columnNumber: 15
-                                        }, this)),
+                                            lineNumber: 266,
+                                            columnNumber: 17
+                                        }, this);
+                                    }),
                                     (!charts?.asetByKategori || charts.asetByKategori.length === 0) && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                        className: "text-gray-400 text-sm text-center py-4",
+                                        className: "text-gray-400 text-sm text-center py-6",
                                         children: "Belum ada data aset"
                                     }, void 0, false, {
                                         fileName: "[project]/app/(dashboard)/page.js",
-                                        lineNumber: 212,
+                                        lineNumber: 284,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/app/(dashboard)/page.js",
-                                lineNumber: 187,
+                                lineNumber: 262,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/app/(dashboard)/page.js",
-                        lineNumber: 185,
+                        lineNumber: 260,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -693,61 +910,80 @@ function DashboardPage() {
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                 className: "flex items-center justify-between mb-4",
                                 children: [
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
-                                        className: "font-semibold text-gray-800",
-                                        children: "Aktivitas Terbaru"
-                                    }, void 0, false, {
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                        className: "flex items-center gap-2",
+                                        children: [
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$activity$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Activity$3e$__["Activity"], {
+                                                className: "w-4 h-4 text-primary-500"
+                                            }, void 0, false, {
+                                                fileName: "[project]/app/(dashboard)/page.js",
+                                                lineNumber: 293,
+                                                columnNumber: 15
+                                            }, this),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
+                                                className: "font-semibold text-gray-800",
+                                                children: "Aktivitas Terbaru"
+                                            }, void 0, false, {
+                                                fileName: "[project]/app/(dashboard)/page.js",
+                                                lineNumber: 294,
+                                                columnNumber: 15
+                                            }, this)
+                                        ]
+                                    }, void 0, true, {
                                         fileName: "[project]/app/(dashboard)/page.js",
-                                        lineNumber: 220,
+                                        lineNumber: 292,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
                                         href: "/audit-trail",
-                                        className: "text-xs text-primary-600 hover:underline",
-                                        children: "Lihat semua"
-                                    }, void 0, false, {
+                                        className: "text-xs text-primary-600 hover:text-primary-700 font-semibold flex items-center gap-1 group",
+                                        children: [
+                                            "Lihat semua ",
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$arrow$2d$right$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__ArrowRight$3e$__["ArrowRight"], {
+                                                className: "w-3 h-3 group-hover:translate-x-0.5 transition-transform"
+                                            }, void 0, false, {
+                                                fileName: "[project]/app/(dashboard)/page.js",
+                                                lineNumber: 300,
+                                                columnNumber: 27
+                                            }, this)
+                                        ]
+                                    }, void 0, true, {
                                         fileName: "[project]/app/(dashboard)/page.js",
-                                        lineNumber: 221,
+                                        lineNumber: 296,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/app/(dashboard)/page.js",
-                                lineNumber: 219,
+                                lineNumber: 291,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                 className: "space-y-3",
                                 children: [
                                     (recentActivity || []).map((log)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                            className: "flex items-start gap-3 text-sm",
+                                            className: "flex items-start gap-3",
                                             children: [
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                    className: "w-7 h-7 rounded-full bg-gray-100 flex items-center justify-center shrink-0",
-                                                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$activity$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Activity$3e$__["Activity"], {
-                                                        className: "w-3.5 h-3.5 text-gray-500"
-                                                    }, void 0, false, {
-                                                        fileName: "[project]/app/(dashboard)/page.js",
-                                                        lineNumber: 229,
-                                                        columnNumber: 19
-                                                    }, this)
+                                                    className: `w-7 h-7 rounded-xl flex items-center justify-center shrink-0 mt-0.5 ${actionColor(log.aksi)}`,
+                                                    children: actionIcon(log.aksi)
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/(dashboard)/page.js",
-                                                    lineNumber: 228,
+                                                    lineNumber: 306,
                                                     columnNumber: 17
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                     className: "flex-1 min-w-0",
                                                     children: [
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                                            className: "text-gray-700",
+                                                            className: "text-sm text-gray-700 leading-snug",
                                                             children: [
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                                    className: "font-medium",
+                                                                    className: "font-semibold",
                                                                     children: log.user
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/app/(dashboard)/page.js",
-                                                                    lineNumber: 233,
+                                                                    lineNumber: 311,
                                                                     columnNumber: 21
                                                                 }, this),
                                                                 ' ',
@@ -756,84 +992,98 @@ function DashboardPage() {
                                                                     children: log.aksi.toLowerCase()
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/app/(dashboard)/page.js",
-                                                                    lineNumber: 234,
+                                                                    lineNumber: 312,
                                                                     columnNumber: 21
                                                                 }, this),
                                                                 ' ',
-                                                                "di modul",
-                                                                ' ',
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                                    className: "font-medium",
+                                                                    className: "font-medium text-gray-700",
                                                                     children: log.modul
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/app/(dashboard)/page.js",
-                                                                    lineNumber: 236,
+                                                                    lineNumber: 313,
                                                                     columnNumber: 21
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/app/(dashboard)/page.js",
-                                                            lineNumber: 232,
+                                                            lineNumber: 310,
                                                             columnNumber: 19
                                                         }, this),
                                                         log.detail && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                                            className: "text-gray-400 text-xs truncate",
+                                                            className: "text-xs text-gray-400 truncate mt-0.5",
                                                             children: log.detail
                                                         }, void 0, false, {
                                                             fileName: "[project]/app/(dashboard)/page.js",
-                                                            lineNumber: 238,
+                                                            lineNumber: 315,
                                                             columnNumber: 34
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                                            className: "text-gray-400 text-xs mt-0.5",
+                                                            className: "text-[10px] text-gray-300 mt-0.5",
                                                             children: (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$utils$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["formatDate"])(log.createdAt, 'dd MMM yyyy HH:mm')
                                                         }, void 0, false, {
                                                             fileName: "[project]/app/(dashboard)/page.js",
-                                                            lineNumber: 239,
+                                                            lineNumber: 316,
                                                             columnNumber: 19
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/app/(dashboard)/page.js",
-                                                    lineNumber: 231,
+                                                    lineNumber: 309,
                                                     columnNumber: 17
                                                 }, this)
                                             ]
                                         }, log.id, true, {
                                             fileName: "[project]/app/(dashboard)/page.js",
-                                            lineNumber: 227,
+                                            lineNumber: 305,
                                             columnNumber: 15
                                         }, this)),
-                                    (!recentActivity || recentActivity.length === 0) && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                        className: "text-gray-400 text-sm text-center py-4",
-                                        children: "Belum ada aktivitas"
-                                    }, void 0, false, {
+                                    (!recentActivity || recentActivity.length === 0) && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                        className: "py-8 text-center",
+                                        children: [
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$activity$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Activity$3e$__["Activity"], {
+                                                className: "w-8 h-8 text-gray-200 mx-auto mb-2"
+                                            }, void 0, false, {
+                                                fileName: "[project]/app/(dashboard)/page.js",
+                                                lineNumber: 322,
+                                                columnNumber: 17
+                                            }, this),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                className: "text-gray-400 text-sm",
+                                                children: "Belum ada aktivitas"
+                                            }, void 0, false, {
+                                                fileName: "[project]/app/(dashboard)/page.js",
+                                                lineNumber: 323,
+                                                columnNumber: 17
+                                            }, this)
+                                        ]
+                                    }, void 0, true, {
                                         fileName: "[project]/app/(dashboard)/page.js",
-                                        lineNumber: 244,
+                                        lineNumber: 321,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/app/(dashboard)/page.js",
-                                lineNumber: 225,
+                                lineNumber: 303,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/app/(dashboard)/page.js",
-                        lineNumber: 218,
+                        lineNumber: 290,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/app/(dashboard)/page.js",
-                lineNumber: 183,
+                lineNumber: 258,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/app/(dashboard)/page.js",
-        lineNumber: 61,
+        lineNumber: 109,
         columnNumber: 5
     }, this);
 }
@@ -842,11 +1092,12 @@ _s(DashboardPage, "0VB955moqGTEiUXXbAcRWgIKjHQ=", false, function() {
         __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$tanstack$2f$react$2d$query$2f$build$2f$modern$2f$useQuery$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useQuery"]
     ];
 });
-_c2 = DashboardPage;
-var _c, _c1, _c2;
+_c3 = DashboardPage;
+var _c, _c1, _c2, _c3;
 __turbopack_context__.k.register(_c, "StatCard");
 __turbopack_context__.k.register(_c1, "AlertCard");
-__turbopack_context__.k.register(_c2, "DashboardPage");
+__turbopack_context__.k.register(_c2, "CustomTooltip");
+__turbopack_context__.k.register(_c3, "DashboardPage");
 if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {
     __turbopack_context__.k.registerExports(__turbopack_context__.m, globalThis.$RefreshHelpers$);
 }

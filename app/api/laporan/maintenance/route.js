@@ -3,8 +3,9 @@ import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import dbConnect from '@/lib/db'
 import MaintenanceRequest from '@/models/MaintenanceRequest'
+import * as XLSX from 'xlsx'
 
-export async function GET(request) {
+export async function GET() {
   const session = await getServerSession(authOptions)
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
@@ -12,19 +13,36 @@ export async function GET(request) {
 
   const data = await MaintenanceRequest.find().sort({ tanggalRequest: -1 })
 
-  const headers = ['Judul', 'Lokasi', 'Kategori', 'Prioritas', 'Status', 'Pemohon', 'Pelaksana', 'Tgl Request', 'Tgl Selesai', 'Biaya']
-  const rows = data.map((d) => [
-    d.judul, d.lokasi || '', d.kategori || '', d.prioritas, d.status, d.pemohon || '', d.pelaksana || '',
-    new Date(d.tanggalRequest).toLocaleDateString('id-ID'),
-    d.tanggalSelesai ? new Date(d.tanggalSelesai).toLocaleDateString('id-ID') : '',
-    d.biaya || '',
-  ])
+  const rows = data.map((d) => ({
+    Judul: d.judul,
+    Lokasi: d.lokasi || '',
+    Kategori: d.kategori || '',
+    Prioritas: d.prioritas,
+    Status: d.status,
+    Pemohon: d.pemohon || '',
+    Pelaksana: d.pelaksana || '',
+    'Tgl Request': new Date(d.tanggalRequest).toLocaleDateString('id-ID'),
+    'Tgl Selesai': d.tanggalSelesai ? new Date(d.tanggalSelesai).toLocaleDateString('id-ID') : '',
+    'Biaya (Rp)': d.biaya || '',
+  }))
 
-  const csv = [headers, ...rows].map((r) => r.map((c) => `"${c}"`).join(',')).join('\n')
-  return new NextResponse(csv, {
+  const wb = XLSX.utils.book_new()
+  const ws = XLSX.utils.json_to_sheet(rows)
+
+  ws['!cols'] = [
+    { wch: 30 }, { wch: 20 }, { wch: 18 }, { wch: 12 },
+    { wch: 12 }, { wch: 20 }, { wch: 20 },
+    { wch: 14 }, { wch: 14 }, { wch: 14 },
+  ]
+
+  XLSX.utils.book_append_sheet(wb, ws, 'Data Maintenance')
+
+  const buf = XLSX.write(wb, { type: 'buffer', bookType: 'xlsx' })
+
+  return new NextResponse(buf, {
     headers: {
-      'Content-Type': 'text/csv; charset=utf-8',
-      'Content-Disposition': 'attachment; filename="laporan-maintenance.csv"',
+      'Content-Type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      'Content-Disposition': 'attachment; filename="laporan-maintenance.xlsx"',
     },
   })
 }

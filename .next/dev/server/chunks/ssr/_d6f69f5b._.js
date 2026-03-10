@@ -9,69 +9,80 @@ __turbopack_context__.s([
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/server/route-modules/app-page/vendored/ssr/react-jsx-dev-runtime.js [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/client/app-dir/link.js [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$chevron$2d$right$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__ChevronRight$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/chevron-right.js [app-ssr] (ecmascript) <export default as ChevronRight>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$house$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Home$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/house.js [app-ssr] (ecmascript) <export default as Home>");
 ;
 ;
 ;
 function PageHeader({ title, subtitle, breadcrumb, actions }) {
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-        className: "flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6",
+        className: "flex flex-col sm:flex-row sm:items-start justify-between gap-4 mb-6",
         children: [
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                className: "min-w-0",
                 children: [
                     breadcrumb && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("nav", {
-                        className: "flex items-center gap-1 text-xs text-gray-500 mb-1",
-                        children: breadcrumb.map((item, idx)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                className: "flex items-center gap-1",
-                                children: [
-                                    item.href ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
-                                        href: item.href,
-                                        className: "hover:text-primary-600 transition-colors",
-                                        children: item.label
-                                    }, void 0, false, {
-                                        fileName: "[project]/components/ui/PageHeader.js",
-                                        lineNumber: 13,
-                                        columnNumber: 19
-                                    }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                        className: "text-gray-700 font-medium",
-                                        children: item.label
-                                    }, void 0, false, {
-                                        fileName: "[project]/components/ui/PageHeader.js",
-                                        lineNumber: 17,
-                                        columnNumber: 19
-                                    }, this),
-                                    idx < breadcrumb.length - 1 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$chevron$2d$right$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__ChevronRight$3e$__["ChevronRight"], {
-                                        className: "w-3 h-3"
-                                    }, void 0, false, {
-                                        fileName: "[project]/components/ui/PageHeader.js",
-                                        lineNumber: 19,
-                                        columnNumber: 49
-                                    }, this)
-                                ]
-                            }, idx, true, {
+                        className: "flex items-center gap-1 text-xs text-gray-400 mb-2 flex-wrap",
+                        children: [
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$house$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Home$3e$__["Home"], {
+                                className: "w-3 h-3 shrink-0"
+                            }, void 0, false, {
                                 fileName: "[project]/components/ui/PageHeader.js",
-                                lineNumber: 11,
-                                columnNumber: 15
-                            }, this))
-                    }, void 0, false, {
+                                lineNumber: 10,
+                                columnNumber: 13
+                            }, this),
+                            breadcrumb.map((item, idx)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                    className: "flex items-center gap-1",
+                                    children: [
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$chevron$2d$right$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__ChevronRight$3e$__["ChevronRight"], {
+                                            className: "w-3 h-3 text-gray-300"
+                                        }, void 0, false, {
+                                            fileName: "[project]/components/ui/PageHeader.js",
+                                            lineNumber: 13,
+                                            columnNumber: 17
+                                        }, this),
+                                        item.href ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
+                                            href: item.href,
+                                            className: "hover:text-primary-600 transition-colors duration-150 hover:underline underline-offset-2",
+                                            children: item.label
+                                        }, void 0, false, {
+                                            fileName: "[project]/components/ui/PageHeader.js",
+                                            lineNumber: 15,
+                                            columnNumber: 19
+                                        }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                            className: "text-gray-600 font-medium",
+                                            children: item.label
+                                        }, void 0, false, {
+                                            fileName: "[project]/components/ui/PageHeader.js",
+                                            lineNumber: 22,
+                                            columnNumber: 19
+                                        }, this)
+                                    ]
+                                }, idx, true, {
+                                    fileName: "[project]/components/ui/PageHeader.js",
+                                    lineNumber: 12,
+                                    columnNumber: 15
+                                }, this))
+                        ]
+                    }, void 0, true, {
                         fileName: "[project]/components/ui/PageHeader.js",
                         lineNumber: 9,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h1", {
-                        className: "text-xl font-bold text-gray-900",
+                        className: "text-xl font-extrabold text-gray-900 leading-tight tracking-tight truncate",
                         children: title
                     }, void 0, false, {
                         fileName: "[project]/components/ui/PageHeader.js",
-                        lineNumber: 24,
+                        lineNumber: 28,
                         columnNumber: 9
                     }, this),
                     subtitle && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                        className: "text-sm text-gray-500 mt-0.5",
+                        className: "text-sm text-gray-400 mt-0.5 leading-relaxed",
                         children: subtitle
                     }, void 0, false, {
                         fileName: "[project]/components/ui/PageHeader.js",
-                        lineNumber: 25,
-                        columnNumber: 22
+                        lineNumber: 32,
+                        columnNumber: 11
                     }, this)
                 ]
             }, void 0, true, {
@@ -80,12 +91,12 @@ function PageHeader({ title, subtitle, breadcrumb, actions }) {
                 columnNumber: 7
             }, this),
             actions && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: "flex items-center gap-2 flex-wrap",
+                className: "flex items-center gap-2 flex-wrap shrink-0",
                 children: actions
             }, void 0, false, {
                 fileName: "[project]/components/ui/PageHeader.js",
-                lineNumber: 27,
-                columnNumber: 19
+                lineNumber: 36,
+                columnNumber: 9
             }, this)
         ]
     }, void 0, true, {
@@ -138,14 +149,56 @@ const statusLabels = {
     RUSAK_RINGAN: 'Rusak Ringan',
     RUSAK_BERAT: 'Rusak Berat'
 };
+const statusDotColor = {
+    AKTIF: 'bg-emerald-400',
+    TERSEDIA: 'bg-emerald-400',
+    SELESAI: 'bg-emerald-400',
+    SUDAH: 'bg-emerald-400',
+    DIKEMBALIKAN: 'bg-teal-400',
+    SUDAH_DIBACA: 'bg-gray-400',
+    BAIK: 'bg-emerald-400',
+    BERLANGSUNG: 'bg-blue-400 animate-dot-pulse',
+    PROSES: 'bg-blue-400 animate-dot-pulse',
+    TERJADWAL: 'bg-sky-400',
+    PKWTT: 'bg-indigo-400',
+    PKWT: 'bg-violet-400',
+    PROBATION: 'bg-purple-400',
+    DIPINJAM: 'bg-orange-400',
+    DIGUNAKAN: 'bg-orange-400',
+    PENDING: 'bg-amber-400 animate-dot-pulse',
+    BELUM: 'bg-amber-400',
+    BELUM_DIBACA: 'bg-amber-400 animate-dot-pulse',
+    SERVIS: 'bg-yellow-400',
+    RUSAK_RINGAN: 'bg-yellow-400',
+    RUSAK: 'bg-red-400',
+    RUSAK_BERAT: 'bg-red-400',
+    DITOLAK: 'bg-red-400',
+    DIBATALKAN: 'bg-red-400',
+    TIDAK_AKTIF: 'bg-gray-400',
+    DISPOSAL: 'bg-gray-400',
+    LOW: 'bg-blue-400',
+    NORMAL: 'bg-green-400',
+    HIGH: 'bg-orange-400',
+    URGENT: 'bg-red-500 animate-dot-pulse'
+};
 function Badge({ status, label, className }) {
     const displayLabel = label || statusLabels[status] || status;
+    const dotColor = statusDotColor[status];
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
         className: (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$utils$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["cn"])('badge', (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$utils$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["getStatusBadgeColor"])(status), className),
-        children: displayLabel
-    }, void 0, false, {
+        children: [
+            dotColor && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                className: (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$utils$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["cn"])('w-1.5 h-1.5 rounded-full shrink-0', dotColor)
+            }, void 0, false, {
+                fileName: "[project]/components/ui/Badge.js",
+                lineNumber: 76,
+                columnNumber: 9
+            }, this),
+            displayLabel
+        ]
+    }, void 0, true, {
         fileName: "[project]/components/ui/Badge.js",
-        lineNumber: 39,
+        lineNumber: 74,
         columnNumber: 5
     }, this);
 }
@@ -450,12 +503,20 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$chevron$2d$up$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__ChevronUp$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/chevron-up.js [app-ssr] (ecmascript) <export default as ChevronUp>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$chevron$2d$down$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__ChevronDown$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/chevron-down.js [app-ssr] (ecmascript) <export default as ChevronDown>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$chevrons$2d$up$2d$down$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__ChevronsUpDown$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/chevrons-up-down.js [app-ssr] (ecmascript) <export default as ChevronsUpDown>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$database$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Database$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/database.js [app-ssr] (ecmascript) <export default as Database>");
 'use client';
 ;
 ;
 ;
 ;
 function TableSkeleton({ columns = 5, rows = 5 }) {
+    const widths = [
+        40,
+        58,
+        72,
+        48,
+        63
+    ];
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("tbody", {
         children: Array.from({
             length: rows
@@ -466,28 +527,28 @@ function TableSkeleton({ columns = 5, rows = 5 }) {
                 }).map((_, j)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
                         className: "table-td",
                         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                            className: "skeleton h-4 rounded",
+                            className: "skeleton h-4 rounded-md",
                             style: {
-                                width: `${60 + Math.random() * 30}%`
+                                width: `${widths[(i + j) % widths.length] + j * 5 % 18}%`
                             }
                         }, void 0, false, {
                             fileName: "[project]/components/ui/DataTable.js",
-                            lineNumber: 19,
+                            lineNumber: 20,
                             columnNumber: 15
                         }, this)
                     }, j, false, {
                         fileName: "[project]/components/ui/DataTable.js",
-                        lineNumber: 18,
+                        lineNumber: 19,
                         columnNumber: 13
                     }, this))
             }, i, false, {
                 fileName: "[project]/components/ui/DataTable.js",
-                lineNumber: 16,
+                lineNumber: 17,
                 columnNumber: 9
             }, this))
     }, void 0, false, {
         fileName: "[project]/components/ui/DataTable.js",
-        lineNumber: 14,
+        lineNumber: 15,
         columnNumber: 5
     }, this);
 }
@@ -498,62 +559,65 @@ function EmptyRow({ colSpan, message = 'Tidak ada data' }) {
                 colSpan: colSpan,
                 className: "px-4 py-16 text-center",
                 children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                    className: "flex flex-col items-center gap-2",
+                    className: "flex flex-col items-center gap-3",
                     children: [
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                            className: "w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center",
-                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("svg", {
-                                className: "w-6 h-6 text-gray-400",
-                                fill: "none",
-                                viewBox: "0 0 24 24",
-                                stroke: "currentColor",
-                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
-                                    strokeLinecap: "round",
-                                    strokeLinejoin: "round",
-                                    strokeWidth: 1.5,
-                                    d: "M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"
-                                }, void 0, false, {
-                                    fileName: "[project]/components/ui/DataTable.js",
-                                    lineNumber: 36,
-                                    columnNumber: 17
-                                }, this)
+                            className: "w-14 h-14 rounded-2xl bg-gradient-to-br from-gray-100 to-gray-50 flex items-center justify-center shadow-inner",
+                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$database$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Database$3e$__["Database"], {
+                                className: "w-6 h-6 text-gray-300"
                             }, void 0, false, {
                                 fileName: "[project]/components/ui/DataTable.js",
-                                lineNumber: 35,
+                                lineNumber: 39,
                                 columnNumber: 15
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/components/ui/DataTable.js",
-                            lineNumber: 34,
+                            lineNumber: 38,
                             columnNumber: 13
                         }, this),
-                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                            className: "text-sm text-gray-500",
-                            children: message
-                        }, void 0, false, {
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                            children: [
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                    className: "text-sm font-medium text-gray-500",
+                                    children: message
+                                }, void 0, false, {
+                                    fileName: "[project]/components/ui/DataTable.js",
+                                    lineNumber: 42,
+                                    columnNumber: 15
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                    className: "text-xs text-gray-400 mt-0.5",
+                                    children: "Belum ada data untuk ditampilkan"
+                                }, void 0, false, {
+                                    fileName: "[project]/components/ui/DataTable.js",
+                                    lineNumber: 43,
+                                    columnNumber: 15
+                                }, this)
+                            ]
+                        }, void 0, true, {
                             fileName: "[project]/components/ui/DataTable.js",
-                            lineNumber: 40,
+                            lineNumber: 41,
                             columnNumber: 13
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/components/ui/DataTable.js",
-                    lineNumber: 33,
+                    lineNumber: 37,
                     columnNumber: 11
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/components/ui/DataTable.js",
-                lineNumber: 32,
+                lineNumber: 36,
                 columnNumber: 9
             }, this)
         }, void 0, false, {
             fileName: "[project]/components/ui/DataTable.js",
-            lineNumber: 31,
+            lineNumber: 35,
             columnNumber: 7
         }, this)
     }, void 0, false, {
         fileName: "[project]/components/ui/DataTable.js",
-        lineNumber: 30,
+        lineNumber: 34,
         columnNumber: 5
     }, this);
 }
@@ -581,7 +645,7 @@ function DataTable({ data = [], columns = [], isLoading = false, emptyMessage = 
                                 const canSort = header.column.getCanSort();
                                 const sortDir = header.column.getIsSorted();
                                 return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
-                                    className: canSort ? 'table-th-sortable' : 'table-th',
+                                    className: canSort ? 'table-th-sortable group' : 'table-th',
                                     onClick: canSort ? header.column.getToggleSortingHandler() : undefined,
                                     style: {
                                         width: header.getSize() !== 150 ? header.getSize() : undefined
@@ -591,51 +655,51 @@ function DataTable({ data = [], columns = [], isLoading = false, emptyMessage = 
                                         children: [
                                             (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$tanstack$2f$react$2d$table$2f$build$2f$lib$2f$index$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$locals$3e$__["flexRender"])(header.column.columnDef.header, header.getContext()),
                                             canSort && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                className: "text-gray-400",
+                                                className: "transition-all duration-150",
                                                 children: sortDir === 'asc' ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$chevron$2d$up$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__ChevronUp$3e$__["ChevronUp"], {
                                                     className: "w-3.5 h-3.5 text-primary-500"
                                                 }, void 0, false, {
                                                     fileName: "[project]/components/ui/DataTable.js",
-                                                    lineNumber: 88,
+                                                    lineNumber: 92,
                                                     columnNumber: 29
                                                 }, this) : sortDir === 'desc' ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$chevron$2d$down$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__ChevronDown$3e$__["ChevronDown"], {
                                                     className: "w-3.5 h-3.5 text-primary-500"
                                                 }, void 0, false, {
                                                     fileName: "[project]/components/ui/DataTable.js",
-                                                    lineNumber: 90,
+                                                    lineNumber: 94,
                                                     columnNumber: 29
                                                 }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$chevrons$2d$up$2d$down$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__ChevronsUpDown$3e$__["ChevronsUpDown"], {
-                                                    className: "w-3 h-3 opacity-40"
+                                                    className: "w-3 h-3 opacity-30 group-hover:opacity-70 transition-opacity"
                                                 }, void 0, false, {
                                                     fileName: "[project]/components/ui/DataTable.js",
-                                                    lineNumber: 92,
+                                                    lineNumber: 96,
                                                     columnNumber: 29
                                                 }, this)
                                             }, void 0, false, {
                                                 fileName: "[project]/components/ui/DataTable.js",
-                                                lineNumber: 86,
+                                                lineNumber: 90,
                                                 columnNumber: 25
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/components/ui/DataTable.js",
-                                        lineNumber: 83,
+                                        lineNumber: 87,
                                         columnNumber: 21
                                     }, this)
                                 }, header.id, false, {
                                     fileName: "[project]/components/ui/DataTable.js",
-                                    lineNumber: 77,
+                                    lineNumber: 81,
                                     columnNumber: 19
                                 }, this);
                             })
                         }, headerGroup.id, false, {
                             fileName: "[project]/components/ui/DataTable.js",
-                            lineNumber: 72,
+                            lineNumber: 76,
                             columnNumber: 13
                         }, this))
                 }, void 0, false, {
                     fileName: "[project]/components/ui/DataTable.js",
-                    lineNumber: 70,
+                    lineNumber: 74,
                     columnNumber: 9
                 }, this),
                 isLoading ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(TableSkeleton, {
@@ -643,14 +707,14 @@ function DataTable({ data = [], columns = [], isLoading = false, emptyMessage = 
                     rows: skeletonRows
                 }, void 0, false, {
                     fileName: "[project]/components/ui/DataTable.js",
-                    lineNumber: 105,
+                    lineNumber: 109,
                     columnNumber: 11
                 }, this) : data.length === 0 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(EmptyRow, {
                     colSpan: columns.length,
                     message: emptyMessage
                 }, void 0, false, {
                     fileName: "[project]/components/ui/DataTable.js",
-                    lineNumber: 107,
+                    lineNumber: 111,
                     columnNumber: 11
                 }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("tbody", {
                     children: table.getRowModel().rows.map((row)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("tr", {
@@ -660,28 +724,28 @@ function DataTable({ data = [], columns = [], isLoading = false, emptyMessage = 
                                     children: (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$tanstack$2f$react$2d$table$2f$build$2f$lib$2f$index$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$locals$3e$__["flexRender"])(cell.column.columnDef.cell, cell.getContext())
                                 }, cell.id, false, {
                                     fileName: "[project]/components/ui/DataTable.js",
-                                    lineNumber: 113,
+                                    lineNumber: 117,
                                     columnNumber: 19
                                 }, this))
                         }, row.id, false, {
                             fileName: "[project]/components/ui/DataTable.js",
-                            lineNumber: 111,
+                            lineNumber: 115,
                             columnNumber: 15
                         }, this))
                 }, void 0, false, {
                     fileName: "[project]/components/ui/DataTable.js",
-                    lineNumber: 109,
+                    lineNumber: 113,
                     columnNumber: 11
                 }, this)
             ]
         }, void 0, true, {
             fileName: "[project]/components/ui/DataTable.js",
-            lineNumber: 69,
+            lineNumber: 73,
             columnNumber: 7
         }, this)
     }, void 0, false, {
         fileName: "[project]/components/ui/DataTable.js",
-        lineNumber: 68,
+        lineNumber: 72,
         columnNumber: 5
     }, this);
 }

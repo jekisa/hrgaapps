@@ -375,6 +375,8 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2d$auth
 var __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$auth$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/lib/auth.js [app-route] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$db$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/lib/db.js [app-route] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$models$2f$Karyawan$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/models/Karyawan.js [app-route] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$xlsx$2f$xlsx$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/xlsx/xlsx.mjs [app-route] (ecmascript)");
+;
 ;
 ;
 ;
@@ -387,49 +389,68 @@ async function GET(request) {
     }, {
         status: 401
     });
-    const { searchParams } = new URL(request.url);
-    const format = searchParams.get('format') || 'json';
     await (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$db$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"])();
     const data = await __TURBOPACK__imported__module__$5b$project$5d2f$models$2f$Karyawan$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"].find().sort({
         nama: 1
     }).select('nik nama jabatan departemen statusKontrak tanggalMasuk tanggalKontrakBerakhir telepon email statusAktif');
-    if (format === 'excel') {
-        const headers = [
-            'NIK',
-            'Nama',
-            'Jabatan',
-            'Departemen',
-            'Status Kontrak',
-            'Tgl Masuk',
-            'Kontrak Berakhir',
-            'Telepon',
-            'Email',
-            'Status'
-        ];
-        const rows = data.map((d)=>[
-                d.nik,
-                d.nama,
-                d.jabatan || '',
-                d.departemen || '',
-                d.statusKontrak,
-                d.tanggalMasuk ? new Date(d.tanggalMasuk).toLocaleDateString('id-ID') : '',
-                d.tanggalKontrakBerakhir ? new Date(d.tanggalKontrakBerakhir).toLocaleDateString('id-ID') : '',
-                d.telepon || '',
-                d.email || '',
-                d.statusAktif ? 'Aktif' : 'Non-Aktif'
-            ]);
-        const csv = [
-            headers,
-            ...rows
-        ].map((r)=>r.map((c)=>`"${c}"`).join(',')).join('\n');
-        return new __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"](csv, {
-            headers: {
-                'Content-Type': 'text/csv; charset=utf-8',
-                'Content-Disposition': 'attachment; filename="data-karyawan.csv"'
-            }
-        });
-    }
-    return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json(data);
+    const rows = data.map((d)=>({
+            NIK: d.nik,
+            Nama: d.nama,
+            Jabatan: d.jabatan || '',
+            Departemen: d.departemen || '',
+            'Status Kontrak': d.statusKontrak,
+            'Tgl Masuk': d.tanggalMasuk ? new Date(d.tanggalMasuk).toLocaleDateString('id-ID') : '',
+            'Kontrak Berakhir': d.tanggalKontrakBerakhir ? new Date(d.tanggalKontrakBerakhir).toLocaleDateString('id-ID') : '',
+            Telepon: d.telepon || '',
+            Email: d.email || '',
+            Status: d.statusAktif ? 'Aktif' : 'Non-Aktif'
+        }));
+    const wb = __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$xlsx$2f$xlsx$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["utils"].book_new();
+    const ws = __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$xlsx$2f$xlsx$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["utils"].json_to_sheet(rows);
+    // Column widths
+    ws['!cols'] = [
+        {
+            wch: 18
+        },
+        {
+            wch: 30
+        },
+        {
+            wch: 20
+        },
+        {
+            wch: 20
+        },
+        {
+            wch: 16
+        },
+        {
+            wch: 14
+        },
+        {
+            wch: 16
+        },
+        {
+            wch: 16
+        },
+        {
+            wch: 28
+        },
+        {
+            wch: 12
+        }
+    ];
+    __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$xlsx$2f$xlsx$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["utils"].book_append_sheet(wb, ws, 'Data Karyawan');
+    const buf = __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$xlsx$2f$xlsx$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["write"](wb, {
+        type: 'buffer',
+        bookType: 'xlsx'
+    });
+    return new __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"](buf, {
+        headers: {
+            'Content-Type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+            'Content-Disposition': 'attachment; filename="laporan-karyawan.xlsx"'
+        }
+    });
 }
 }),
 ];

@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { Download, FileText, Users, Package, Car, Wrench } from 'lucide-react'
+import { Download, FileSpreadsheet, Users, Package, Car, Wrench } from 'lucide-react'
 import toast from 'react-hot-toast'
 import PageHeader from '@/components/ui/PageHeader'
 
@@ -12,8 +12,8 @@ const reports = [
     description: 'Data master karyawan, status kontrak, dan informasi kepegawaian',
     icon: Users,
     color: 'bg-blue-50 text-blue-600',
-    endpoint: '/api/laporan/karyawan?format=excel',
-    filename: 'laporan-karyawan.csv',
+    endpoint: '/api/laporan/karyawan',
+    filename: 'laporan-karyawan.xlsx',
   },
   {
     id: 'aset',
@@ -21,8 +21,8 @@ const reports = [
     description: 'Daftar aset, status, kondisi, dan nilai perolehan',
     icon: Package,
     color: 'bg-green-50 text-green-600',
-    endpoint: '/api/laporan/aset?format=excel',
-    filename: 'laporan-aset.csv',
+    endpoint: '/api/laporan/aset',
+    filename: 'laporan-aset.xlsx',
   },
   {
     id: 'kendaraan',
@@ -30,8 +30,8 @@ const reports = [
     description: 'Data kendaraan, status pajak, dan jadwal perawatan',
     icon: Car,
     color: 'bg-purple-50 text-purple-600',
-    endpoint: '/api/laporan/kendaraan?format=excel',
-    filename: 'laporan-kendaraan.csv',
+    endpoint: '/api/laporan/kendaraan',
+    filename: 'laporan-kendaraan.xlsx',
   },
   {
     id: 'maintenance',
@@ -39,8 +39,8 @@ const reports = [
     description: 'Riwayat dan status pemeliharaan gedung dan fasilitas',
     icon: Wrench,
     color: 'bg-orange-50 text-orange-600',
-    endpoint: '/api/laporan/maintenance?format=excel',
-    filename: 'laporan-maintenance.csv',
+    endpoint: '/api/laporan/maintenance',
+    filename: 'laporan-maintenance.xlsx',
   },
 ]
 
@@ -61,7 +61,7 @@ export default function LaporanPage() {
       a.click()
       document.body.removeChild(a)
       URL.revokeObjectURL(url)
-      toast.success(`Laporan ${report.title} berhasil diunduh`)
+      toast.success(`${report.title} berhasil diunduh`)
     } catch (err) {
       toast.error(err.message)
     } finally {
@@ -73,7 +73,7 @@ export default function LaporanPage() {
     <div>
       <PageHeader
         title="Laporan & Export"
-        subtitle="Unduh laporan dalam format CSV/Excel"
+        subtitle="Unduh laporan dalam format Excel (.xlsx)"
         breadcrumb={[{ label: 'Dashboard', href: '/' }, { label: 'Laporan' }]}
       />
 
@@ -105,7 +105,7 @@ export default function LaporanPage() {
                   </>
                 ) : (
                   <>
-                    <Download className="w-4 h-4" /> Download CSV
+                    <Download className="w-4 h-4" /> Download Excel
                   </>
                 )}
               </button>
@@ -114,13 +114,14 @@ export default function LaporanPage() {
         ))}
       </div>
 
-      <div className="mt-6 card p-5 bg-blue-50 border-blue-100">
+      <div className="mt-6 card p-5 bg-green-50 border-green-100">
         <div className="flex items-start gap-3">
-          <FileText className="w-5 h-5 text-blue-600 shrink-0 mt-0.5" />
+          <FileSpreadsheet className="w-5 h-5 text-green-600 shrink-0 mt-0.5" />
           <div>
-            <h3 className="font-semibold text-blue-800">Informasi Export</h3>
-            <ul className="text-sm text-blue-700 mt-2 space-y-1 list-disc list-inside">
-              <li>Laporan diunduh dalam format CSV yang dapat dibuka dengan Microsoft Excel atau Google Sheets</li>
+            <h3 className="font-semibold text-green-800">Informasi Export</h3>
+            <ul className="text-sm text-green-700 mt-2 space-y-1 list-disc list-inside">
+              <li>Laporan diunduh dalam format Excel (.xlsx) — dapat langsung dibuka di Microsoft Excel</li>
+              <li>Lebar kolom sudah disesuaikan secara otomatis untuk tiap laporan</li>
               <li>Data yang diunduh mencerminkan kondisi database saat ini</li>
               <li>Semua aktivitas unduh dicatat dalam audit trail</li>
             </ul>
