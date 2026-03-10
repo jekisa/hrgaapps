@@ -1,1 +1,63 @@
-node_modules
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Next.js build output
+.next/
+out/
+
+# Production build
+build/
+dist/
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.env.production
+
+# Debug logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor directories
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# TypeScript cache
+*.tsbuildinfo
+next-env.d.ts
+
+# Package manager locks (keep only one — remove if you use yarn/pnpm)
+# yarn.lock
+# pnpm-lock.yaml
+
+# Coverage & test output
+coverage/
+.nyc_output/
+
+# Turbopack / cache
+.turbo/
+.cache/
+
+# Vercel
+.vercel/
+
+# Miscellaneous
+*.pem
