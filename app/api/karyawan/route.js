@@ -38,7 +38,7 @@ export async function GET(request) {
       .sort({ createdAt: -1 })
       .skip((page - 1) * limit)
       .limit(limit)
-      .select('nik nama jabatan departemen statusKontrak tanggalMasuk tanggalKontrakBerakhir statusAktif telepon email foto tanggalLahir'),
+      .select('nik nama jabatan departemen statusKontrak tanggalMasuk tanggalKontrakBerakhir statusAktif telepon email foto tanggalLahir tempatLahir agama alamat jenisKelamin'),
   ])
 
   return NextResponse.json({ data, total, page, limit, totalPages: Math.ceil(total / limit) })

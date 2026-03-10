@@ -1,25 +1,10 @@
 {
-  "/(dashboard)/aset/page": "app/(dashboard)/aset/page.js",
-  "/(dashboard)/aset/peminjaman/page": "app/(dashboard)/aset/peminjaman/page.js",
-  "/(dashboard)/karyawan/kontrak/page": "app/(dashboard)/karyawan/kontrak/page.js",
+  "/(dashboard)/karyawan/[id]/page": "app/(dashboard)/karyawan/[id]/page.js",
   "/(dashboard)/karyawan/page": "app/(dashboard)/karyawan/page.js",
-  "/(dashboard)/karyawan/riwayat/page": "app/(dashboard)/karyawan/riwayat/page.js",
-  "/(dashboard)/kendaraan/jadwal/page": "app/(dashboard)/kendaraan/jadwal/page.js",
-  "/(dashboard)/kendaraan/page": "app/(dashboard)/kendaraan/page.js",
-  "/(dashboard)/laporan/page": "app/(dashboard)/laporan/page.js",
-  "/(dashboard)/notifikasi/page": "app/(dashboard)/notifikasi/page.js",
   "/(dashboard)/page": "app/(dashboard)/page.js",
-  "/(dashboard)/pengguna/page": "app/(dashboard)/pengguna/page.js",
-  "/api/aset/peminjaman/route": "app/api/aset/peminjaman/route.js",
-  "/api/aset/route": "app/api/aset/route.js",
   "/api/auth/[...nextauth]/route": "app/api/auth/[...nextauth]/route.js",
   "/api/dashboard/route": "app/api/dashboard/route.js",
   "/api/karyawan/[id]/route": "app/api/karyawan/[id]/route.js",
-  "/api/karyawan/riwayat/route": "app/api/karyawan/riwayat/route.js",
   "/api/karyawan/route": "app/api/karyawan/route.js",
-  "/api/kendaraan/jadwal/route": "app/api/kendaraan/jadwal/route.js",
-  "/api/kendaraan/route": "app/api/kendaraan/route.js",
-  "/api/notifikasi/[id]/route": "app/api/notifikasi/[id]/route.js",
-  "/api/notifikasi/route": "app/api/notifikasi/route.js",
-  "/api/pengguna/route": "app/api/pengguna/route.js"
+  "/api/notifikasi/route": "app/api/notifikasi/route.js"
 }

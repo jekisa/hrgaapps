@@ -210,13 +210,13 @@ export default function LoginPage() {
             </form>
           </div>
 
-          <div className="mt-4 p-4 bg-blue-50 rounded-2xl border border-blue-100">
+          {/* <div className="mt-4 p-4 bg-blue-50 rounded-2xl border border-blue-100">
             <p className="text-[11px] font-bold text-blue-800 mb-2 uppercase tracking-wider">Akun Demo</p>
             <div className="space-y-1.5 text-xs text-blue-700">
               <p><span className="font-semibold">Admin:</span> admin@hrgaapps.com / admin123</p>
               <p><span className="font-semibold">Staff:</span> staff@hrgaapps.com / staff123</p>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

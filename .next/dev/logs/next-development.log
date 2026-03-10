@@ -1,8 +1,2 @@
-[00:00:02.627] Server  LOG     ✓ Ready in 2.1s
-[00:00:05.860] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[01:06:51.695] Server  ERROR   (node:140444) [MONGOOSE] Warning: mongoose: the `new` option for `findOneAndUpdate()` and `findOneAndReplace()` is deprecated. Use `returnDocument: 'after'` instead.
-(Use `node --trace-warnings ...` to show where the warning was created)
-[01:06:53.302] Server  ERROR   (node:140444) [MONGOOSE] Warning: mongoose: the `new` option for `findOneAndUpdate()` and `findOneAndReplace()` is deprecated. Use `returnDocument: 'after'` instead.
-[01:41:02.647] Server  ERROR   (node:140444) [MONGOOSE] Warning: mongoose: the `new` option for `findOneAndUpdate()` and `findOneAndReplace()` is deprecated. Use `returnDocument: 'after'` instead.
-[02:08:08.637] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[02:18:45.480] Server  ERROR   (node:140444) [MONGOOSE] Warning: mongoose: the `new` option for `findOneAndUpdate()` and `findOneAndReplace()` is deprecated. Use `returnDocument: 'after'` instead.
+[00:00:01.634] Server  LOG     ✓ Ready in 1181ms
+[00:00:04.856] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold

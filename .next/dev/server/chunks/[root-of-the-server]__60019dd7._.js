@@ -561,7 +561,7 @@ async function GET(request) {
         __TURBOPACK__imported__module__$5b$project$5d2f$models$2f$Karyawan$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"].countDocuments(query),
         __TURBOPACK__imported__module__$5b$project$5d2f$models$2f$Karyawan$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"].find(query).sort({
             createdAt: -1
-        }).skip((page - 1) * limit).limit(limit).select('nik nama jabatan departemen statusKontrak tanggalMasuk tanggalKontrakBerakhir statusAktif telepon email foto tanggalLahir')
+        }).skip((page - 1) * limit).limit(limit).select('nik nama jabatan departemen statusKontrak tanggalMasuk tanggalKontrakBerakhir statusAktif telepon email foto tanggalLahir tempatLahir agama alamat jenisKelamin')
     ]);
     return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
         data,
