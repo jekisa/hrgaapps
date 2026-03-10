@@ -234,10 +234,11 @@ function KontrakPage() {
         queryKey: [
             'karyawan-kontrak'
         ],
-        queryFn: ()=>fetch('/api/karyawan?limit=100&status=PKWT').then((r)=>r.json()),
+        queryFn: ()=>fetch('/api/karyawan?limit=200').then((r)=>r.json()),
         staleTime: 1000 * 60 * 5
     });
-    const data = result?.data || [];
+    // Include both PKWT and PROBATION (both have tanggalKontrakBerakhir)
+    const data = (result?.data || []).filter((k)=>k.statusKontrak === 'PKWT' || k.statusKontrak === 'PROBATION');
     const days = parseInt(filter);
     const filtered = data.filter((k)=>{
         if (!k.tanggalKontrakBerakhir) return false;
@@ -269,7 +270,7 @@ function KontrakPage() {
                 ]
             }, void 0, false, {
                 fileName: "[project]/app/(dashboard)/karyawan/kontrak/page.js",
-                lineNumber: 37,
+                lineNumber: 40,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -304,7 +305,7 @@ function KontrakPage() {
                                 children: isLoading ? '—' : count
                             }, void 0, false, {
                                 fileName: "[project]/app/(dashboard)/karyawan/kontrak/page.js",
-                                lineNumber: 61,
+                                lineNumber: 64,
                                 columnNumber: 15
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -312,19 +313,19 @@ function KontrakPage() {
                                 children: item.label
                             }, void 0, false, {
                                 fileName: "[project]/app/(dashboard)/karyawan/kontrak/page.js",
-                                lineNumber: 62,
+                                lineNumber: 65,
                                 columnNumber: 15
                             }, this)
                         ]
                     }, item.days, true, {
                         fileName: "[project]/app/(dashboard)/karyawan/kontrak/page.js",
-                        lineNumber: 60,
+                        lineNumber: 63,
                         columnNumber: 13
                     }, this);
                 })
             }, void 0, false, {
                 fileName: "[project]/app/(dashboard)/karyawan/kontrak/page.js",
-                lineNumber: 48,
+                lineNumber: 51,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -335,7 +336,7 @@ function KontrakPage() {
                         children: "Tampilkan kontrak berakhir dalam:"
                     }, void 0, false, {
                         fileName: "[project]/app/(dashboard)/karyawan/kontrak/page.js",
-                        lineNumber: 69,
+                        lineNumber: 72,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("select", {
@@ -348,7 +349,7 @@ function KontrakPage() {
                                 children: "7 hari"
                             }, void 0, false, {
                                 fileName: "[project]/app/(dashboard)/karyawan/kontrak/page.js",
-                                lineNumber: 71,
+                                lineNumber: 74,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
@@ -356,7 +357,7 @@ function KontrakPage() {
                                 children: "30 hari"
                             }, void 0, false, {
                                 fileName: "[project]/app/(dashboard)/karyawan/kontrak/page.js",
-                                lineNumber: 72,
+                                lineNumber: 75,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
@@ -364,7 +365,7 @@ function KontrakPage() {
                                 children: "60 hari"
                             }, void 0, false, {
                                 fileName: "[project]/app/(dashboard)/karyawan/kontrak/page.js",
-                                lineNumber: 73,
+                                lineNumber: 76,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
@@ -372,19 +373,19 @@ function KontrakPage() {
                                 children: "90 hari"
                             }, void 0, false, {
                                 fileName: "[project]/app/(dashboard)/karyawan/kontrak/page.js",
-                                lineNumber: 74,
+                                lineNumber: 77,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/app/(dashboard)/karyawan/kontrak/page.js",
-                        lineNumber: 70,
+                        lineNumber: 73,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/app/(dashboard)/karyawan/kontrak/page.js",
-                lineNumber: 68,
+                lineNumber: 71,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -399,7 +400,7 @@ function KontrakPage() {
                                     className: "w-4 h-4"
                                 }, void 0, false, {
                                     fileName: "[project]/app/(dashboard)/karyawan/kontrak/page.js",
-                                    lineNumber: 82,
+                                    lineNumber: 85,
                                     columnNumber: 13
                                 }, this),
                                 "Kontrak Berakhir dalam ",
@@ -410,12 +411,12 @@ function KontrakPage() {
                             ]
                         }, void 0, true, {
                             fileName: "[project]/app/(dashboard)/karyawan/kontrak/page.js",
-                            lineNumber: 81,
+                            lineNumber: 84,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/app/(dashboard)/karyawan/kontrak/page.js",
-                        lineNumber: 80,
+                        lineNumber: 83,
                         columnNumber: 9
                     }, this),
                     !isLoading && filtered.length === 0 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -423,7 +424,7 @@ function KontrakPage() {
                         children: "Tidak ada kontrak yang akan berakhir"
                     }, void 0, false, {
                         fileName: "[project]/app/(dashboard)/karyawan/kontrak/page.js",
-                        lineNumber: 87,
+                        lineNumber: 90,
                         columnNumber: 11
                     }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                         className: "overflow-x-auto",
@@ -438,7 +439,7 @@ function KontrakPage() {
                                                 children: "Nama"
                                             }, void 0, false, {
                                                 fileName: "[project]/app/(dashboard)/karyawan/kontrak/page.js",
-                                                lineNumber: 93,
+                                                lineNumber: 96,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
@@ -446,7 +447,7 @@ function KontrakPage() {
                                                 children: "Jabatan"
                                             }, void 0, false, {
                                                 fileName: "[project]/app/(dashboard)/karyawan/kontrak/page.js",
-                                                lineNumber: 94,
+                                                lineNumber: 97,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
@@ -454,7 +455,7 @@ function KontrakPage() {
                                                 children: "Status"
                                             }, void 0, false, {
                                                 fileName: "[project]/app/(dashboard)/karyawan/kontrak/page.js",
-                                                lineNumber: 95,
+                                                lineNumber: 98,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
@@ -462,7 +463,7 @@ function KontrakPage() {
                                                 children: "Berakhir"
                                             }, void 0, false, {
                                                 fileName: "[project]/app/(dashboard)/karyawan/kontrak/page.js",
-                                                lineNumber: 96,
+                                                lineNumber: 99,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
@@ -470,7 +471,7 @@ function KontrakPage() {
                                                 children: "Sisa Hari"
                                             }, void 0, false, {
                                                 fileName: "[project]/app/(dashboard)/karyawan/kontrak/page.js",
-                                                lineNumber: 97,
+                                                lineNumber: 100,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
@@ -478,18 +479,18 @@ function KontrakPage() {
                                                 children: "Aksi"
                                             }, void 0, false, {
                                                 fileName: "[project]/app/(dashboard)/karyawan/kontrak/page.js",
-                                                lineNumber: 98,
+                                                lineNumber: 101,
                                                 columnNumber: 19
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/app/(dashboard)/karyawan/kontrak/page.js",
-                                        lineNumber: 92,
+                                        lineNumber: 95,
                                         columnNumber: 17
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/app/(dashboard)/karyawan/kontrak/page.js",
-                                    lineNumber: 91,
+                                    lineNumber: 94,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("tbody", {
@@ -507,7 +508,7 @@ function KontrakPage() {
                                                             children: k.nama
                                                         }, void 0, false, {
                                                             fileName: "[project]/app/(dashboard)/karyawan/kontrak/page.js",
-                                                            lineNumber: 107,
+                                                            lineNumber: 110,
                                                             columnNumber: 25
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -515,13 +516,13 @@ function KontrakPage() {
                                                             children: k.nik
                                                         }, void 0, false, {
                                                             fileName: "[project]/app/(dashboard)/karyawan/kontrak/page.js",
-                                                            lineNumber: 108,
+                                                            lineNumber: 111,
                                                             columnNumber: 25
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/app/(dashboard)/karyawan/kontrak/page.js",
-                                                    lineNumber: 106,
+                                                    lineNumber: 109,
                                                     columnNumber: 23
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -533,7 +534,7 @@ function KontrakPage() {
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/app/(dashboard)/karyawan/kontrak/page.js",
-                                                    lineNumber: 110,
+                                                    lineNumber: 113,
                                                     columnNumber: 23
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -542,12 +543,12 @@ function KontrakPage() {
                                                         status: k.statusKontrak
                                                     }, void 0, false, {
                                                         fileName: "[project]/app/(dashboard)/karyawan/kontrak/page.js",
-                                                        lineNumber: 111,
+                                                        lineNumber: 114,
                                                         columnNumber: 48
                                                     }, this)
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/(dashboard)/karyawan/kontrak/page.js",
-                                                    lineNumber: 111,
+                                                    lineNumber: 114,
                                                     columnNumber: 23
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -555,7 +556,7 @@ function KontrakPage() {
                                                     children: (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$utils$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["formatDate"])(k.tanggalKontrakBerakhir)
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/(dashboard)/karyawan/kontrak/page.js",
-                                                    lineNumber: 112,
+                                                    lineNumber: 115,
                                                     columnNumber: 23
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -568,12 +569,12 @@ function KontrakPage() {
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/app/(dashboard)/karyawan/kontrak/page.js",
-                                                        lineNumber: 114,
+                                                        lineNumber: 117,
                                                         columnNumber: 25
                                                     }, this)
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/(dashboard)/karyawan/kontrak/page.js",
-                                                    lineNumber: 113,
+                                                    lineNumber: 116,
                                                     columnNumber: 23
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -585,46 +586,46 @@ function KontrakPage() {
                                                             className: "w-4 h-4"
                                                         }, void 0, false, {
                                                             fileName: "[project]/app/(dashboard)/karyawan/kontrak/page.js",
-                                                            lineNumber: 120,
+                                                            lineNumber: 123,
                                                             columnNumber: 27
                                                         }, this)
                                                     }, void 0, false, {
                                                         fileName: "[project]/app/(dashboard)/karyawan/kontrak/page.js",
-                                                        lineNumber: 119,
+                                                        lineNumber: 122,
                                                         columnNumber: 25
                                                     }, this)
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/(dashboard)/karyawan/kontrak/page.js",
-                                                    lineNumber: 118,
+                                                    lineNumber: 121,
                                                     columnNumber: 23
                                                 }, this)
                                             ]
                                         }, k.id, true, {
                                             fileName: "[project]/app/(dashboard)/karyawan/kontrak/page.js",
-                                            lineNumber: 105,
+                                            lineNumber: 108,
                                             columnNumber: 21
                                         }, this);
                                     })
                                 }, void 0, false, {
                                     fileName: "[project]/app/(dashboard)/karyawan/kontrak/page.js",
-                                    lineNumber: 101,
+                                    lineNumber: 104,
                                     columnNumber: 15
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/app/(dashboard)/karyawan/kontrak/page.js",
-                            lineNumber: 90,
+                            lineNumber: 93,
                             columnNumber: 13
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/app/(dashboard)/karyawan/kontrak/page.js",
-                        lineNumber: 89,
+                        lineNumber: 92,
                         columnNumber: 11
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/app/(dashboard)/karyawan/kontrak/page.js",
-                lineNumber: 79,
+                lineNumber: 82,
                 columnNumber: 7
             }, this),
             !isLoading && expired.length > 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -641,12 +642,12 @@ function KontrakPage() {
                             ]
                         }, void 0, true, {
                             fileName: "[project]/app/(dashboard)/karyawan/kontrak/page.js",
-                            lineNumber: 136,
+                            lineNumber: 139,
                             columnNumber: 13
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/app/(dashboard)/karyawan/kontrak/page.js",
-                        lineNumber: 135,
+                        lineNumber: 138,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -662,7 +663,7 @@ function KontrakPage() {
                                                 children: "Nama"
                                             }, void 0, false, {
                                                 fileName: "[project]/app/(dashboard)/karyawan/kontrak/page.js",
-                                                lineNumber: 142,
+                                                lineNumber: 145,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
@@ -670,7 +671,7 @@ function KontrakPage() {
                                                 children: "Jabatan"
                                             }, void 0, false, {
                                                 fileName: "[project]/app/(dashboard)/karyawan/kontrak/page.js",
-                                                lineNumber: 143,
+                                                lineNumber: 146,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
@@ -678,7 +679,7 @@ function KontrakPage() {
                                                 children: "Berakhir"
                                             }, void 0, false, {
                                                 fileName: "[project]/app/(dashboard)/karyawan/kontrak/page.js",
-                                                lineNumber: 144,
+                                                lineNumber: 147,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
@@ -686,18 +687,18 @@ function KontrakPage() {
                                                 children: "Aksi"
                                             }, void 0, false, {
                                                 fileName: "[project]/app/(dashboard)/karyawan/kontrak/page.js",
-                                                lineNumber: 145,
+                                                lineNumber: 148,
                                                 columnNumber: 19
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/app/(dashboard)/karyawan/kontrak/page.js",
-                                        lineNumber: 141,
+                                        lineNumber: 144,
                                         columnNumber: 17
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/app/(dashboard)/karyawan/kontrak/page.js",
-                                    lineNumber: 140,
+                                    lineNumber: 143,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("tbody", {
@@ -712,12 +713,12 @@ function KontrakPage() {
                                                         children: k.nama
                                                     }, void 0, false, {
                                                         fileName: "[project]/app/(dashboard)/karyawan/kontrak/page.js",
-                                                        lineNumber: 151,
+                                                        lineNumber: 154,
                                                         columnNumber: 46
                                                     }, this)
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/(dashboard)/karyawan/kontrak/page.js",
-                                                    lineNumber: 151,
+                                                    lineNumber: 154,
                                                     columnNumber: 21
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -725,7 +726,7 @@ function KontrakPage() {
                                                     children: k.jabatan
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/(dashboard)/karyawan/kontrak/page.js",
-                                                    lineNumber: 152,
+                                                    lineNumber: 155,
                                                     columnNumber: 21
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -733,7 +734,7 @@ function KontrakPage() {
                                                     children: (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$utils$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["formatDate"])(k.tanggalKontrakBerakhir)
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/(dashboard)/karyawan/kontrak/page.js",
-                                                    lineNumber: 153,
+                                                    lineNumber: 156,
                                                     columnNumber: 21
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -745,51 +746,51 @@ function KontrakPage() {
                                                             className: "w-4 h-4"
                                                         }, void 0, false, {
                                                             fileName: "[project]/app/(dashboard)/karyawan/kontrak/page.js",
-                                                            lineNumber: 156,
+                                                            lineNumber: 159,
                                                             columnNumber: 25
                                                         }, this)
                                                     }, void 0, false, {
                                                         fileName: "[project]/app/(dashboard)/karyawan/kontrak/page.js",
-                                                        lineNumber: 155,
+                                                        lineNumber: 158,
                                                         columnNumber: 23
                                                     }, this)
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/(dashboard)/karyawan/kontrak/page.js",
-                                                    lineNumber: 154,
+                                                    lineNumber: 157,
                                                     columnNumber: 21
                                                 }, this)
                                             ]
                                         }, k.id, true, {
                                             fileName: "[project]/app/(dashboard)/karyawan/kontrak/page.js",
-                                            lineNumber: 150,
+                                            lineNumber: 153,
                                             columnNumber: 19
                                         }, this))
                                 }, void 0, false, {
                                     fileName: "[project]/app/(dashboard)/karyawan/kontrak/page.js",
-                                    lineNumber: 148,
+                                    lineNumber: 151,
                                     columnNumber: 15
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/app/(dashboard)/karyawan/kontrak/page.js",
-                            lineNumber: 139,
+                            lineNumber: 142,
                             columnNumber: 13
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/app/(dashboard)/karyawan/kontrak/page.js",
-                        lineNumber: 138,
+                        lineNumber: 141,
                         columnNumber: 11
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/app/(dashboard)/karyawan/kontrak/page.js",
-                lineNumber: 134,
+                lineNumber: 137,
                 columnNumber: 9
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/app/(dashboard)/karyawan/kontrak/page.js",
-        lineNumber: 36,
+        lineNumber: 39,
         columnNumber: 5
     }, this);
 }

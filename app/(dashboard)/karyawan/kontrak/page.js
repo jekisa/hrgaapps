@@ -13,11 +13,14 @@ export default function KontrakPage() {
 
   const { data: result, isLoading } = useQuery({
     queryKey: ['karyawan-kontrak'],
-    queryFn: () => fetch('/api/karyawan?limit=100&status=PKWT').then(r => r.json()),
+    queryFn: () => fetch('/api/karyawan?limit=200').then(r => r.json()),
     staleTime: 1000 * 60 * 5,
   })
 
-  const data = result?.data || []
+  // Include both PKWT and PROBATION (both have tanggalKontrakBerakhir)
+  const data = (result?.data || []).filter((k) =>
+    k.statusKontrak === 'PKWT' || k.statusKontrak === 'PROBATION'
+  )
   const days = parseInt(filter)
 
   const filtered = data.filter((k) => {
