@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { Bell, ChevronDown, LogOut, PanelLeftOpen, Sparkles, CheckCheck } from 'lucide-react'
+import { Bell, ChevronDown, LogOut, PanelLeftOpen, Sparkles, CheckCheck, Menu } from 'lucide-react'
 import { useSession, signOut } from 'next-auth/react'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { formatDate } from '@/lib/utils'
@@ -28,7 +28,7 @@ const notifDot = (tipe) => {
   return map[tipe] || 'bg-gray-400'
 }
 
-export default function Header({ collapsed, setCollapsed }) {
+export default function Header({ collapsed, setCollapsed, setMobileOpen }) {
   const { data: session } = useSession()
   const queryClient = useQueryClient()
   const [showNotif, setShowNotif] = useState(false)
@@ -64,15 +64,25 @@ export default function Header({ collapsed, setCollapsed }) {
         style={{ boxShadow: '0 1px 0 rgba(0,0,0,0.04), 0 2px 12px rgba(0,0,0,0.04)' }}
       >
         {/* Left */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2">
+          {/* Mobile hamburger button */}
+          <button
+            onClick={() => setMobileOpen(prev => !prev)}
+            className="p-2 rounded-xl text-gray-400 hover:bg-gray-100 hover:text-gray-600 transition-all duration-150 lg:hidden"
+          >
+            <Menu className="w-5 h-5" />
+          </button>
+
+          {/* Desktop expand button (only when sidebar is collapsed) */}
           {collapsed && (
             <button
               onClick={() => setCollapsed(false)}
-              className="p-2 rounded-xl text-gray-400 hover:bg-gray-100 hover:text-gray-600 transition-all duration-150"
+              className="hidden lg:flex p-2 rounded-xl text-gray-400 hover:bg-gray-100 hover:text-gray-600 transition-all duration-150"
             >
               <PanelLeftOpen className="w-4 h-4" />
             </button>
           )}
+
           <div className="hidden sm:block">
             <p className="text-sm font-semibold text-gray-700 leading-none">{dayName}</p>
             <p className="text-xs text-gray-400 mt-0.5">{dateStr}</p>
@@ -107,7 +117,7 @@ export default function Header({ collapsed, setCollapsed }) {
 
             {showNotif && (
               <div
-                className="dropdown-appear absolute right-0 top-full mt-2 w-[340px] bg-white rounded-2xl border border-gray-100 z-50 overflow-hidden"
+                className="dropdown-appear absolute right-0 top-full mt-2 w-[340px] max-w-[calc(100vw-1rem)] bg-white rounded-2xl border border-gray-100 z-50 overflow-hidden"
                 style={{ boxShadow: '0 20px 40px rgba(0,0,0,0.1), 0 4px 12px rgba(0,0,0,0.06)' }}
               >
                 <div className="flex items-center justify-between px-4 py-3.5 border-b border-gray-50">
@@ -259,7 +269,7 @@ export default function Header({ collapsed, setCollapsed }) {
         </div>
       </header>
 
-      {/* Backdrop */}
+      {/* Backdrop for dropdowns */}
       {(showNotif || showUser) && (
         <div
           className="fixed inset-0 z-20"

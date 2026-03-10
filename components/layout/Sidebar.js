@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import {
@@ -8,7 +8,7 @@ import {
   ChevronDown, ChevronRight, BellRing, FileBarChart2, ShieldCheck, Activity,
   UserCircle2, History, TimerReset, Boxes, ArrowRightLeft,
   Construction, Zap, CarFront, Calendar, Route, Receipt,
-  LogOut, PanelLeftClose, PanelLeftOpen, Sparkles
+  LogOut, PanelLeftClose, PanelLeftOpen, Sparkles, X
 } from 'lucide-react'
 import { signOut, useSession } from 'next-auth/react'
 import { cn } from '@/lib/utils'
@@ -72,7 +72,7 @@ const adminMenuItems = [
   { label: 'Audit Trail', href: '/audit-trail', icon: Activity },
 ]
 
-function MenuItem({ item, collapsed }) {
+function MenuItem({ item, collapsed, onMobileClose }) {
   const pathname = usePathname()
   const [open, setOpen] = useState(
     item.children?.some((c) => pathname.startsWith(c.href)) || false
@@ -89,6 +89,7 @@ function MenuItem({ item, collapsed }) {
       <div className="tooltip-wrap">
         <Link
           href={item.href}
+          onClick={onMobileClose}
           className={cn(
             'sidebar-link group',
             isActive ? 'sidebar-link-active' : 'sidebar-link-inactive'
@@ -147,6 +148,7 @@ function MenuItem({ item, collapsed }) {
               <Link
                 key={child.href}
                 href={child.href}
+                onClick={onMobileClose}
                 className={cn(
                   'sidebar-submenu-link group',
                   childActive ? 'sidebar-submenu-link-active' : 'sidebar-submenu-link-inactive'
@@ -169,25 +171,41 @@ function MenuItem({ item, collapsed }) {
   )
 }
 
-export default function Sidebar({ collapsed, setCollapsed }) {
+export default function Sidebar({ collapsed, setCollapsed, mobileOpen, setMobileOpen }) {
   const { data: session } = useSession()
   const isAdmin = session?.user?.role === 'ADMIN'
   const userName = session?.user?.name || 'User'
   const initials = userName.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase()
+
+  const [isMobile, setIsMobile] = useState(false)
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 1024)
+    check()
+    window.addEventListener('resize', check)
+    return () => window.removeEventListener('resize', check)
+  }, [])
+
+  // On mobile, sidebar is always rendered expanded (never icon-only)
+  const showCollapsed = collapsed && !isMobile
+  const onMobileClose = isMobile ? () => setMobileOpen(false) : undefined
 
   return (
     <aside
       className={cn(
         'fixed left-0 top-0 h-full z-40 flex flex-col transition-all duration-300 ease-in-out',
         'bg-gradient-to-b from-[#0f172a] via-[#111827] to-[#1a2332]',
-        collapsed ? 'w-16' : 'w-60'
+        // Always w-60 on mobile; w-16/w-60 based on collapsed state on desktop
+        'w-60',
+        collapsed && 'lg:w-16',
+        // Mobile: slide in/out; Desktop: always visible
+        mobileOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0',
       )}
       style={{ boxShadow: '4px 0 24px rgba(0,0,0,0.25)' }}
     >
       {/* Logo */}
       <div className={cn(
-        'flex items-center h-16 border-b border-white/5',
-        collapsed ? 'px-4 justify-center' : 'px-4 gap-3'
+        'flex items-center h-16 border-b border-white/5 px-4 gap-3',
+        showCollapsed && 'lg:justify-center lg:gap-0'
       )}>
         <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 shadow-md relative overflow-hidden"
           style={{ background: 'linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%)' }}
@@ -195,7 +213,8 @@ export default function Sidebar({ collapsed, setCollapsed }) {
           <Building2 className="w-4 h-4 text-white relative z-10" />
           <div className="absolute inset-0 bg-gradient-to-br from-white/15 to-transparent" />
         </div>
-        {!collapsed && (
+
+        {!showCollapsed && (
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-1">
               <p className="text-white font-bold text-sm leading-none tracking-wide">HRGA Apps</p>
@@ -204,21 +223,31 @@ export default function Sidebar({ collapsed, setCollapsed }) {
             <p className="text-slate-500 text-[10px] mt-0.5 tracking-wider uppercase">Management System</p>
           </div>
         )}
+
+        {/* Desktop collapse button - only shown when not collapsed */}
+        {!showCollapsed && (
+          <button
+            onClick={() => setCollapsed(!collapsed)}
+            className="hidden lg:flex text-slate-500 hover:text-slate-200 transition-all duration-200 p-1 rounded hover:bg-white/5 shrink-0"
+          >
+            <PanelLeftClose className="w-4 h-4" />
+          </button>
+        )}
+
+        {/* Mobile close button */}
         <button
-          onClick={() => setCollapsed(!collapsed)}
-          className={cn(
-            'text-slate-500 hover:text-slate-200 transition-all duration-200 p-1 rounded hover:bg-white/5',
-            collapsed && 'hidden'
-          )}
+          onClick={() => setMobileOpen(false)}
+          className="lg:hidden ml-auto text-slate-500 hover:text-slate-200 transition-all duration-200 p-1 rounded hover:bg-white/5 shrink-0"
         >
-          <PanelLeftClose className="w-4 h-4" />
+          <X className="w-4 h-4" />
         </button>
       </div>
 
+      {/* Desktop-only floating expand button (when collapsed) */}
       {collapsed && (
         <button
           onClick={() => setCollapsed(false)}
-          className="absolute -right-3 top-[4.5rem] w-6 h-6 flex items-center justify-center rounded-full text-white shadow-lg z-50 transition-transform duration-200 hover:scale-110"
+          className="hidden lg:flex absolute -right-3 top-[4.5rem] w-6 h-6 items-center justify-center rounded-full text-white shadow-lg z-50 transition-transform duration-200 hover:scale-110"
           style={{ background: 'linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%)' }}
         >
           <PanelLeftOpen className="w-3 h-3" />
@@ -228,12 +257,12 @@ export default function Sidebar({ collapsed, setCollapsed }) {
       {/* Navigation */}
       <nav className="flex-1 overflow-y-auto px-2.5 py-4 space-y-0.5">
         {menuItems.map((item, idx) => (
-          <MenuItem key={idx} item={item} collapsed={collapsed} />
+          <MenuItem key={idx} item={item} collapsed={showCollapsed} onMobileClose={onMobileClose} />
         ))}
 
         {isAdmin && (
           <>
-            {!collapsed && (
+            {!showCollapsed && (
               <div className="pt-4 pb-1">
                 <div className="flex items-center gap-2 px-3">
                   <div className="flex-1 h-px bg-white/5" />
@@ -244,9 +273,9 @@ export default function Sidebar({ collapsed, setCollapsed }) {
                 </div>
               </div>
             )}
-            {collapsed && <div className="my-2 border-t border-white/5" />}
+            {showCollapsed && <div className="my-2 border-t border-white/5" />}
             {adminMenuItems.map((item, idx) => (
-              <MenuItem key={idx} item={item} collapsed={collapsed} />
+              <MenuItem key={idx} item={item} collapsed={showCollapsed} onMobileClose={onMobileClose} />
             ))}
           </>
         )}
@@ -254,7 +283,7 @@ export default function Sidebar({ collapsed, setCollapsed }) {
 
       {/* User section */}
       <div className="border-t border-white/5 p-3">
-        {!collapsed ? (
+        {!showCollapsed ? (
           <div className="flex items-center gap-2.5 px-1 py-1 rounded-lg">
             <div className="relative shrink-0">
               <div className="w-8 h-8 rounded-full flex items-center justify-center text-white text-xs font-bold ring-2 ring-primary-500/40"
