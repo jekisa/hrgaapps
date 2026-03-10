@@ -385,7 +385,7 @@ function LoginPage() {
                                         children: [
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
                                                 className: "text-2xl font-extrabold text-gray-900 tracking-tight",
-                                                children: "Masuk"
+                                                children: "Login"
                                             }, void 0, false, {
                                                 fileName: "[project]/app/(auth)/login/page.js",
                                                 lineNumber: 144,
@@ -393,7 +393,7 @@ function LoginPage() {
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                                                 className: "text-gray-400 mt-1 text-sm",
-                                                children: "Masukkan kredensial Anda untuk melanjutkan"
+                                                children: "Jangan lupa berdoa sebelum bekerja."
                                             }, void 0, false, {
                                                 fileName: "[project]/app/(auth)/login/page.js",
                                                 lineNumber: 145,
@@ -592,7 +592,7 @@ function LoginPage() {
                                                             lineNumber: 205,
                                                             columnNumber: 21
                                                         }, this),
-                                                        "Masuk ke Sistem"
+                                                        "Login Now"
                                                     ]
                                                 }, void 0, true)
                                             }, void 0, false, {

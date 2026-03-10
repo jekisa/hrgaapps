@@ -141,8 +141,8 @@ export default function LoginPage() {
           {/* Card */}
           <div className="bg-white rounded-3xl shadow-xl border border-gray-100 p-8">
             <div className="mb-7">
-              <h2 className="text-2xl font-extrabold text-gray-900 tracking-tight">Masuk</h2>
-              <p className="text-gray-400 mt-1 text-sm">Masukkan kredensial Anda untuk melanjutkan</p>
+              <h2 className="text-2xl font-extrabold text-gray-900 tracking-tight">Login</h2>
+              <p className="text-gray-400 mt-1 text-sm">Jangan lupa berdoa sebelum bekerja.</p>
             </div>
 
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
@@ -203,7 +203,7 @@ export default function LoginPage() {
                 ) : (
                   <>
                     <LogIn className="w-4 h-4" />
-                    Masuk ke Sistem
+                    Login Now
                   </>
                 )}
               </button>
