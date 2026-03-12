@@ -130,7 +130,7 @@ const DEPARTEMEN_LIST = [
     'IT',
     'HR',
     'Finance',
-    'Operations',
+    'Admin',
     'Marketing',
     'Sales',
     'Legal',
