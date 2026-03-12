@@ -7,6 +7,8 @@ const dokumenKaryawanSchema = new mongoose.Schema(
     noDokumen: { type: String, default: null },
     tanggalTerbit: { type: Date, default: null },
     tanggalBerakhir: { type: Date, default: null },
+    namaFile: { type: String, default: null },
+    tipeFile: { type: String, default: null },
     fileUrl: { type: String, default: null },
     keterangan: { type: String, default: null },
   },

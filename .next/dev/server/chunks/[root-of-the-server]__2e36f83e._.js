@@ -442,6 +442,14 @@ const dokumenKaryawanSchema = new __TURBOPACK__imported__module__$5b$externals$5
         type: Date,
         default: null
     },
+    namaFile: {
+        type: String,
+        default: null
+    },
+    tipeFile: {
+        type: String,
+        default: null
+    },
     fileUrl: {
         type: String,
         default: null

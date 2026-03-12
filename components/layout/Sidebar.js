@@ -224,6 +224,7 @@ export default function Sidebar({ collapsed, setCollapsed, mobileOpen, setMobile
           </div>
         )}
 
+
         {/* Desktop collapse button - only shown when not collapsed */}
         {!showCollapsed && (
           <button
