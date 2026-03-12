@@ -10,7 +10,10 @@ import PembayaranPajak from '@/models/PembayaranPajak'
 import Notifikasi from '@/models/Notifikasi'
 import AuditLog from '@/models/AuditLog'
 import Utilitas from '@/models/Utilitas'
-import { addDays, endOfMonth, subMonths } from 'date-fns'
+import JadwalKendaraan from '@/models/JadwalKendaraan'
+import { addDays, endOfMonth, subMonths, startOfDay } from 'date-fns'
+
+const toDateStr = (d) => new Date(d).toISOString().split('T')[0]
 
 export async function GET() {
   const session = await getServerSession(authOptions)
@@ -21,6 +24,7 @@ export async function GET() {
 
     const now = new Date()
     const thirtyDaysLater = addDays(now, 30)
+    const sixtyDaysLater = addDays(now, 60)
 
     const [
       totalKaryawan,
@@ -35,8 +39,12 @@ export async function GET() {
       notifikasiUnread,
       recentAudit,
       asetByKategoriRaw,
-      monthlyUtilitasRaw,
       karyawanByKontrakRaw,
+      // calendar sources
+      calendarKontrak,
+      calendarPajak,
+      calendarJadwal,
+      calendarMaintenance,
     ] = await Promise.all([
       Karyawan.countDocuments(),
       Karyawan.countDocuments({ statusAktif: true }),
@@ -54,16 +62,32 @@ export async function GET() {
         tanggalJatuhTempo: { $gte: now, $lte: thirtyDaysLater },
       }),
       Notifikasi.countDocuments({ status: 'BELUM_DIBACA' }),
-      AuditLog.find().sort({ createdAt: -1 }).limit(5).populate('userId', 'name'),
+      AuditLog.find().sort({ createdAt: -1 }).limit(6).populate('userId', 'name'),
       Aset.aggregate([{ $group: { _id: '$kategori', count: { $sum: 1 } } }]),
-      Utilitas.aggregate([
-        { $match: { bulan: now.getMonth() + 1, tahun: now.getFullYear() } },
-        { $group: { _id: '$jenis', total: { $sum: '$tagihan' } } },
-      ]),
       Karyawan.aggregate([
         { $match: { statusAktif: true } },
         { $group: { _id: '$statusKontrak', count: { $sum: 1 } } },
       ]),
+      // Calendar: kontrak berakhir next 60 days
+      Karyawan.find({
+        tanggalKontrakBerakhir: { $gte: startOfDay(now), $lte: sixtyDaysLater },
+        statusAktif: true,
+      }).select('nama tanggalKontrakBerakhir').limit(30),
+      // Calendar: pajak jatuh tempo next 60 days
+      PembayaranPajak.find({
+        tanggalJatuhTempo: { $gte: startOfDay(now), $lte: sixtyDaysLater },
+        status: 'BELUM',
+      }).select('tanggalJatuhTempo jenisPajak').populate('kendaraanId', 'noPol').limit(30),
+      // Calendar: jadwal kendaraan next 60 days
+      JadwalKendaraan.find({
+        tanggalBerangkat: { $gte: startOfDay(now), $lte: sixtyDaysLater },
+        status: { $ne: 'DIBATALKAN' },
+      }).select('keperluan tanggalBerangkat').populate('kendaraanId', 'noPol').limit(30),
+      // Calendar: maintenance pending next 60 days
+      MaintenanceRequest.find({
+        tanggalRequest: { $gte: startOfDay(now), $lte: sixtyDaysLater },
+        status: { $in: ['PENDING', 'PROSES'] },
+      }).select('judul tanggalRequest prioritas').limit(30),
     ])
 
     // Monthly karyawan trend (last 6 months)
@@ -76,6 +100,34 @@ export async function GET() {
         total: count,
       })
     }
+
+    // Build calendarEvents array
+    const calendarEvents = [
+      ...calendarKontrak.map((k) => ({
+        date: toDateStr(k.tanggalKontrakBerakhir),
+        type: 'kontrak',
+        label: `Kontrak: ${k.nama}`,
+        href: '/karyawan/kontrak',
+      })),
+      ...calendarPajak.map((p) => ({
+        date: toDateStr(p.tanggalJatuhTempo),
+        type: 'pajak',
+        label: `Pajak ${p.jenisPajak}: ${p.kendaraanId?.noPol || '—'}`,
+        href: '/kendaraan/pajak',
+      })),
+      ...calendarJadwal.map((j) => ({
+        date: toDateStr(j.tanggalBerangkat),
+        type: 'jadwal',
+        label: `Jadwal: ${j.keperluan || j.kendaraanId?.noPol || '—'}`,
+        href: '/kendaraan/jadwal',
+      })),
+      ...calendarMaintenance.map((m) => ({
+        date: toDateStr(m.tanggalRequest),
+        type: 'maintenance',
+        label: `Maintenance: ${m.judul}`,
+        href: '/gedung/maintenance',
+      })),
+    ]
 
     return NextResponse.json({
       stats: {
@@ -94,7 +146,6 @@ export async function GET() {
         karyawanByKontrak: karyawanByKontrakRaw.map((k) => ({ name: k._id, value: k.count })),
         asetByKategori: asetByKategoriRaw.map((a) => ({ name: a._id, value: a.count })),
         monthlyKaryawan,
-        monthlyUtilitas: monthlyUtilitasRaw.map((u) => ({ name: u._id, tagihan: u.total || 0 })),
       },
       recentActivity: recentAudit.map((log) => {
         const obj = log.toJSON()
@@ -107,6 +158,7 @@ export async function GET() {
           createdAt: obj.createdAt,
         }
       }),
+      calendarEvents,
     })
   } catch (error) {
     console.error('Dashboard API error:', error)

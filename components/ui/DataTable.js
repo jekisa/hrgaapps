@@ -4,10 +4,14 @@ import {
   useReactTable,
   getCoreRowModel,
   getSortedRowModel,
+  getPaginationRowModel,
   flexRender,
 } from '@tanstack/react-table'
 import { useState } from 'react'
-import { ChevronUp, ChevronDown, ChevronsUpDown, Database } from 'lucide-react'
+import {
+  ChevronUp, ChevronDown, ChevronsUpDown, Database,
+  ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight,
+} from 'lucide-react'
 
 function TableSkeleton({ columns = 5, rows = 5 }) {
   const widths = [40, 58, 72, 48, 63]
@@ -49,23 +53,133 @@ function EmptyRow({ colSpan, message = 'Tidak ada data' }) {
   )
 }
 
+const PAGE_SIZE_OPTIONS = [10, 25, 50, 100]
+
+function Pagination({ table, total }) {
+  const { pageIndex, pageSize } = table.getState().pagination
+  const pageCount = table.getPageCount()
+  const from = total === 0 ? 0 : pageIndex * pageSize + 1
+  const to = Math.min((pageIndex + 1) * pageSize, total)
+
+  // Build page number buttons (max 5 visible)
+  const pages = []
+  const delta = 2
+  const left = Math.max(0, pageIndex - delta)
+  const right = Math.min(pageCount - 1, pageIndex + delta)
+  for (let i = left; i <= right; i++) pages.push(i)
+
+  return (
+    <div className="flex flex-col sm:flex-row items-center justify-between gap-3 px-4 py-3 border-t border-gray-100 bg-gray-50/50">
+      {/* Info + page size */}
+      <div className="flex items-center gap-3 text-xs text-gray-500 shrink-0">
+        <span className="whitespace-nowrap">
+          {total === 0 ? 'Tidak ada data' : `${from}–${to} dari ${total} data`}
+        </span>
+        <div className="flex items-center gap-1.5">
+          <span className="hidden sm:inline whitespace-nowrap">Tampilkan</span>
+          <select
+            value={pageSize}
+            onChange={(e) => {
+              table.setPageSize(Number(e.target.value))
+              table.setPageIndex(0)
+            }}
+            className="border border-gray-200 rounded-lg px-2 py-1 text-xs bg-white focus:outline-none focus:ring-2 focus:ring-primary-300 cursor-pointer w-14"
+          >
+            {PAGE_SIZE_OPTIONS.map((s) => (
+              <option key={s} value={s}>{s}</option>
+            ))}
+          </select>
+          <span className="hidden sm:inline whitespace-nowrap">per halaman</span>
+        </div>
+      </div>
+
+      {/* Page buttons */}
+      <div className="flex items-center gap-1 overflow-x-auto max-w-full pb-0.5">
+        <button
+          onClick={() => table.setPageIndex(0)}
+          disabled={!table.getCanPreviousPage()}
+          className="pagination-btn"
+          title="Halaman pertama"
+        >
+          <ChevronsLeft className="w-3.5 h-3.5" />
+        </button>
+        <button
+          onClick={() => table.previousPage()}
+          disabled={!table.getCanPreviousPage()}
+          className="pagination-btn"
+          title="Sebelumnya"
+        >
+          <ChevronLeft className="w-3.5 h-3.5" />
+        </button>
+
+        {left > 0 && (
+          <>
+            <button onClick={() => table.setPageIndex(0)} className="pagination-page-btn">1</button>
+            {left > 1 && <span className="px-1 text-gray-400 text-xs">…</span>}
+          </>
+        )}
+
+        {pages.map((p) => (
+          <button
+            key={p}
+            onClick={() => table.setPageIndex(p)}
+            className={`pagination-page-btn ${p === pageIndex ? 'pagination-page-active' : ''}`}
+          >
+            {p + 1}
+          </button>
+        ))}
+
+        {right < pageCount - 1 && (
+          <>
+            {right < pageCount - 2 && <span className="px-1 text-gray-400 text-xs">…</span>}
+            <button onClick={() => table.setPageIndex(pageCount - 1)} className="pagination-page-btn">{pageCount}</button>
+          </>
+        )}
+
+        <button
+          onClick={() => table.nextPage()}
+          disabled={!table.getCanNextPage()}
+          className="pagination-btn"
+          title="Selanjutnya"
+        >
+          <ChevronRight className="w-3.5 h-3.5" />
+        </button>
+        <button
+          onClick={() => table.setPageIndex(pageCount - 1)}
+          disabled={!table.getCanNextPage()}
+          className="pagination-btn"
+          title="Halaman terakhir"
+        >
+          <ChevronsRight className="w-3.5 h-3.5" />
+        </button>
+      </div>
+    </div>
+  )
+}
+
 export default function DataTable({
   data = [],
   columns = [],
   isLoading = false,
   emptyMessage = 'Tidak ada data',
   skeletonRows = 5,
+  pageSize: initialPageSize = 10,
 }) {
   const [sorting, setSorting] = useState([])
+  const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: initialPageSize })
 
   const table = useReactTable({
     data,
     columns,
-    state: { sorting },
-    onSortingChange: setSorting,
+    state: { sorting, pagination },
+    onSortingChange: (updater) => {
+      setSorting(updater)
+      setPagination((p) => ({ ...p, pageIndex: 0 }))
+    },
+    onPaginationChange: setPagination,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
-    manualPagination: true,
+    getPaginationRowModel: getPaginationRowModel(),
   })
 
   return (
@@ -123,6 +237,8 @@ export default function DataTable({
           </tbody>
         )}
       </table>
+
+      {!isLoading && <Pagination table={table} total={data.length} />}
     </div>
   )
 }
