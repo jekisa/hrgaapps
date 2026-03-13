@@ -65,6 +65,23 @@
       "namedRegex": "^/api/karyawan/(?<nxtPid>[^/]+?)(?:/)?$"
     },
     {
+      "page": "/api/karyawan/[id]/dokumen",
+      "regex": "^/api/karyawan/([^/]+?)/dokumen(?:/)?$",
+      "routeKeys": {
+        "nxtPid": "nxtPid"
+      },
+      "namedRegex": "^/api/karyawan/(?<nxtPid>[^/]+?)/dokumen(?:/)?$"
+    },
+    {
+      "page": "/api/karyawan/[id]/dokumen/[docId]",
+      "regex": "^/api/karyawan/([^/]+?)/dokumen/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPid": "nxtPid",
+        "nxtPdocId": "nxtPdocId"
+      },
+      "namedRegex": "^/api/karyawan/(?<nxtPid>[^/]+?)/dokumen/(?<nxtPdocId>[^/]+?)(?:/)?$"
+    },
+    {
       "page": "/api/kendaraan/[id]",
       "regex": "^/api/kendaraan/([^/]+?)(?:/)?$",
       "routeKeys": {

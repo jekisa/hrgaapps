@@ -29,6 +29,8 @@
   "/api/gedung/maintenance/[id]/route": "app/api/gedung/maintenance/[id]/route.js",
   "/api/gedung/maintenance/route": "app/api/gedung/maintenance/route.js",
   "/api/gedung/utilitas/route": "app/api/gedung/utilitas/route.js",
+  "/api/karyawan/[id]/dokumen/[docId]/route": "app/api/karyawan/[id]/dokumen/[docId]/route.js",
+  "/api/karyawan/[id]/dokumen/route": "app/api/karyawan/[id]/dokumen/route.js",
   "/api/karyawan/[id]/route": "app/api/karyawan/[id]/route.js",
   "/api/karyawan/riwayat/route": "app/api/karyawan/riwayat/route.js",
   "/api/karyawan/route": "app/api/karyawan/route.js",

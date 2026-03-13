@@ -29,6 +29,8 @@
   "/api/gedung/maintenance/[id]/route": "/api/gedung/maintenance/[id]",
   "/api/gedung/maintenance/route": "/api/gedung/maintenance",
   "/api/gedung/utilitas/route": "/api/gedung/utilitas",
+  "/api/karyawan/[id]/dokumen/[docId]/route": "/api/karyawan/[id]/dokumen/[docId]",
+  "/api/karyawan/[id]/dokumen/route": "/api/karyawan/[id]/dokumen",
   "/api/karyawan/[id]/route": "/api/karyawan/[id]",
   "/api/karyawan/riwayat/route": "/api/karyawan/riwayat",
   "/api/karyawan/route": "/api/karyawan",
