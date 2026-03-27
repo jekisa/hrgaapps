@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import Sidebar from '@/components/layout/Sidebar'
 import Header from '@/components/layout/Header'
+import AIChatbox from '@/components/ui/AIChatbox'
 import { cn } from '@/lib/utils'
 
 export default function DashboardLayout({ children }) {
@@ -44,6 +45,7 @@ export default function DashboardLayout({ children }) {
           &copy; {new Date().getFullYear()} HRGA Apps - Human Resources & General Affairs Management System
         </footer>
       </div>
+      <AIChatbox />
     </div>
   )
 }

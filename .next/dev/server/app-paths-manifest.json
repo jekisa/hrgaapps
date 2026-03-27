@@ -1,11 +1,16 @@
 {
   "/(auth)/login/page": "app/(auth)/login/page.js",
+  "/(dashboard)/aset/page": "app/(dashboard)/aset/page.js",
+  "/(dashboard)/aset/peminjaman/page": "app/(dashboard)/aset/peminjaman/page.js",
+  "/(dashboard)/karyawan/kontrak/page": "app/(dashboard)/karyawan/kontrak/page.js",
   "/(dashboard)/karyawan/page": "app/(dashboard)/karyawan/page.js",
   "/(dashboard)/karyawan/riwayat/page": "app/(dashboard)/karyawan/riwayat/page.js",
   "/(dashboard)/page": "app/(dashboard)/page.js",
+  "/api/ai-chat/route": "app/api/ai-chat/route.js",
+  "/api/aset/peminjaman/route": "app/api/aset/peminjaman/route.js",
+  "/api/aset/route": "app/api/aset/route.js",
   "/api/auth/[...nextauth]/route": "app/api/auth/[...nextauth]/route.js",
   "/api/dashboard/route": "app/api/dashboard/route.js",
-  "/api/karyawan/[id]/route": "app/api/karyawan/[id]/route.js",
   "/api/karyawan/riwayat/route": "app/api/karyawan/riwayat/route.js",
   "/api/karyawan/route": "app/api/karyawan/route.js",
   "/api/notifikasi/route": "app/api/notifikasi/route.js"
