@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useRef, useEffect, useCallback } from 'react'
-import { Wand2, User, ArrowUp, RotateCcw, ChevronDown, Zap } from 'lucide-react'
+import { Wand2, User, ArrowUp, RotateCcw, ChevronDown, ChevronRight, Zap } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 const TOOL_LABELS = {
@@ -15,6 +15,7 @@ const TOOL_LABELS = {
 const SUGGESTED_PROMPTS = [
   'Dashboard hari ini',
   'Berapa karyawan aktif?',
+  'Karyawan yang kontraknya berakhir dalam 30 hari?',
   'Kendaraan apa yang tersedia?',
   'Aset apa yang sedang dipinjam?',
   'Ada maintenance apa yang pending?',
@@ -401,25 +402,28 @@ export default function AIChatbox() {
 
         {/* ── Suggested prompts ── */}
         {messages.length === 1 && !loading && (
-          <div className="px-4 pb-3 shrink-0">
-            <div className="flex items-center gap-1.5 mb-2">
+          <div className="px-3 pb-3 shrink-0">
+            <div className="flex items-center gap-1.5 mb-2 px-1">
               <Zap className="w-3 h-3 text-violet-500" />
-              <span className="text-[11px] font-medium text-gray-400 tracking-wide uppercase">Quick Answer</span>
+              <span className="text-[11px] font-semibold text-gray-400 tracking-widest uppercase">Quick Prompts</span>
             </div>
-            <div className="flex flex-wrap gap-1.5">
+            <div className="flex flex-col gap-1">
               {SUGGESTED_PROMPTS.map((p) => (
                 <button
                   key={p}
                   onClick={() => sendMessage(p)}
                   className={cn(
-                    'text-[11px] px-2.5 py-1.5 rounded-xl font-medium',
-                    'bg-gradient-to-r from-violet-50 to-blue-50 text-violet-700',
-                    'border border-violet-100 hover:border-violet-300',
-                    'hover:shadow-sm hover:shadow-violet-100',
-                    'transition-all duration-200 hover:scale-[1.03]'
+                    'group flex items-center justify-between w-full text-left',
+                    'px-3 py-2 rounded-xl text-xs text-gray-600',
+                    'bg-gray-50 hover:bg-violet-50 border border-transparent hover:border-violet-100',
+                    'hover:text-violet-700 transition-all duration-150'
                   )}
                 >
-                  {p}
+                  <div className="flex items-center gap-2">
+                    <span className="w-1.5 h-1.5 rounded-full bg-violet-300 group-hover:bg-violet-500 transition-colors shrink-0" />
+                    <span>{p}</span>
+                  </div>
+                  <ChevronRight className="w-3 h-3 text-gray-300 group-hover:text-violet-400 transition-colors shrink-0" />
                 </button>
               ))}
             </div>
