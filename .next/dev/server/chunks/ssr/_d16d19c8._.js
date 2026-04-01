@@ -459,7 +459,7 @@ function Pagination({ table, total }) {
         columnNumber: 5
     }, this);
 }
-function DataTable({ data = [], columns = [], isLoading = false, emptyMessage = 'Tidak ada data', skeletonRows = 5, pageSize: initialPageSize = 10 }) {
+function DataTable({ data = [], columns = [], isLoading = false, emptyMessage = 'Tidak ada data', skeletonRows = 5, pageSize: initialPageSize = 10, showPagination = true }) {
     const [sorting, setSorting] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])([]);
     const [pagination, setPagination] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])({
         pageIndex: 0,
@@ -511,46 +511,46 @@ function DataTable({ data = [], columns = [], isLoading = false, emptyMessage = 
                                                         className: "w-3.5 h-3.5 text-primary-500"
                                                     }, void 0, false, {
                                                         fileName: "[project]/components/ui/DataTable.js",
-                                                        lineNumber: 206,
+                                                        lineNumber: 207,
                                                         columnNumber: 29
                                                     }, this) : sortDir === 'desc' ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$chevron$2d$down$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__ChevronDown$3e$__["ChevronDown"], {
                                                         className: "w-3.5 h-3.5 text-primary-500"
                                                     }, void 0, false, {
                                                         fileName: "[project]/components/ui/DataTable.js",
-                                                        lineNumber: 208,
+                                                        lineNumber: 209,
                                                         columnNumber: 29
                                                     }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$chevrons$2d$up$2d$down$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__ChevronsUpDown$3e$__["ChevronsUpDown"], {
                                                         className: "w-3 h-3 opacity-30 group-hover:opacity-70 transition-opacity"
                                                     }, void 0, false, {
                                                         fileName: "[project]/components/ui/DataTable.js",
-                                                        lineNumber: 210,
+                                                        lineNumber: 211,
                                                         columnNumber: 29
                                                     }, this)
                                                 }, void 0, false, {
                                                     fileName: "[project]/components/ui/DataTable.js",
-                                                    lineNumber: 204,
+                                                    lineNumber: 205,
                                                     columnNumber: 25
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/components/ui/DataTable.js",
-                                            lineNumber: 201,
+                                            lineNumber: 202,
                                             columnNumber: 21
                                         }, this)
                                     }, header.id, false, {
                                         fileName: "[project]/components/ui/DataTable.js",
-                                        lineNumber: 195,
+                                        lineNumber: 196,
                                         columnNumber: 19
                                     }, this);
                                 })
                             }, headerGroup.id, false, {
                                 fileName: "[project]/components/ui/DataTable.js",
-                                lineNumber: 190,
+                                lineNumber: 191,
                                 columnNumber: 13
                             }, this))
                     }, void 0, false, {
                         fileName: "[project]/components/ui/DataTable.js",
-                        lineNumber: 188,
+                        lineNumber: 189,
                         columnNumber: 9
                     }, this),
                     isLoading ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(TableSkeleton, {
@@ -558,14 +558,14 @@ function DataTable({ data = [], columns = [], isLoading = false, emptyMessage = 
                         rows: skeletonRows
                     }, void 0, false, {
                         fileName: "[project]/components/ui/DataTable.js",
-                        lineNumber: 223,
+                        lineNumber: 224,
                         columnNumber: 11
                     }, this) : data.length === 0 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(EmptyRow, {
                         colSpan: columns.length,
                         message: emptyMessage
                     }, void 0, false, {
                         fileName: "[project]/components/ui/DataTable.js",
-                        lineNumber: 225,
+                        lineNumber: 226,
                         columnNumber: 11
                     }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("tbody", {
                         children: table.getRowModel().rows.map((row)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("tr", {
@@ -575,37 +575,37 @@ function DataTable({ data = [], columns = [], isLoading = false, emptyMessage = 
                                         children: (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$tanstack$2f$react$2d$table$2f$build$2f$lib$2f$index$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$locals$3e$__["flexRender"])(cell.column.columnDef.cell, cell.getContext())
                                     }, cell.id, false, {
                                         fileName: "[project]/components/ui/DataTable.js",
-                                        lineNumber: 231,
+                                        lineNumber: 232,
                                         columnNumber: 19
                                     }, this))
                             }, row.id, false, {
                                 fileName: "[project]/components/ui/DataTable.js",
-                                lineNumber: 229,
+                                lineNumber: 230,
                                 columnNumber: 15
                             }, this))
                     }, void 0, false, {
                         fileName: "[project]/components/ui/DataTable.js",
-                        lineNumber: 227,
+                        lineNumber: 228,
                         columnNumber: 11
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/components/ui/DataTable.js",
-                lineNumber: 187,
+                lineNumber: 188,
                 columnNumber: 7
             }, this),
-            !isLoading && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(Pagination, {
+            !isLoading && showPagination && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(Pagination, {
                 table: table,
                 total: data.length
             }, void 0, false, {
                 fileName: "[project]/components/ui/DataTable.js",
-                lineNumber: 241,
-                columnNumber: 22
+                lineNumber: 242,
+                columnNumber: 40
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/components/ui/DataTable.js",
-        lineNumber: 186,
+        lineNumber: 187,
         columnNumber: 5
     }, this);
 }

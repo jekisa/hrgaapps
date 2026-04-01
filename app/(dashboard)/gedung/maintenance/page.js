@@ -23,16 +23,17 @@ export default function MaintenancePage() {
   const [showModal, setShowModal] = useState(false)
   const [editData, setEditData] = useState(null)
   const [deleteId, setDeleteId] = useState(null)
+  const [pageSize, setPageSize] = useState(10)
 
   const params = new URLSearchParams({
-    page, limit: 10,
+    page, limit: pageSize,
     ...(search && { search }),
     ...(statusFilter && { status: statusFilter }),
     ...(prioritasFilter && { prioritas: prioritasFilter }),
   })
 
   const { data: result, isLoading } = useQuery({
-    queryKey: ['maintenance', page, search, statusFilter, prioritasFilter],
+    queryKey: ['maintenance', page, pageSize, search, statusFilter, prioritasFilter],
     queryFn: () => fetch(`/api/gedung/maintenance?${params}`).then(r => r.json()),
     keepPreviousData: true,
   })
@@ -167,11 +168,11 @@ export default function MaintenancePage() {
       </div>
 
       <div className="page-section">
-        <DataTable data={rows} columns={columns} isLoading={isLoading} emptyMessage="Tidak ada maintenance request" />
+        <DataTable data={rows} columns={columns} isLoading={isLoading} emptyMessage="Tidak ada maintenance request" showPagination={false} />
         {!isLoading && rows.length > 0 && (
           <div className="px-4 py-3 border-t border-gray-100 flex items-center justify-between">
             <p className="text-xs text-gray-500">Total {total} request</p>
-            <Pagination page={page} totalPages={totalPages} onPageChange={setPage} />
+            <Pagination page={page} totalPages={totalPages} onPageChange={setPage} pageSize={pageSize} onPageSizeChange={(size) => { setPageSize(size); setPage(1) }} />
           </div>
         )}
       </div>

@@ -16,11 +16,12 @@ export default function PerawatanPage() {
   const [statusFilter, setStatusFilter] = useState('')
   const [showModal, setShowModal] = useState(false)
   const [editData, setEditData] = useState(null)
+  const [pageSize, setPageSize] = useState(10)
 
-  const params = new URLSearchParams({ page, limit: 10, ...(statusFilter && { status: statusFilter }) })
+  const params = new URLSearchParams({ page, limit: pageSize, ...(statusFilter && { status: statusFilter }) })
 
   const { data: result, isLoading } = useQuery({
-    queryKey: ['perawatan-kendaraan', page, statusFilter],
+    queryKey: ['perawatan-kendaraan', page, pageSize, statusFilter],
     queryFn: () => fetch(`/api/kendaraan/perawatan?${params}`).then(r => r.json()),
     keepPreviousData: true,
   })
@@ -118,11 +119,11 @@ export default function PerawatanPage() {
       </div>
 
       <div className="page-section">
-        <DataTable data={rows} columns={columns} isLoading={isLoading} emptyMessage="Tidak ada data perawatan" />
+        <DataTable data={rows} columns={columns} isLoading={isLoading} emptyMessage="Tidak ada data perawatan" showPagination={false} />
         {!isLoading && rows.length > 0 && (
           <div className="px-4 py-3 border-t border-gray-100 flex items-center justify-between">
             <p className="text-xs text-gray-500">Total {total} data</p>
-            <Pagination page={page} totalPages={totalPages} onPageChange={setPage} />
+            <Pagination page={page} totalPages={totalPages} onPageChange={setPage} pageSize={pageSize} onPageSizeChange={(size) => { setPageSize(size); setPage(1) }} />
           </div>
         )}
       </div>

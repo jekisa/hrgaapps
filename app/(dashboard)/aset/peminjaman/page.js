@@ -18,11 +18,12 @@ export default function PeminjamanAsetPage() {
   const [statusFilter, setStatusFilter] = useState('DIPINJAM')
   const [showModal, setShowModal] = useState(false)
   const [returnId, setReturnId] = useState(null)
+  const [pageSize, setPageSize] = useState(10)
 
-  const params = new URLSearchParams({ page, limit: 10, ...(statusFilter && { status: statusFilter }) })
+  const params = new URLSearchParams({ page, limit: pageSize, ...(statusFilter && { status: statusFilter }) })
 
   const { data: result, isLoading } = useQuery({
-    queryKey: ['peminjaman', page, statusFilter],
+    queryKey: ['peminjaman', page, pageSize, statusFilter],
     queryFn: () => fetch(`/api/aset/peminjaman?${params}`).then(r => r.json()),
     keepPreviousData: true,
   })
@@ -129,11 +130,11 @@ export default function PeminjamanAsetPage() {
       </div>
 
       <div className="page-section">
-        <DataTable data={rows} columns={columns} isLoading={isLoading} emptyMessage="Tidak ada data peminjaman" />
+        <DataTable data={rows} columns={columns} isLoading={isLoading} emptyMessage="Tidak ada data peminjaman" showPagination={false} />
         {!isLoading && rows.length > 0 && (
           <div className="px-4 py-3 border-t border-gray-100 flex items-center justify-between">
             <p className="text-xs text-gray-500">Total {total} peminjaman</p>
-            <Pagination page={page} totalPages={totalPages} onPageChange={setPage} />
+            <Pagination page={page} totalPages={totalPages} onPageChange={setPage} pageSize={pageSize} onPageSizeChange={(size) => { setPageSize(size); setPage(1) }} />
           </div>
         )}
       </div>

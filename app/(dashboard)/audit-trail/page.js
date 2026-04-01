@@ -20,17 +20,18 @@ const AKSI_COLORS = {
 
 export default function AuditTrailPage() {
   const [page, setPage] = useState(1)
+  const [pageSize, setPageSize] = useState(10)
   const [search, setSearch] = useState('')
   const [modulFilter, setModulFilter] = useState('')
 
   const params = new URLSearchParams({
-    page, limit: 20,
+    page, limit: pageSize,
     ...(search && { search }),
     ...(modulFilter && { modul: modulFilter }),
   })
 
   const { data: result, isLoading } = useQuery({
-    queryKey: ['audit-trail', page, search, modulFilter],
+    queryKey: ['audit-trail', page, pageSize, search, modulFilter],
     queryFn: () => fetch(`/api/audit-trail?${params}`).then(r => r.ok ? r.json() : { data: [], total: 0, totalPages: 1 }),
     keepPreviousData: true,
   })
@@ -112,11 +113,11 @@ export default function AuditTrailPage() {
       </div>
 
       <div className="page-section">
-        <DataTable data={rows} columns={columns} isLoading={isLoading} emptyMessage="Tidak ada log aktivitas" />
+        <DataTable data={rows} columns={columns} isLoading={isLoading} emptyMessage="Tidak ada log aktivitas" showPagination={false} />
         {!isLoading && rows.length > 0 && (
           <div className="px-4 py-3 border-t border-gray-100 flex items-center justify-between">
             <p className="text-xs text-gray-500">Total {total} log</p>
-            <Pagination page={page} totalPages={totalPages} onPageChange={setPage} />
+            <Pagination page={page} totalPages={totalPages} onPageChange={setPage} pageSize={pageSize} onPageSizeChange={(size) => { setPageSize(size); setPage(1) }} />
           </div>
         )}
       </div>

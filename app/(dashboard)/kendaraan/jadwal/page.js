@@ -15,12 +15,13 @@ export default function JadwalKendaraanPage() {
   const queryClient = useQueryClient()
   const [page, setPage] = useState(1)
   const [statusFilter, setStatusFilter] = useState('')
+  const [pageSize, setPageSize] = useState(10)
   const [showModal, setShowModal] = useState(false)
 
-  const params = new URLSearchParams({ page, limit: 10, ...(statusFilter && { status: statusFilter }) })
+  const params = new URLSearchParams({ page, limit: pageSize, ...(statusFilter && { status: statusFilter }) })
 
   const { data: result, isLoading } = useQuery({
-    queryKey: ['jadwal-kendaraan', page, statusFilter],
+    queryKey: ['jadwal-kendaraan', page, pageSize, statusFilter],
     queryFn: () => fetch(`/api/kendaraan/jadwal?${params}`).then(r => r.json()),
     keepPreviousData: true,
   })
@@ -134,11 +135,11 @@ export default function JadwalKendaraanPage() {
       </div>
 
       <div className="page-section">
-        <DataTable data={rows} columns={columns} isLoading={isLoading} emptyMessage="Tidak ada jadwal kendaraan" />
+        <DataTable data={rows} columns={columns} isLoading={isLoading} emptyMessage="Tidak ada jadwal kendaraan" showPagination={false} />
         {!isLoading && rows.length > 0 && (
           <div className="px-4 py-3 border-t border-gray-100 flex items-center justify-between">
             <p className="text-xs text-gray-500">Total {total} jadwal</p>
-            <Pagination page={page} totalPages={totalPages} onPageChange={setPage} />
+            <Pagination page={page} totalPages={totalPages} onPageChange={setPage} pageSize={pageSize} onPageSizeChange={(size) => { setPageSize(size); setPage(1) }} />
           </div>
         )}
       </div>

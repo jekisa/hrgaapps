@@ -12,11 +12,12 @@ import { formatDate, formatNumber } from '@/lib/utils'
 export default function LogPerjalananPage() {
   const queryClient = useQueryClient()
   const [page, setPage] = useState(1)
+  const [pageSize, setPageSize] = useState(10)
   const [showModal, setShowModal] = useState(false)
 
   const { data: result, isLoading } = useQuery({
-    queryKey: ['log-perjalanan', page],
-    queryFn: () => fetch(`/api/kendaraan/log-perjalanan?page=${page}&limit=10`).then(r => r.json()),
+    queryKey: ['log-perjalanan', page, pageSize],
+    queryFn: () => fetch(`/api/kendaraan/log-perjalanan?page=${page}&limit=${pageSize}`).then(r => r.json()),
     keepPreviousData: true,
   })
 
@@ -98,11 +99,11 @@ export default function LogPerjalananPage() {
       </div>
 
       <div className="page-section">
-        <DataTable data={rows} columns={columns} isLoading={isLoading} emptyMessage="Belum ada log perjalanan" />
+        <DataTable data={rows} columns={columns} isLoading={isLoading} emptyMessage="Belum ada log perjalanan" showPagination={false} />
         {!isLoading && rows.length > 0 && (
           <div className="px-4 py-3 border-t border-gray-100 flex items-center justify-between">
             <p className="text-xs text-gray-500">Total {total} perjalanan</p>
-            <Pagination page={page} totalPages={totalPages} onPageChange={setPage} />
+            <Pagination page={page} totalPages={totalPages} onPageChange={setPage} pageSize={pageSize} onPageSizeChange={(size) => { setPageSize(size); setPage(1) }} />
           </div>
         )}
       </div>

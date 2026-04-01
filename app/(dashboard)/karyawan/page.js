@@ -22,16 +22,17 @@ export default function KaryawanPage() {
   const [showModal, setShowModal] = useState(false)
   const [editData, setEditData] = useState(null)
   const [deleteId, setDeleteId] = useState(null)
+  const [pageSize, setPageSize] = useState(10)
 
   const params = new URLSearchParams({
-    page, limit: 10,
+    page, limit: pageSize,
     ...(search && { search }),
     ...(statusFilter && { status: statusFilter }),
     ...(deptFilter && { departemen: deptFilter }),
   })
 
   const { data: result, isLoading } = useQuery({
-    queryKey: ['karyawan', page, search, statusFilter, deptFilter],
+    queryKey: ['karyawan', page, pageSize, search, statusFilter, deptFilter],
     queryFn: () => fetch(`/api/karyawan?${params}`).then(r => r.json()),
     keepPreviousData: true,
   })
@@ -189,13 +190,14 @@ export default function KaryawanPage() {
           columns={columns}
           isLoading={isLoading}
           emptyMessage="Belum ada data karyawan"
+          showPagination={false}
         />
         {!isLoading && rows.length > 0 && (
           <div className="px-4 py-3 border-t border-gray-100 flex flex-col sm:flex-row items-center justify-between gap-2">
             <p className="text-xs text-gray-500">
-              Menampilkan {(page - 1) * 10 + 1}–{Math.min(page * 10, total)} dari {total} data
+              Menampilkan {(page - 1) * pageSize + 1}–{Math.min(page * pageSize, total)} dari {total} data
             </p>
-            <Pagination page={page} totalPages={totalPages} onPageChange={setPage} />
+            <Pagination page={page} totalPages={totalPages} onPageChange={setPage} pageSize={pageSize} onPageSizeChange={(size) => { setPageSize(size); setPage(1) }} />
           </div>
         )}
       </div>

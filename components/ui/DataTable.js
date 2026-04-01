@@ -164,6 +164,7 @@ export default function DataTable({
   emptyMessage = 'Tidak ada data',
   skeletonRows = 5,
   pageSize: initialPageSize = 10,
+  showPagination = true,
 }) {
   const [sorting, setSorting] = useState([])
   const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: initialPageSize })
@@ -238,7 +239,7 @@ export default function DataTable({
         )}
       </table>
 
-      {!isLoading && <Pagination table={table} total={data.length} />}
+      {!isLoading && showPagination && <Pagination table={table} total={data.length} />}
     </div>
   )
 }

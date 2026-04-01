@@ -20,15 +20,16 @@ export default function KendaraanPage() {
   const [showModal, setShowModal] = useState(false)
   const [editData, setEditData] = useState(null)
   const [deleteId, setDeleteId] = useState(null)
+  const [pageSize, setPageSize] = useState(10)
 
   const params = new URLSearchParams({
-    page, limit: 10,
+    page, limit: pageSize,
     ...(search && { search }),
     ...(statusFilter && { status: statusFilter }),
   })
 
   const { data: result, isLoading } = useQuery({
-    queryKey: ['kendaraan', page, search, statusFilter],
+    queryKey: ['kendaraan', page, pageSize, search, statusFilter],
     queryFn: () => fetch(`/api/kendaraan?${params}`).then(r => r.json()),
     keepPreviousData: true,
   })
@@ -146,11 +147,11 @@ export default function KendaraanPage() {
       </div>
 
       <div className="page-section">
-        <DataTable data={rows} columns={columns} isLoading={isLoading} emptyMessage="Belum ada data kendaraan" />
+        <DataTable data={rows} columns={columns} isLoading={isLoading} emptyMessage="Belum ada data kendaraan" showPagination={false} />
         {!isLoading && rows.length > 0 && (
           <div className="px-4 py-3 border-t border-gray-100 flex items-center justify-between">
             <p className="text-xs text-gray-500">Total {total} kendaraan</p>
-            <Pagination page={page} totalPages={totalPages} onPageChange={setPage} />
+            <Pagination page={page} totalPages={totalPages} onPageChange={setPage} pageSize={pageSize} onPageSizeChange={(size) => { setPageSize(size); setPage(1) }} />
           </div>
         )}
       </div>

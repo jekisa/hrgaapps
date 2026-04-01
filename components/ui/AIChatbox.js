@@ -111,6 +111,7 @@ export default function AIChatbox() {
   const [toolStatus, setToolStatus] = useState('')
   const messagesEndRef = useRef(null)
   const inputRef = useRef(null)
+  const chatWindowRef = useRef(null)
 
   const scrollToBottom = useCallback(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
@@ -122,6 +123,17 @@ export default function AIChatbox() {
       setTimeout(() => inputRef.current?.focus(), 150)
     }
   }, [open, scrollToBottom])
+
+  useEffect(() => {
+    if (!open) return
+    const handleClickOutside = (e) => {
+      if (chatWindowRef.current && !chatWindowRef.current.contains(e.target)) {
+        setOpen(false)
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [open])
 
   useEffect(() => {
     scrollToBottom()
@@ -277,6 +289,7 @@ export default function AIChatbox() {
 
       {/* Chat window */}
       <div
+        ref={chatWindowRef}
         className={cn(
           'fixed bottom-6 right-6 z-50 flex flex-col rounded-2xl overflow-hidden',
           'w-[370px] sm:w-[410px] h-[600px] max-h-[88vh]',
