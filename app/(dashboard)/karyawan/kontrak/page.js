@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { AlertTriangle, Eye } from 'lucide-react'
+import { Eye, TriangleAlert } from 'lucide-react'
 import { useQuery } from '@tanstack/react-query'
 import PageHeader from '@/components/ui/PageHeader'
 import Badge from '@/components/ui/Badge'
@@ -82,7 +82,7 @@ export default function KontrakPage() {
       <div className="page-section mb-6">
         <div className="px-4 py-3 border-b border-gray-100 bg-orange-50">
           <h3 className="font-semibold text-orange-800 flex items-center gap-2">
-            <AlertTriangle className="w-4 h-4" />
+            <TriangleAlert className="w-4 h-4" />
             Kontrak Berakhir dalam {filter} Hari ({isLoading ? '...' : filtered.length})
           </h3>
         </div>

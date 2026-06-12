@@ -126,6 +126,12 @@
       "namedRegex": "^/_not\\-found(?:/)?$"
     },
     {
+      "page": "/api/ai-chat",
+      "regex": "^/api/ai\\-chat(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/ai\\-chat(?:/)?$"
+    },
+    {
       "page": "/api/aset",
       "regex": "^/api/aset(?:/)?$",
       "routeKeys": {},
@@ -240,6 +246,12 @@
       "namedRegex": "^/api/pengguna(?:/)?$"
     },
     {
+      "page": "/api/reminder",
+      "regex": "^/api/reminder(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/reminder(?:/)?$"
+    },
+    {
       "page": "/aset",
       "regex": "^/aset(?:/)?$",
       "routeKeys": {},
@@ -340,6 +352,12 @@
       "regex": "^/pengguna(?:/)?$",
       "routeKeys": {},
       "namedRegex": "^/pengguna(?:/)?$"
+    },
+    {
+      "page": "/reminder",
+      "regex": "^/reminder(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/reminder(?:/)?$"
     }
   ],
   "dataRoutes": [],

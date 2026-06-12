@@ -2,7 +2,7 @@
 
 import { useState, useMemo } from 'react'
 import Link from 'next/link'
-import { Plus, Search, Eye, Edit, Trash2, Users, Download } from 'lucide-react'
+import { CirclePlus, Search, Eye, SquarePen, Trash, DownloadCloud } from 'lucide-react'
 import toast from 'react-hot-toast'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import PageHeader from '@/components/ui/PageHeader'
@@ -114,11 +114,11 @@ export default function KaryawanPage() {
           </Link>
           <button onClick={() => { setEditData(row.original); setShowModal(true) }}
             className="p-1.5 rounded-lg hover:bg-emerald-50 text-emerald-600 transition-colors" title="Edit">
-            <Edit className="w-4 h-4" />
+            <SquarePen className="w-4 h-4" />
           </button>
           <button onClick={() => setDeleteId(row.original._id || row.original.id)}
             className="p-1.5 rounded-lg hover:bg-red-50 text-red-500 transition-colors" title="Hapus">
-            <Trash2 className="w-4 h-4" />
+            <Trash className="w-4 h-4" />
           </button>
         </div>
       ),
@@ -146,10 +146,10 @@ export default function KaryawanPage() {
         actions={
           <>
             <button onClick={exportExcel} className="btn-secondary">
-              <Download className="w-4 h-4" /> Export
+              <DownloadCloud className="w-4 h-4" /> Export
             </button>
             <button onClick={() => { setEditData(null); setShowModal(true) }} className="btn-primary">
-              <Plus className="w-4 h-4" /> Tambah Karyawan
+              <CirclePlus className="w-4 h-4" /> Tambah Karyawan
             </button>
           </>
         }

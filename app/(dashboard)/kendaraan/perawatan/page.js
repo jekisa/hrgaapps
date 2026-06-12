@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useMemo } from 'react'
-import { Plus, Edit } from 'lucide-react'
+import { CirclePlus, SquarePen } from 'lucide-react'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import PageHeader from '@/components/ui/PageHeader'
 import Badge from '@/components/ui/Badge'
@@ -81,7 +81,7 @@ export default function PerawatanPage() {
       header: 'Aksi',
       cell: ({ row }) => (
         <button onClick={() => { setEditData(row.original); setShowModal(true) }} className="p-1.5 rounded hover:bg-green-50 text-green-600">
-          <Edit className="w-4 h-4" />
+          <SquarePen className="w-4 h-4" />
         </button>
       ),
     },
@@ -101,7 +101,7 @@ export default function PerawatanPage() {
         breadcrumb={[{ label: 'Dashboard', href: '/' }, { label: 'Kendaraan', href: '/kendaraan' }, { label: 'Perawatan' }]}
         actions={
           <button onClick={() => { setEditData(null); setShowModal(true) }} className="btn-primary">
-            <Plus className="w-4 h-4" /> Tambah Jadwal
+            <CirclePlus className="w-4 h-4" /> Tambah Jadwal
           </button>
         }
       />

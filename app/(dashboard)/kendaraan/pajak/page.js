@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useMemo } from 'react'
-import { Plus, CheckCircle, AlertTriangle } from 'lucide-react'
+import { CircleCheckBig, CirclePlus, TriangleAlert } from 'lucide-react'
 import toast from 'react-hot-toast'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useForm } from 'react-hook-form'
@@ -212,7 +212,7 @@ export default function PajakKendaraanPage() {
         <button onClick={() => { setSelectedPajak(row.original); setShowBayar(true) }}
           className="flex items-center gap-1 text-xs text-green-600 hover:bg-green-50 px-2 py-1 rounded"
         >
-          <CheckCircle className="w-3.5 h-3.5" /> Bayar
+          <CircleCheckBig className="w-3.5 h-3.5" /> Bayar
         </button>
       ) : null,
     },
@@ -226,14 +226,14 @@ export default function PajakKendaraanPage() {
         breadcrumb={[{ label: 'Dashboard', href: '/' }, { label: 'Kendaraan', href: '/kendaraan' }, { label: 'Pajak' }]}
         actions={
           <button onClick={() => setShowTambah(true)} className="btn-primary">
-            <Plus className="w-4 h-4" /> Tambah Data
+            <CirclePlus className="w-4 h-4" /> Tambah Data
           </button>
         }
       />
 
       {jatuhTempo30.length > 0 && (
         <div className="bg-red-50 border border-red-200 rounded-xl p-4 mb-4 flex items-start gap-3">
-          <AlertTriangle className="w-5 h-5 text-red-500 mt-0.5 shrink-0" />
+          <TriangleAlert className="w-5 h-5 text-red-500 mt-0.5 shrink-0" />
           <div>
             <p className="font-semibold text-red-800">Perhatian: {jatuhTempo30.length} pajak akan jatuh tempo dalam 30 hari!</p>
             <p className="text-sm text-red-600 mt-0.5">

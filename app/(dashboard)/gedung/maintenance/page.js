@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useMemo } from 'react'
-import { Plus, Search, Edit, Trash2 } from 'lucide-react'
+import { CirclePlus, Search, SquarePen, Trash } from 'lucide-react'
 import toast from 'react-hot-toast'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import PageHeader from '@/components/ui/PageHeader'
@@ -111,11 +111,11 @@ export default function MaintenancePage() {
         <div className="flex items-center gap-1">
           <button onClick={() => { setEditData(row.original); setShowModal(true) }}
             className="p-1.5 rounded-lg hover:bg-emerald-50 text-emerald-600 transition-colors">
-            <Edit className="w-4 h-4" />
+            <SquarePen className="w-4 h-4" />
           </button>
           <button onClick={() => setDeleteId(row.original._id || row.original.id)}
             className="p-1.5 rounded-lg hover:bg-red-50 text-red-500 transition-colors">
-            <Trash2 className="w-4 h-4" />
+            <Trash className="w-4 h-4" />
           </button>
         </div>
       ),
@@ -130,7 +130,7 @@ export default function MaintenancePage() {
         breadcrumb={[{ label: 'Dashboard', href: '/' }, { label: 'Gedung & Fasilitas' }, { label: 'Maintenance' }]}
         actions={
           <button onClick={() => { setEditData(null); setShowModal(true) }} className="btn-primary">
-            <Plus className="w-4 h-4" /> Buat Request
+            <CirclePlus className="w-4 h-4" /> Buat Request
           </button>
         }
       />

@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { Bell, ChevronDown, LogOut, PanelLeftOpen, Sparkles, CheckCheck, Menu } from 'lucide-react'
+import { BellDot, ChevronDown, LogOut, PanelLeftOpen, Sparkles, CheckCheck, Menu } from 'lucide-react'
 import { useSession, signOut } from 'next-auth/react'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { formatDate } from '@/lib/utils'
@@ -102,7 +102,7 @@ export default function Header({ collapsed, setCollapsed, setMobileOpen }) {
                   : 'text-gray-500 hover:bg-gray-100 hover:text-gray-700'
               )}
             >
-              <Bell className={cn(
+              <BellDot className={cn(
                 'w-[18px] h-[18px]',
                 unreadCount > 0 ? 'animate-bell-ring' : ''
               )} />
@@ -122,7 +122,7 @@ export default function Header({ collapsed, setCollapsed, setMobileOpen }) {
               >
                 <div className="flex items-center justify-between px-4 py-3.5 border-b border-gray-50">
                   <div className="flex items-center gap-2">
-                    <Bell className="w-4 h-4 text-primary-600" />
+                    <BellDot className="w-4 h-4 text-primary-600" />
                     <h3 className="font-semibold text-gray-800 text-sm">Notifikasi</h3>
                     {unreadCount > 0 && (
                       <span className="text-xs bg-red-50 text-red-600 border border-red-100 px-2 py-0.5 rounded-full font-semibold">
@@ -148,7 +148,7 @@ export default function Header({ collapsed, setCollapsed, setMobileOpen }) {
                   {notifications.length === 0 ? (
                     <div className="flex flex-col items-center py-10 gap-2">
                       <div className="w-12 h-12 rounded-full bg-gray-50 flex items-center justify-center">
-                        <Bell className="w-5 h-5 text-gray-300" />
+                        <BellDot className="w-5 h-5 text-gray-300" />
                       </div>
                       <p className="text-gray-400 text-sm">Tidak ada notifikasi</p>
                     </div>

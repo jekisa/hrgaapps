@@ -3,17 +3,16 @@
 import { useState, useMemo } from 'react'
 import Link from 'next/link'
 import {
-  Users, Package, Car, Bell,
-  AlertTriangle, Clock, Activity,
-  ArrowRight, Plus, Edit3, Trash2, Eye,
+  AlarmClockCheck, Cake, UsersRound, PackageCheck, CarFront, BellDot,
+  TriangleAlert, Clock3,
+  ArrowRight,
   ChevronLeft, ChevronRight, CalendarDays,
-  FileText, Wrench, Route, TrendingUp,
+  ClipboardList, Wrench, MapPinned, TrendingUp,
 } from 'lucide-react'
 import {
   AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip,
   ResponsiveContainer, PieChart, Pie, Cell, Legend,
 } from 'recharts'
-import { formatDate } from '@/lib/utils'
 import { PageLoader } from '@/components/ui/LoadingSpinner'
 import { useQuery } from '@tanstack/react-query'
 
@@ -26,6 +25,8 @@ const eventDotClass = {
   pajak:       'bg-red-400',
   jadwal:      'bg-blue-400',
   maintenance: 'bg-yellow-400',
+  reminder:    'bg-cyan-400',
+  ulangTahun:  'bg-pink-400',
 }
 
 const eventBadgeClass = {
@@ -33,34 +34,31 @@ const eventBadgeClass = {
   pajak:       'bg-red-50 text-red-700 border-red-200',
   jadwal:      'bg-blue-50 text-blue-700 border-blue-200',
   maintenance: 'bg-yellow-50 text-yellow-700 border-yellow-200',
+  reminder:    'bg-cyan-50 text-cyan-700 border-cyan-200',
+  ulangTahun:  'bg-pink-50 text-pink-700 border-pink-200',
 }
 
 const eventIconEl = {
-  kontrak:     <FileText className="w-3 h-3" />,
-  pajak:       <Car className="w-3 h-3" />,
-  jadwal:      <Route className="w-3 h-3" />,
+  kontrak:     <ClipboardList className="w-3 h-3" />,
+  pajak:       <CarFront className="w-3 h-3" />,
+  jadwal:      <MapPinned className="w-3 h-3" />,
   maintenance: <Wrench className="w-3 h-3" />,
+  reminder:    <AlarmClockCheck className="w-3 h-3" />,
+  ulangTahun:  <Cake className="w-3 h-3" />,
+}
+
+const eventTypeLabel = {
+  kontrak: 'Kontrak',
+  pajak: 'Pajak',
+  jadwal: 'Jadwal',
+  maintenance: 'Maintenance',
+  reminder: 'Reminder',
+  ulangTahun: 'Ulang Tahun',
 }
 
 function getTodayStr() {
   const t = new Date()
   return `${t.getFullYear()}-${String(t.getMonth() + 1).padStart(2, '0')}-${String(t.getDate()).padStart(2, '0')}`
-}
-
-const actionIcon = (aksi = '') => {
-  const a = aksi.toUpperCase()
-  if (a.includes('TAMBAH') || a.includes('CREATE')) return <Plus className="w-3 h-3" />
-  if (a.includes('EDIT') || a.includes('UPDATE')) return <Edit3 className="w-3 h-3" />
-  if (a.includes('HAPUS') || a.includes('DELETE')) return <Trash2 className="w-3 h-3" />
-  return <Eye className="w-3 h-3" />
-}
-
-const actionColor = (aksi = '') => {
-  const a = aksi.toUpperCase()
-  if (a.includes('TAMBAH') || a.includes('CREATE')) return 'bg-emerald-100 text-emerald-600'
-  if (a.includes('EDIT') || a.includes('UPDATE')) return 'bg-blue-100 text-blue-600'
-  if (a.includes('HAPUS') || a.includes('DELETE')) return 'bg-red-100 text-red-600'
-  return 'bg-gray-100 text-gray-500'
 }
 
 // ─── Sub-components ───────────────────────────────────────────────────────────
@@ -221,7 +219,7 @@ function MiniCalendar({ events = [] }) {
         {Object.entries(eventDotClass).map(([type, cls]) => (
           <div key={type} className="flex items-center gap-1.5 text-[10px] text-gray-500">
             <span className={`w-2 h-2 rounded-full ${cls}`} />
-            <span className="capitalize">{type}</span>
+            <span>{eventTypeLabel[type] || type}</span>
           </div>
         ))}
       </div>
@@ -264,7 +262,7 @@ function UpcomingEvents({ events = [] }) {
   return (
     <div className="card p-5 flex flex-col gap-4">
       <div className="flex items-center gap-2">
-        <Clock className="w-4 h-4 text-primary-500" />
+        <Clock3 className="w-4 h-4 text-primary-500" />
         <h3 className="font-semibold text-gray-800">Event Mendatang</h3>
       </div>
       <div className="space-y-1.5">
@@ -312,7 +310,7 @@ export default function DashboardPage() {
 
   if (isLoading) return <PageLoader />
 
-  const { stats, charts, recentActivity, calendarEvents } = data || {}
+  const { stats, charts, calendarEvents } = data || {}
 
   const greeting = () => {
     const h = new Date().getHours()
@@ -335,19 +333,27 @@ export default function DashboardPage() {
       </div>
 
       {/* Alerts */}
-      {(stats?.kontrakBerakhir > 0 || stats?.pajakJatuhTempo > 0 || stats?.maintenancePending > 0) && (
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+      {(stats?.kontrakBerakhir > 0 || stats?.pajakJatuhTempo > 0 || stats?.maintenancePending > 0 || stats?.reminderJatuhTempo > 0 || stats?.ulangTahunJatuhTempo > 0) && (
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3">
           {stats?.kontrakBerakhir > 0 && (
-            <AlertCard icon={AlertTriangle} title="Kontrak berakhir (30 hari)" value={`${stats.kontrakBerakhir} Karyawan`}
+            <AlertCard icon={TriangleAlert} title="Kontrak berakhir (30 hari)" value={`${stats.kontrakBerakhir} Karyawan`}
               color="border-orange-200 bg-gradient-to-r from-orange-50 to-amber-50 text-orange-700" href="/karyawan/kontrak" />
           )}
           {stats?.pajakJatuhTempo > 0 && (
-            <AlertCard icon={AlertTriangle} title="Pajak kendaraan jatuh tempo" value={`${stats.pajakJatuhTempo} Kendaraan`}
+            <AlertCard icon={TriangleAlert} title="Pajak kendaraan jatuh tempo" value={`${stats.pajakJatuhTempo} Kendaraan`}
               color="border-red-200 bg-gradient-to-r from-red-50 to-rose-50 text-red-700" href="/kendaraan/pajak" />
           )}
           {stats?.maintenancePending > 0 && (
-            <AlertCard icon={Clock} title="Maintenance belum selesai" value={`${stats.maintenancePending} Request`}
+            <AlertCard icon={Clock3} title="Maintenance belum selesai" value={`${stats.maintenancePending} Request`}
               color="border-yellow-200 bg-gradient-to-r from-yellow-50 to-amber-50 text-yellow-700" href="/gedung/maintenance" />
+          )}
+          {stats?.reminderJatuhTempo > 0 && (
+            <AlertCard icon={AlarmClockCheck} title="Reminder jatuh tempo (30 hari)" value={`${stats.reminderJatuhTempo} Reminder`}
+              color="border-cyan-200 bg-gradient-to-r from-cyan-50 to-blue-50 text-cyan-700" href="/reminder" />
+          )}
+          {stats?.ulangTahunJatuhTempo > 0 && (
+            <AlertCard icon={Cake} title="Ulang tahun karyawan (30 hari)" value={`${stats.ulangTahunJatuhTempo} Karyawan`}
+              color="border-pink-200 bg-gradient-to-r from-pink-50 to-rose-50 text-pink-700" href="/karyawan" />
           )}
         </div>
       )}
@@ -355,13 +361,13 @@ export default function DashboardPage() {
       {/* Stat Cards */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         <StatCard title="Total Karyawan" value={stats?.totalKaryawan} subtitle={`${stats?.karyawanAktif ?? 0} aktif`}
-          icon={Users} gradient="bg-gradient-to-br from-blue-500 to-blue-700" href="/karyawan" />
+          icon={UsersRound} gradient="bg-gradient-to-br from-blue-500 to-cyan-600" href="/karyawan" />
         <StatCard title="Total Aset" value={stats?.totalAset} subtitle={`${stats?.asetDipinjam ?? 0} dipinjam`}
-          icon={Package} gradient="bg-gradient-to-br from-emerald-500 to-teal-600" href="/aset" />
+          icon={PackageCheck} gradient="bg-gradient-to-br from-emerald-500 to-teal-600" href="/aset" />
         <StatCard title="Kendaraan" value={stats?.totalKendaraan} subtitle={`${stats?.kendaraanTersedia ?? 0} tersedia`}
-          icon={Car} gradient="bg-gradient-to-br from-violet-500 to-purple-700" href="/kendaraan" />
+          icon={CarFront} gradient="bg-gradient-to-br from-violet-500 to-fuchsia-700" href="/kendaraan" />
         <StatCard title="Notifikasi" value={stats?.notifikasiUnread} subtitle="belum dibaca"
-          icon={Bell} gradient="bg-gradient-to-br from-amber-400 to-orange-500" href="/notifikasi" />
+          icon={BellDot} gradient="bg-gradient-to-br from-amber-400 to-rose-500" href="/notifikasi" />
       </div>
 
       {/* Charts Row */}
@@ -424,9 +430,8 @@ export default function DashboardPage() {
         </div>
       </div>
 
-      {/* Aset + Activity */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="card p-5">
+      {/* Aset */}
+      <div className="card p-5">
           <div className="flex items-center justify-between mb-5">
             <div>
               <h3 className="font-semibold text-gray-800">Aset per Kategori</h3>
@@ -438,7 +443,7 @@ export default function DashboardPage() {
           </div>
           {(!charts?.asetByKategori || charts.asetByKategori.length === 0) ? (
             <div className="py-8 text-center">
-              <Package className="w-8 h-8 text-gray-200 mx-auto mb-2" />
+              <PackageCheck className="w-8 h-8 text-gray-200 mx-auto mb-2" />
               <p className="text-gray-400 text-sm">Belum ada data aset</p>
             </div>
           ) : (
@@ -471,46 +476,6 @@ export default function DashboardPage() {
               })}
             </div>
           )}
-        </div>
-
-        <div className="card p-5">
-          <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center gap-2">
-              <Activity className="w-4 h-4 text-primary-500" />
-              <h3 className="font-semibold text-gray-800">Aktivitas Terbaru</h3>
-            </div>
-            <Link href="/audit-trail" className="text-xs text-primary-600 font-semibold flex items-center gap-1 group hover:text-primary-700">
-              Lihat semua <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
-            </Link>
-          </div>
-          <div className="space-y-2.5">
-            {(recentActivity || []).map((log, idx, arr) => (
-              <div key={log.id} className="flex items-start gap-3 relative">
-                {idx < arr.length - 1 && (
-                  <div className="absolute left-3.5 top-7 w-px h-[calc(100%+2px)] bg-gray-100" />
-                )}
-                <div className={`w-7 h-7 rounded-xl flex items-center justify-center shrink-0 z-10 ${actionColor(log.aksi)}`}>
-                  {actionIcon(log.aksi)}
-                </div>
-                <div className="flex-1 min-w-0 pb-1">
-                  <p className="text-sm text-gray-700 leading-snug">
-                    <span className="font-semibold">{log.user}</span>{' '}
-                    <span className="text-gray-400">{log.aksi?.toLowerCase()}</span>{' '}
-                    <span className="font-medium">{log.modul}</span>
-                  </p>
-                  {log.detail && <p className="text-xs text-gray-400 truncate">{log.detail}</p>}
-                  <p className="text-[10px] text-gray-300 mt-0.5">{formatDate(log.createdAt, 'dd MMM yyyy HH:mm')}</p>
-                </div>
-              </div>
-            ))}
-            {(!recentActivity || recentActivity.length === 0) && (
-              <div className="py-8 text-center">
-                <Activity className="w-8 h-8 text-gray-200 mx-auto mb-2" />
-                <p className="text-gray-400 text-sm">Belum ada aktivitas</p>
-              </div>
-            )}
-          </div>
-        </div>
       </div>
 
 

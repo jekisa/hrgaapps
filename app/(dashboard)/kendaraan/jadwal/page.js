@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useMemo } from 'react'
-import { Plus, Calendar, CheckCircle, XCircle } from 'lucide-react'
+import { CalendarClock, CircleCheckBig, CirclePlus, CircleX } from 'lucide-react'
 import toast from 'react-hot-toast'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import PageHeader from '@/components/ui/PageHeader'
@@ -92,16 +92,16 @@ export default function JadwalKendaraanPage() {
           {row.original.status === 'TERJADWAL' && (
             <>
               <button onClick={() => updateMutation.mutate({ id: row.original.id, status: 'BERLANGSUNG' })} className="p-1.5 rounded hover:bg-blue-50 text-blue-600" title="Mulai">
-                <Calendar className="w-4 h-4" />
+                <CalendarClock className="w-4 h-4" />
               </button>
               <button onClick={() => updateMutation.mutate({ id: row.original.id, status: 'DIBATALKAN' })} className="p-1.5 rounded hover:bg-red-50 text-red-500" title="Batalkan">
-                <XCircle className="w-4 h-4" />
+                <CircleX className="w-4 h-4" />
               </button>
             </>
           )}
           {row.original.status === 'BERLANGSUNG' && (
             <button onClick={() => updateMutation.mutate({ id: row.original.id, status: 'SELESAI' })} className="p-1.5 rounded hover:bg-green-50 text-green-600" title="Selesaikan">
-              <CheckCircle className="w-4 h-4" />
+              <CircleCheckBig className="w-4 h-4" />
             </button>
           )}
         </div>
@@ -117,7 +117,7 @@ export default function JadwalKendaraanPage() {
         breadcrumb={[{ label: 'Dashboard', href: '/' }, { label: 'Kendaraan', href: '/kendaraan' }, { label: 'Jadwal' }]}
         actions={
           <button onClick={() => setShowModal(true)} className="btn-primary">
-            <Plus className="w-4 h-4" /> Buat Jadwal
+            <CirclePlus className="w-4 h-4" /> Buat Jadwal
           </button>
         }
       />

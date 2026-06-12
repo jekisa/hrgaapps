@@ -4,13 +4,13 @@ import { useState } from 'react'
 import { signIn } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
-import { Eye, EyeOff, LogIn, Building2, Mail, Lock, Users, Package, Car, Wrench, CheckCircle2 } from 'lucide-react'
+import { Eye, EyeOff, LogIn, Landmark, Mail, LockKeyhole, UsersRound, PackageCheck, CarFront, Wrench, CircleCheckBig } from 'lucide-react'
 import toast from 'react-hot-toast'
 
 const features = [
-  { icon: Users, label: 'Manajemen Karyawan', desc: 'Data kepegawaian lengkap' },
-  { icon: Package, label: 'Inventaris Aset', desc: 'Tracking & peminjaman aset' },
-  { icon: Car, label: 'Fleet Kendaraan', desc: 'Jadwal & perawatan armada' },
+  { icon: UsersRound, label: 'Manajemen Karyawan', desc: 'Data kepegawaian lengkap' },
+  { icon: PackageCheck, label: 'Inventaris Aset', desc: 'Tracking & peminjaman aset' },
+  { icon: CarFront, label: 'Fleet Kendaraan', desc: 'Jadwal & perawatan armada' },
   { icon: Wrench, label: 'Fasilitas Gedung', desc: 'Maintenance & utilitas' },
 ]
 
@@ -72,7 +72,7 @@ export default function LoginPage() {
         {/* Logo */}
         <div className="relative z-10 flex items-center gap-3">
           <div className="w-11 h-11 rounded-2xl bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center shadow-lg">
-            <Building2 className="w-5 h-5 text-white" />
+            <Landmark className="w-5 h-5 text-white" />
           </div>
           <div>
             <span className="text-white font-bold text-lg leading-none">HRGA Apps</span>
@@ -110,7 +110,7 @@ export default function LoginPage() {
                   <p className="text-white text-sm font-semibold leading-none">{f.label}</p>
                   <p className="text-slate-400 text-xs mt-0.5">{f.desc}</p>
                 </div>
-                <CheckCircle2 className="w-4 h-4 text-emerald-400 ml-auto shrink-0" />
+                  <CircleCheckBig className="w-4 h-4 text-emerald-400 ml-auto shrink-0" />
               </div>
             ))}
           </div>
@@ -130,7 +130,7 @@ export default function LoginPage() {
           {/* Mobile logo */}
           <div className="flex items-center gap-3 mb-8 lg:hidden">
             <div className="w-10 h-10 rounded-xl bg-primary-600 flex items-center justify-center">
-              <Building2 className="w-5 h-5 text-white" />
+              <Landmark className="w-5 h-5 text-white" />
             </div>
             <div>
               <p className="font-bold text-gray-900">HRGA Apps</p>
@@ -166,7 +166,7 @@ export default function LoginPage() {
               <div>
                 <label className="form-label">Password</label>
                 <div className="relative">
-                  <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
+                  <LockKeyhole className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
                   <input
                     type={showPassword ? 'text' : 'password'}
                     className="form-input pl-10 pr-10"

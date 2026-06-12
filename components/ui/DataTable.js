@@ -9,7 +9,7 @@ import {
 } from '@tanstack/react-table'
 import { useState } from 'react'
 import {
-  ChevronUp, ChevronDown, ChevronsUpDown, Database,
+  ChevronUp, ChevronDown, ChevronsUpDown, PackageSearch,
   ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight,
 } from 'lucide-react'
 
@@ -40,7 +40,7 @@ function EmptyRow({ colSpan, message = 'Tidak ada data' }) {
         <td colSpan={colSpan} className="px-4 py-16 text-center">
           <div className="flex flex-col items-center gap-3">
             <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-gray-100 to-gray-50 flex items-center justify-center shadow-inner">
-              <Database className="w-6 h-6 text-gray-300" />
+              <PackageSearch className="w-6 h-6 text-gray-300" />
             </div>
             <div>
               <p className="text-sm font-medium text-gray-500">{message}</p>
@@ -180,7 +180,7 @@ export default function DataTable({
     onPaginationChange: setPagination,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
+    ...(showPagination ? { getPaginationRowModel: getPaginationRowModel() } : {}),
   })
 
   return (

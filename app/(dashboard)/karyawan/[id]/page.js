@@ -4,8 +4,8 @@ import { useState, useRef } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
 import {
-  User, MapPin, Briefcase, FileText,
-  ArrowLeft, Edit, Upload, Trash2, X, Plus
+  UserRound, MapPinned, BriefcaseBusiness, FileText,
+  ArrowLeft, SquarePen, UploadCloud, Trash, X, CirclePlus
 } from 'lucide-react'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import toast from 'react-hot-toast'
@@ -121,7 +121,7 @@ export default function KaryawanDetailPage() {
               <ArrowLeft className="w-4 h-4" /> Kembali
             </Link>
             <button onClick={() => setShowEdit(true)} className="btn-primary">
-              <Edit className="w-4 h-4" /> Edit
+              <SquarePen className="w-4 h-4" /> Edit
             </button>
           </>
         }
@@ -170,7 +170,7 @@ export default function KaryawanDetailPage() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
           <div className="card p-5">
             <h3 className="font-semibold text-gray-800 mb-4 flex items-center gap-2">
-              <User className="w-4 h-4" /> Data Pribadi
+              <UserRound className="w-4 h-4" /> Data Pribadi
             </h3>
             <dl className="space-y-3">
               {[
@@ -190,7 +190,7 @@ export default function KaryawanDetailPage() {
           </div>
           <div className="card p-5">
             <h3 className="font-semibold text-gray-800 mb-4 flex items-center gap-2">
-              <Briefcase className="w-4 h-4" /> Data Kepegawaian
+              <BriefcaseBusiness className="w-4 h-4" /> Data Kepegawaian
             </h3>
             <dl className="space-y-3">
               {[
@@ -212,7 +212,7 @@ export default function KaryawanDetailPage() {
           {data.alamat && (
             <div className="card p-5 lg:col-span-2">
               <h3 className="font-semibold text-gray-800 mb-3 flex items-center gap-2">
-                <MapPin className="w-4 h-4" /> Alamat
+                <MapPinned className="w-4 h-4" /> Alamat
               </h3>
               <p className="text-sm text-gray-700">{data.alamat}</p>
             </div>
@@ -257,7 +257,7 @@ export default function KaryawanDetailPage() {
               onClick={() => setShowUpload(true)}
               className="btn-primary text-sm"
             >
-              <Plus className="w-4 h-4" /> Upload Dokumen
+              <CirclePlus className="w-4 h-4" /> Upload Dokumen
             </button>
           </div>
           {data.dokumen.length === 0 ? (
@@ -287,7 +287,7 @@ export default function KaryawanDetailPage() {
                     className="p-1 text-gray-300 hover:text-red-500 transition-colors opacity-0 group-hover:opacity-100 shrink-0"
                     title="Hapus dokumen"
                   >
-                    <Trash2 className="w-4 h-4" />
+                    <Trash className="w-4 h-4" />
                   </button>
                 </div>
               ))}
@@ -317,7 +317,7 @@ export default function KaryawanDetailPage() {
               <div className="relative flex items-start justify-between">
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center shrink-0 shadow-inner">
-                    <Upload className="w-5 h-5 text-white" />
+                    <UploadCloud className="w-5 h-5 text-white" />
                   </div>
                   <div>
                     <h2 className="text-base font-bold text-white leading-tight">Upload Dokumen</h2>
@@ -404,7 +404,7 @@ export default function KaryawanDetailPage() {
                       <div className={`w-14 h-14 rounded-2xl flex items-center justify-center transition-all duration-200 ${
                         isDragging ? 'bg-primary-100 scale-110 rotate-3' : 'bg-gray-100'
                       }`}>
-                        <Upload className={`w-6 h-6 transition-colors ${isDragging ? 'text-primary-600' : 'text-gray-400'}`} />
+                        <UploadCloud className={`w-6 h-6 transition-colors ${isDragging ? 'text-primary-600' : 'text-gray-400'}`} />
                       </div>
                       <div className="text-center px-4">
                         <p className="text-sm font-semibold text-gray-700">
@@ -516,7 +516,7 @@ export default function KaryawanDetailPage() {
                         Mengupload…
                       </>
                     ) : (
-                      <><Upload className="w-4 h-4" /> Upload Dokumen</>
+                      <><UploadCloud className="w-4 h-4" /> Upload Dokumen</>
                     )}
                   </button>
                 </div>

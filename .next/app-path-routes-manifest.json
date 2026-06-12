@@ -18,8 +18,10 @@
   "/(dashboard)/notifikasi/page": "/notifikasi",
   "/(dashboard)/page": "/",
   "/(dashboard)/pengguna/page": "/pengguna",
+  "/(dashboard)/reminder/page": "/reminder",
   "/_global-error/page": "/_global-error",
   "/_not-found/page": "/_not-found",
+  "/api/ai-chat/route": "/api/ai-chat",
   "/api/aset/[id]/route": "/api/aset/[id]",
   "/api/aset/peminjaman/route": "/api/aset/peminjaman",
   "/api/aset/route": "/api/aset",
@@ -46,5 +48,6 @@
   "/api/laporan/maintenance/route": "/api/laporan/maintenance",
   "/api/notifikasi/[id]/route": "/api/notifikasi/[id]",
   "/api/notifikasi/route": "/api/notifikasi",
-  "/api/pengguna/route": "/api/pengguna"
+  "/api/pengguna/route": "/api/pengguna",
+  "/api/reminder/route": "/api/reminder"
 }

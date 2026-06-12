@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useMemo } from 'react'
-import { Plus, RotateCcw } from 'lucide-react'
+import { CirclePlus, RotateCcwSquare } from 'lucide-react'
 import toast from 'react-hot-toast'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import PageHeader from '@/components/ui/PageHeader'
@@ -102,7 +102,7 @@ export default function PeminjamanAsetPage() {
       header: 'Aksi',
       cell: ({ row }) => row.original.status === 'DIPINJAM' ? (
         <button onClick={() => setReturnId(row.original.id)} className="p-1.5 rounded hover:bg-green-50 text-green-600" title="Kembalikan">
-          <RotateCcw className="w-4 h-4" />
+          <RotateCcwSquare className="w-4 h-4" />
         </button>
       ) : null,
     },
@@ -116,7 +116,7 @@ export default function PeminjamanAsetPage() {
         breadcrumb={[{ label: 'Dashboard', href: '/' }, { label: 'Aset', href: '/aset' }, { label: 'Peminjaman' }]}
         actions={
           <button onClick={() => setShowModal(true)} className="btn-primary">
-            <Plus className="w-4 h-4" /> Buat Peminjaman
+            <CirclePlus className="w-4 h-4" /> Buat Peminjaman
           </button>
         }
       />

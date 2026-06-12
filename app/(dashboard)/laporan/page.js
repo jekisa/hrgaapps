@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { Download, FileSpreadsheet, Users, Package, Car, Wrench } from 'lucide-react'
+import { DownloadCloud, Sheet, UsersRound, PackageCheck, CarFront, Wrench } from 'lucide-react'
 import toast from 'react-hot-toast'
 import PageHeader from '@/components/ui/PageHeader'
 
@@ -10,8 +10,8 @@ const reports = [
     id: 'karyawan',
     title: 'Laporan Karyawan',
     description: 'Data master karyawan, status kontrak, dan informasi kepegawaian',
-    icon: Users,
-    color: 'bg-blue-50 text-blue-600',
+    icon: UsersRound,
+    color: 'bg-gradient-to-br from-blue-50 to-cyan-50 text-blue-600 ring-1 ring-blue-100',
     endpoint: '/api/laporan/karyawan',
     filename: 'laporan-karyawan.xlsx',
   },
@@ -19,8 +19,8 @@ const reports = [
     id: 'aset',
     title: 'Laporan Inventaris Aset',
     description: 'Daftar aset, status, kondisi, dan nilai perolehan',
-    icon: Package,
-    color: 'bg-green-50 text-green-600',
+    icon: PackageCheck,
+    color: 'bg-gradient-to-br from-emerald-50 to-teal-50 text-emerald-600 ring-1 ring-emerald-100',
     endpoint: '/api/laporan/aset',
     filename: 'laporan-aset.xlsx',
   },
@@ -28,8 +28,8 @@ const reports = [
     id: 'kendaraan',
     title: 'Laporan Kendaraan',
     description: 'Data kendaraan, status pajak, dan jadwal perawatan',
-    icon: Car,
-    color: 'bg-purple-50 text-purple-600',
+    icon: CarFront,
+    color: 'bg-gradient-to-br from-violet-50 to-fuchsia-50 text-violet-600 ring-1 ring-violet-100',
     endpoint: '/api/laporan/kendaraan',
     filename: 'laporan-kendaraan.xlsx',
   },
@@ -38,7 +38,7 @@ const reports = [
     title: 'Laporan Maintenance',
     description: 'Riwayat dan status pemeliharaan gedung dan fasilitas',
     icon: Wrench,
-    color: 'bg-orange-50 text-orange-600',
+    color: 'bg-gradient-to-br from-orange-50 to-amber-50 text-orange-600 ring-1 ring-orange-100',
     endpoint: '/api/laporan/maintenance',
     filename: 'laporan-maintenance.xlsx',
   },
@@ -81,7 +81,7 @@ export default function LaporanPage() {
         {reports.map((report) => (
           <div key={report.id} className="card p-6 card-hover">
             <div className="flex items-start gap-4">
-              <div className={`p-3 rounded-xl ${report.color}`}>
+              <div className={`icon-tile w-12 h-12 ${report.color}`}>
                 <report.icon className="w-6 h-6" />
               </div>
               <div className="flex-1">
@@ -105,7 +105,7 @@ export default function LaporanPage() {
                   </>
                 ) : (
                   <>
-                    <Download className="w-4 h-4" /> Download Excel
+                    <DownloadCloud className="w-4 h-4" /> Download Excel
                   </>
                 )}
               </button>
@@ -116,7 +116,7 @@ export default function LaporanPage() {
 
       <div className="mt-6 card p-5 bg-green-50 border-green-100">
         <div className="flex items-start gap-3">
-          <FileSpreadsheet className="w-5 h-5 text-green-600 shrink-0 mt-0.5" />
+          <Sheet className="w-5 h-5 text-green-600 shrink-0 mt-0.5" />
           <div>
             <h3 className="font-semibold text-green-800">Informasi Export</h3>
             <ul className="text-sm text-green-700 mt-2 space-y-1 list-disc list-inside">

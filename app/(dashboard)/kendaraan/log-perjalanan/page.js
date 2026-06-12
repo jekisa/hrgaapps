@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useMemo } from 'react'
-import { Plus } from 'lucide-react'
+import { CirclePlus } from 'lucide-react'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import PageHeader from '@/components/ui/PageHeader'
 import Pagination from '@/components/ui/Pagination'
@@ -82,7 +82,7 @@ export default function LogPerjalananPage() {
         breadcrumb={[{ label: 'Dashboard', href: '/' }, { label: 'Kendaraan', href: '/kendaraan' }, { label: 'Log Perjalanan' }]}
         actions={
           <button onClick={() => setShowModal(true)} className="btn-primary">
-            <Plus className="w-4 h-4" /> Tambah Log
+            <CirclePlus className="w-4 h-4" /> Tambah Log
           </button>
         }
       />

@@ -8,12 +8,22 @@ import MaintenanceRequest from '@/models/MaintenanceRequest'
 import Kendaraan from '@/models/Kendaraan'
 import PembayaranPajak from '@/models/PembayaranPajak'
 import Notifikasi from '@/models/Notifikasi'
-import AuditLog from '@/models/AuditLog'
 import Utilitas from '@/models/Utilitas'
 import JadwalKendaraan from '@/models/JadwalKendaraan'
-import { addDays, endOfMonth, subMonths, startOfDay } from 'date-fns'
+import Reminder from '@/models/Reminder'
+import { addDays, addYears, endOfMonth, subMonths, startOfDay } from 'date-fns'
 
-const toDateStr = (d) => new Date(d).toISOString().split('T')[0]
+const toDateStr = (d) => {
+  const date = new Date(d)
+  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`
+}
+
+const getNextBirthday = (birthDate, today) => {
+  const birth = new Date(birthDate)
+  const next = new Date(today.getFullYear(), birth.getMonth(), birth.getDate())
+  if (next < startOfDay(today)) next.setFullYear(next.getFullYear() + 1)
+  return next
+}
 
 export async function GET() {
   const session = await getServerSession(authOptions)
@@ -25,6 +35,7 @@ export async function GET() {
     const now = new Date()
     const thirtyDaysLater = addDays(now, 30)
     const sixtyDaysLater = addDays(now, 60)
+    const oneYearLater = addYears(now, 1)
 
     const [
       totalKaryawan,
@@ -37,7 +48,6 @@ export async function GET() {
       kendaraanTersedia,
       pajakJatuhTempo,
       notifikasiUnread,
-      recentAudit,
       asetByKategoriRaw,
       karyawanByKontrakRaw,
       // calendar sources
@@ -45,6 +55,9 @@ export async function GET() {
       calendarPajak,
       calendarJadwal,
       calendarMaintenance,
+      calendarReminder,
+      calendarBirthdayRaw,
+      reminderJatuhTempo,
     ] = await Promise.all([
       Karyawan.countDocuments(),
       Karyawan.countDocuments({ statusAktif: true }),
@@ -62,7 +75,6 @@ export async function GET() {
         tanggalJatuhTempo: { $gte: now, $lte: thirtyDaysLater },
       }),
       Notifikasi.countDocuments({ status: 'BELUM_DIBACA' }),
-      AuditLog.find().sort({ createdAt: -1 }).limit(6).populate('userId', 'name'),
       Aset.aggregate([{ $group: { _id: '$kategori', count: { $sum: 1 } } }]),
       Karyawan.aggregate([
         { $match: { statusAktif: true } },
@@ -88,6 +100,18 @@ export async function GET() {
         tanggalRequest: { $gte: startOfDay(now), $lte: sixtyDaysLater },
         status: { $in: ['PENDING', 'PROSES'] },
       }).select('judul tanggalRequest prioritas').limit(30),
+      Reminder.find({
+        tanggalJatuhTempo: { $gte: startOfDay(now), $lte: sixtyDaysLater },
+        status: 'ACTIVE',
+      }).select('judul kategori tanggalJatuhTempo prioritas').limit(40),
+      Karyawan.find({
+        tanggalLahir: { $ne: null },
+        statusAktif: true,
+      }).select('nama tanggalLahir departemen jabatan').limit(500),
+      Reminder.countDocuments({
+        tanggalJatuhTempo: { $gte: startOfDay(now), $lte: thirtyDaysLater },
+        status: 'ACTIVE',
+      }),
     ])
 
     // Monthly karyawan trend (last 6 months)
@@ -100,6 +124,17 @@ export async function GET() {
         total: count,
       })
     }
+
+    const calendarBirthday = calendarBirthdayRaw
+      .map((k) => ({
+        employee: k,
+        nextBirthday: getNextBirthday(k.tanggalLahir, now),
+      }))
+      .filter((item) => item.nextBirthday >= startOfDay(now) && item.nextBirthday <= oneYearLater)
+      .sort((a, b) => a.nextBirthday - b.nextBirthday)
+      .slice(0, 500)
+
+    const ulangTahunJatuhTempo = calendarBirthday.filter((item) => item.nextBirthday <= thirtyDaysLater).length
 
     // Build calendarEvents array
     const calendarEvents = [
@@ -127,6 +162,18 @@ export async function GET() {
         label: `Maintenance: ${m.judul}`,
         href: '/gedung/maintenance',
       })),
+      ...calendarReminder.map((r) => ({
+        date: toDateStr(r.tanggalJatuhTempo),
+        type: 'reminder',
+        label: `${r.kategori.replaceAll('_', ' ')}: ${r.judul}`,
+        href: '/reminder',
+      })),
+      ...calendarBirthday.map(({ employee, nextBirthday }) => ({
+        date: toDateStr(nextBirthday),
+        type: 'ulangTahun',
+        label: `Ulang tahun: ${employee.nama}`,
+        href: `/karyawan/${employee.id}`,
+      })),
     ]
 
     return NextResponse.json({
@@ -140,6 +187,8 @@ export async function GET() {
         totalKendaraan,
         kendaraanTersedia,
         pajakJatuhTempo,
+        reminderJatuhTempo,
+        ulangTahunJatuhTempo,
         notifikasiUnread,
       },
       charts: {
@@ -147,17 +196,6 @@ export async function GET() {
         asetByKategori: asetByKategoriRaw.map((a) => ({ name: a._id, value: a.count })),
         monthlyKaryawan,
       },
-      recentActivity: recentAudit.map((log) => {
-        const obj = log.toJSON()
-        return {
-          id: obj.id,
-          user: obj.userId?.name || 'System',
-          aksi: obj.aksi,
-          modul: obj.modul,
-          detail: obj.detail,
-          createdAt: obj.createdAt,
-        }
-      }),
       calendarEvents,
     })
   } catch (error) {

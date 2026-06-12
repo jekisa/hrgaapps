@@ -4,10 +4,10 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import {
-  Building2, Users, Package, Wrench, Car, LayoutDashboard,
-  ChevronDown, ChevronRight, BellRing, FileBarChart2, ShieldCheck, Activity,
-  UserCircle2, History, TimerReset, Boxes, ArrowRightLeft,
-  Construction, Zap, CarFront, Calendar, Route, Receipt,
+  AlarmClockCheck, Landmark, UsersRound, PackageOpen, Wrench, CarFront, Gauge,
+  ChevronRight, BellDot, ChartNoAxesCombined, ShieldCheck, ScanLine,
+  ContactRound, History, Hourglass, Boxes, Repeat2,
+  HardHat, PlugZap, CalendarClock, MapPinned, ReceiptText,
   LogOut, PanelLeftClose, PanelLeftOpen, Sparkles, X
 } from 'lucide-react'
 import { signOut, useSession } from 'next-auth/react'
@@ -17,59 +17,64 @@ const menuItems = [
   {
     label: 'Dashboard',
     href: '/',
-    icon: LayoutDashboard,
+    icon: Gauge,
+  },
+  {
+    label: 'Reminder',
+    href: '/reminder',
+    icon: AlarmClockCheck,
+  },
+  {
+    label: 'Notifikasi',
+    href: '/notifikasi',
+    icon: BellDot,
   },
   {
     label: 'Manajemen Karyawan',
-    icon: Users,
+    icon: UsersRound,
     children: [
-      { label: 'Data Karyawan', href: '/karyawan', icon: UserCircle2 },
+      { label: 'Data Karyawan', href: '/karyawan', icon: ContactRound },
       { label: 'Riwayat Jabatan', href: '/karyawan/riwayat', icon: History },
-      { label: 'Status Kontrak', href: '/karyawan/kontrak', icon: TimerReset },
+      { label: 'Status Kontrak', href: '/karyawan/kontrak', icon: Hourglass },
     ],
   },
   {
     label: 'Manajemen Aset',
-    icon: Package,
+    icon: PackageOpen,
     children: [
       { label: 'Inventaris Aset', href: '/aset', icon: Boxes },
-      { label: 'Peminjaman Aset', href: '/aset/peminjaman', icon: ArrowRightLeft },
-    ],
-  },
-  {
-    label: 'Gedung & Fasilitas',
-    icon: Building2,
-    children: [
-      { label: 'Maintenance Request', href: '/gedung/maintenance', icon: Construction },
-      { label: 'Utilitas', href: '/gedung/utilitas', icon: Zap },
+      { label: 'Peminjaman Aset', href: '/aset/peminjaman', icon: Repeat2 },
     ],
   },
   {
     label: 'Manajemen Kendaraan',
-    icon: Car,
+    icon: CarFront,
     children: [
       { label: 'Data Kendaraan', href: '/kendaraan', icon: CarFront },
-      { label: 'Jadwal Pemakaian', href: '/kendaraan/jadwal', icon: Calendar },
-      { label: 'Log Perjalanan', href: '/kendaraan/log-perjalanan', icon: Route },
+      { label: 'Jadwal Pemakaian', href: '/kendaraan/jadwal', icon: CalendarClock },
+      { label: 'Log Perjalanan', href: '/kendaraan/log-perjalanan', icon: MapPinned },
       { label: 'Perawatan & Servis', href: '/kendaraan/perawatan', icon: Wrench },
-      { label: 'Pembayaran Pajak', href: '/kendaraan/pajak', icon: Receipt },
+      { label: 'Pembayaran Pajak', href: '/kendaraan/pajak', icon: ReceiptText },
+    ],
+  },
+  {
+    label: 'Gedung & Fasilitas',
+    icon: Landmark,
+    children: [
+      { label: 'Maintenance Request', href: '/gedung/maintenance', icon: HardHat },
+      { label: 'Utilitas', href: '/gedung/utilitas', icon: PlugZap },
     ],
   },
   {
     label: 'Laporan',
     href: '/laporan',
-    icon: FileBarChart2,
-  },
-  {
-    label: 'Notifikasi',
-    href: '/notifikasi',
-    icon: BellRing,
+    icon: ChartNoAxesCombined,
   },
 ]
 
 const adminMenuItems = [
   { label: 'Manajemen Pengguna', href: '/pengguna', icon: ShieldCheck },
-  { label: 'Audit Trail', href: '/audit-trail', icon: Activity },
+  { label: 'Audit Trail', href: '/audit-trail', icon: ScanLine },
 ]
 
 function MenuItem({ item, collapsed, onMobileClose }) {
@@ -210,7 +215,7 @@ export default function Sidebar({ collapsed, setCollapsed, mobileOpen, setMobile
         <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 shadow-md relative overflow-hidden"
           style={{ background: 'linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%)' }}
         >
-          <Building2 className="w-4 h-4 text-white relative z-10" />
+          <Landmark className="w-4 h-4 text-white relative z-10" />
           <div className="absolute inset-0 bg-gradient-to-br from-white/15 to-transparent" />
         </div>
 

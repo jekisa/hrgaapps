@@ -116,6 +116,28 @@
     @apply w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0;
   }
 
+  /* ===== ICONS ===== */
+  .icon-tile {
+    @apply relative overflow-hidden rounded-xl flex items-center justify-center shrink-0 shadow-sm transition-all duration-200;
+  }
+
+  .icon-tile::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.28), transparent 58%);
+    pointer-events: none;
+  }
+
+  .icon-tile svg {
+    position: relative;
+    z-index: 1;
+  }
+
+  .icon-action {
+    @apply p-1.5 rounded-lg transition-all duration-150 hover:-translate-y-px hover:shadow-sm;
+  }
+
   /* ===== PAGE SECTION ===== */
   .page-section {
     @apply bg-white rounded-xl border border-gray-100 shadow-card overflow-hidden;

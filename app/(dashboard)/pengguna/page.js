@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useMemo } from 'react'
-import { Plus, Edit, Shield } from 'lucide-react'
+import { CirclePlus, ShieldCheck, SquarePen } from 'lucide-react'
 import toast from 'react-hot-toast'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import PageHeader from '@/components/ui/PageHeader'
@@ -124,7 +124,7 @@ export default function PenggunaPage() {
         const isAdmin = getValue() === 'ADMIN'
         return (
           <span className={`badge ${isAdmin ? 'bg-violet-100 text-violet-700' : 'bg-gray-100 text-gray-600'}`}>
-            {isAdmin && <Shield className="w-3 h-3 inline mr-1" />}
+            {isAdmin && <ShieldCheck className="w-3 h-3 inline mr-1" />}
             {getValue()}
           </span>
         )
@@ -147,7 +147,7 @@ export default function PenggunaPage() {
       cell: ({ row }) => (
         <button onClick={() => { setEditData(row.original); setShowModal(true) }}
           className="p-1.5 rounded-lg hover:bg-emerald-50 text-emerald-600 transition-colors">
-          <Edit className="w-4 h-4" />
+          <SquarePen className="w-4 h-4" />
         </button>
       ),
     },
@@ -161,7 +161,7 @@ export default function PenggunaPage() {
         breadcrumb={[{ label: 'Dashboard', href: '/' }, { label: 'Pengguna' }]}
         actions={
           <button onClick={() => { setEditData(null); setShowModal(true) }} className="btn-primary">
-            <Plus className="w-4 h-4" /> Tambah Pengguna
+            <CirclePlus className="w-4 h-4" /> Tambah Pengguna
           </button>
         }
       />

@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { Bell, CheckCheck, Trash2 } from 'lucide-react'
+import { BellDot, CheckCheck, Trash } from 'lucide-react'
 import toast from 'react-hot-toast'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import PageHeader from '@/components/ui/PageHeader'
@@ -80,7 +80,7 @@ export default function NotifikasiPage() {
       <div className="page-section">
         {notifications.length === 0 ? (
           <div className="p-8">
-            <EmptyState icon={Bell} title="Tidak ada notifikasi" description="Semua notifikasi sudah dibaca" />
+            <EmptyState icon={BellDot} title="Tidak ada notifikasi" description="Semua notifikasi sudah dibaca" />
           </div>
         ) : (
           <>
@@ -116,7 +116,7 @@ export default function NotifikasiPage() {
                           )}
                           <button onClick={() => deleteNotif(id)}
                             className="p-1.5 rounded-lg hover:bg-red-50 text-red-400 transition-colors" title="Hapus">
-                            <Trash2 className="w-4 h-4" />
+                            <Trash className="w-4 h-4" />
                           </button>
                         </div>
                       </div>

@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { ChevronRight, Home } from 'lucide-react'
+import { ChevronRight, House } from 'lucide-react'
 
 export default function PageHeader({ title, subtitle, breadcrumb, actions }) {
   return (
@@ -7,7 +7,7 @@ export default function PageHeader({ title, subtitle, breadcrumb, actions }) {
       <div className="min-w-0">
         {breadcrumb && (
           <nav className="flex items-center gap-1 text-xs text-gray-400 mb-2 flex-wrap">
-            <Home className="w-3 h-3 shrink-0" />
+            <House className="w-3 h-3 shrink-0 text-primary-400" />
             {breadcrumb.map((item, idx) => (
               <span key={idx} className="flex items-center gap-1">
                 <ChevronRight className="w-3 h-3 text-gray-300" />
