@@ -169,6 +169,8 @@ export default function DataTable({
   const [sorting, setSorting] = useState([])
   const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: initialPageSize })
 
+  // TanStack Table returns function helpers that React Compiler cannot safely memoize.
+  // eslint-disable-next-line react-hooks/incompatible-library
   const table = useReactTable({
     data,
     columns,
