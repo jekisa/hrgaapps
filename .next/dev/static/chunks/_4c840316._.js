@@ -742,7 +742,7 @@ function UpcomingEvents({ events = [] }) {
                 "UpcomingEvents.useMemo[upcoming]": (e)=>e.date >= today
             }["UpcomingEvents.useMemo[upcoming]"]).sort({
                 "UpcomingEvents.useMemo[upcoming]": (a, b)=>a.date.localeCompare(b.date)
-            }["UpcomingEvents.useMemo[upcoming]"]).slice(0, 8)
+            }["UpcomingEvents.useMemo[upcoming]"]).slice(0, 3)
     }["UpcomingEvents.useMemo[upcoming]"], [
         events,
         today

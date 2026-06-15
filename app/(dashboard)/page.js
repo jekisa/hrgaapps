@@ -255,7 +255,7 @@ function UpcomingEvents({ events = [] }) {
     events
       .filter((e) => e.date >= today)
       .sort((a, b) => a.date.localeCompare(b.date))
-      .slice(0, 8),
+      .slice(0, 3),
     [events, today]
   )
 
