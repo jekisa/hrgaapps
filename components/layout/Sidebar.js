@@ -8,10 +8,11 @@ import {
   ChevronRight, BellDot, ChartNoAxesCombined, ShieldCheck, ScanLine,
   ContactRound, History, Hourglass, Boxes, Repeat2,
   HardHat, PlugZap, CalendarClock, MapPinned, ReceiptText,
-  LogOut, PanelLeftClose, PanelLeftOpen, Sparkles, X
+  LogOut, PanelLeftClose, PanelLeftOpen, UserX, X
 } from 'lucide-react'
 import { signOut, useSession } from 'next-auth/react'
 import { cn } from '@/lib/utils'
+import AppLogo from '@/components/ui/AppLogo'
 
 const menuItems = [
   {
@@ -30,13 +31,20 @@ const menuItems = [
     icon: BellDot,
   },
   {
+    section: 'Manajemen SDM',
+  },
+  {
     label: 'Manajemen Karyawan',
     icon: UsersRound,
     children: [
       { label: 'Data Karyawan', href: '/karyawan', icon: ContactRound },
+      { label: 'Karyawan Nonaktif', href: '/karyawan/nonactive', icon: UserX },
       { label: 'Riwayat Jabatan', href: '/karyawan/riwayat', icon: History },
       { label: 'Status Kontrak', href: '/karyawan/kontrak', icon: Hourglass },
     ],
+  },
+  {
+    section: 'Manajemen Aset',
   },
   {
     label: 'Manajemen Aset',
@@ -64,6 +72,9 @@ const menuItems = [
       { label: 'Maintenance Request', href: '/gedung/maintenance', icon: HardHat },
       { label: 'Utilitas', href: '/gedung/utilitas', icon: PlugZap },
     ],
+  },
+  {
+    section: 'Laporan',
   },
   {
     label: 'Laporan',
@@ -212,25 +223,14 @@ export default function Sidebar({ collapsed, setCollapsed, mobileOpen, setMobile
         'flex items-center h-16 border-b border-white/5 px-4 gap-3',
         showCollapsed && 'lg:justify-center lg:gap-0'
       )}>
-        <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 shadow-md relative overflow-hidden"
-          style={{ background: 'linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%)' }}
-        >
-          <Landmark className="w-4 h-4 text-white relative z-10" />
-          <div className="absolute inset-0 bg-gradient-to-br from-white/15 to-transparent" />
-        </div>
-
-        {!showCollapsed && (
-          <div className="flex-1 min-w-0">
-            <div className="flex items-center gap-1">
-              <p className="text-white font-bold text-sm leading-none tracking-wide">HRGA Apps</p>
-              <Sparkles className="w-3 h-3 text-primary-400 animate-pulse-slow" />
-            </div>
-            <p className="text-slate-500 text-[10px] mt-0.5 tracking-wider uppercase">Management System</p>
-          </div>
-        )}
-
-
-        {/* Desktop collapse button - only shown when not collapsed */}
+        <AppLogo
+          className={!showCollapsed ? 'flex-1 min-w-0' : undefined}
+          markClassName="w-8 h-8"
+          showWordmark={!showCollapsed}
+          wordmarkClassName="text-white text-sm"
+          subtitleClassName="text-slate-500"
+          sparkle
+        />
         {!showCollapsed && (
           <button
             onClick={() => setCollapsed(!collapsed)}
@@ -263,7 +263,20 @@ export default function Sidebar({ collapsed, setCollapsed, mobileOpen, setMobile
       {/* Navigation */}
       <nav className="flex-1 overflow-y-auto px-2.5 py-4 space-y-0.5">
         {menuItems.map((item, idx) => (
-          <MenuItem key={idx} item={item} collapsed={showCollapsed} onMobileClose={onMobileClose} />
+          item.section ? (
+            !showCollapsed ? (
+              <div key={idx} className="pt-5 pb-2">
+                <div className="flex items-center gap-3 px-3">
+                  <p className="text-[10px] font-bold uppercase tracking-wider text-slate-500">{item.section}</p>
+                  <div className="h-px flex-1 bg-white/10" />
+                </div>
+              </div>
+            ) : (
+              <div key={idx} className="my-2 border-t border-white/5" />
+            )
+          ) : (
+            <MenuItem key={idx} item={item} collapsed={showCollapsed} onMobileClose={onMobileClose} />
+          )
         ))}
 
         {isAdmin && (

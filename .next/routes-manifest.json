@@ -282,6 +282,12 @@
       "namedRegex": "^/gedung/utilitas(?:/)?$"
     },
     {
+      "page": "/icon.svg",
+      "regex": "^/icon\\.svg(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/icon\\.svg(?:/)?$"
+    },
+    {
       "page": "/karyawan",
       "regex": "^/karyawan(?:/)?$",
       "routeKeys": {},
@@ -292,6 +298,12 @@
       "regex": "^/karyawan/kontrak(?:/)?$",
       "routeKeys": {},
       "namedRegex": "^/karyawan/kontrak(?:/)?$"
+    },
+    {
+      "page": "/karyawan/nonactive",
+      "regex": "^/karyawan/nonactive(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/karyawan/nonactive(?:/)?$"
     },
     {
       "page": "/karyawan/riwayat",

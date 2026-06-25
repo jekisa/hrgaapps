@@ -4,8 +4,9 @@ import { useState } from 'react'
 import { signIn } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
-import { Eye, EyeOff, LogIn, Landmark, Mail, LockKeyhole, UsersRound, PackageCheck, CarFront, Wrench, CircleCheckBig } from 'lucide-react'
+import { Eye, EyeOff, LogIn, Mail, LockKeyhole, UsersRound, PackageCheck, CarFront, Wrench, CircleCheckBig } from 'lucide-react'
 import toast from 'react-hot-toast'
+import AppLogo from '@/components/ui/AppLogo'
 
 const features = [
   { icon: UsersRound, label: 'Manajemen Karyawan', desc: 'Data kepegawaian lengkap' },
@@ -70,15 +71,13 @@ export default function LoginPage() {
         />
 
         {/* Logo */}
-        <div className="relative z-10 flex items-center gap-3">
-          <div className="w-11 h-11 rounded-2xl bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center shadow-lg">
-            <Landmark className="w-5 h-5 text-white" />
-          </div>
-          <div>
-            <span className="text-white font-bold text-lg leading-none">HRGA Apps</span>
-            <p className="text-primary-300 text-[10px] mt-0.5 uppercase tracking-widest">Management System</p>
-          </div>
-        </div>
+        <AppLogo
+          className="relative z-10"
+          markClassName="w-11 h-11"
+          showWordmark
+          wordmarkClassName="text-white text-lg"
+          subtitleClassName="text-primary-300"
+        />
 
         {/* Main content */}
         <div className="relative z-10 space-y-6">
@@ -128,15 +127,12 @@ export default function LoginPage() {
 
         <div className="w-full max-w-sm relative z-10">
           {/* Mobile logo */}
-          <div className="flex items-center gap-3 mb-8 lg:hidden">
-            <div className="w-10 h-10 rounded-xl bg-primary-600 flex items-center justify-center">
-              <Landmark className="w-5 h-5 text-white" />
-            </div>
-            <div>
-              <p className="font-bold text-gray-900">HRGA Apps</p>
-              <p className="text-xs text-gray-400">Management System</p>
-            </div>
-          </div>
+          <AppLogo
+            className="mb-8 lg:hidden"
+            showWordmark
+            wordmarkClassName="text-gray-900"
+            subtitleClassName="text-gray-400"
+          />
 
           {/* Card */}
           <div className="bg-white rounded-3xl shadow-xl border border-gray-100 p-8">

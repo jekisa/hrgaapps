@@ -7,6 +7,7 @@
   "/(dashboard)/gedung/utilitas/page": "/gedung/utilitas",
   "/(dashboard)/karyawan/[id]/page": "/karyawan/[id]",
   "/(dashboard)/karyawan/kontrak/page": "/karyawan/kontrak",
+  "/(dashboard)/karyawan/nonactive/page": "/karyawan/nonactive",
   "/(dashboard)/karyawan/page": "/karyawan",
   "/(dashboard)/karyawan/riwayat/page": "/karyawan/riwayat",
   "/(dashboard)/kendaraan/jadwal/page": "/kendaraan/jadwal",
@@ -49,5 +50,6 @@
   "/api/notifikasi/[id]/route": "/api/notifikasi/[id]",
   "/api/notifikasi/route": "/api/notifikasi",
   "/api/pengguna/route": "/api/pengguna",
-  "/api/reminder/route": "/api/reminder"
+  "/api/reminder/route": "/api/reminder",
+  "/icon.svg/route": "/icon.svg"
 }

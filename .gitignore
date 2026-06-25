@@ -61,3 +61,5 @@ coverage/
 
 # Miscellaneous
 *.pem
+
+testsprite_tests\tmp\config.json

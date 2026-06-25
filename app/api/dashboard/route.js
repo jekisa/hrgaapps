@@ -11,7 +11,7 @@ import Notifikasi from '@/models/Notifikasi'
 import Utilitas from '@/models/Utilitas'
 import JadwalKendaraan from '@/models/JadwalKendaraan'
 import Reminder from '@/models/Reminder'
-import { addDays, addYears, endOfMonth, subMonths, startOfDay } from 'date-fns'
+import { addDays, addYears, endOfDay, endOfMonth, subDays, subMonths, startOfDay } from 'date-fns'
 
 const toDateStr = (d) => {
   const date = new Date(d)
@@ -23,6 +23,53 @@ const getNextBirthday = (birthDate, today) => {
   const next = new Date(today.getFullYear(), birth.getMonth(), birth.getDate())
   if (next < startOfDay(today)) next.setFullYear(next.getFullYear() + 1)
   return next
+}
+
+const karyawanActiveAtQuery = (date) => ({
+  statusAktif: true,
+  $or: [
+    { tanggalMasuk: { $lte: date } },
+    { tanggalMasuk: null },
+    { tanggalMasuk: { $exists: false } },
+  ],
+})
+
+const buildDailyKaryawanTrend = async (now, days) => {
+  const points = Array.from({ length: days }, (_, index) => {
+    const date = subDays(now, days - 1 - index)
+    return {
+      label: date.toLocaleDateString('id-ID', { day: '2-digit', month: 'short' }),
+      date,
+    }
+  })
+
+  const totals = await Promise.all(
+    points.map((point) => Karyawan.countDocuments(karyawanActiveAtQuery(endOfDay(point.date))))
+  )
+
+  return points.map((point, index) => ({
+    month: point.label,
+    total: totals[index],
+  }))
+}
+
+const buildMonthlyKaryawanTrend = async (now, months) => {
+  const points = Array.from({ length: months }, (_, index) => {
+    const date = subMonths(now, months - 1 - index)
+    return {
+      label: date.toLocaleString('id-ID', { month: 'short' }),
+      date,
+    }
+  })
+
+  const totals = await Promise.all(
+    points.map((point) => Karyawan.countDocuments(karyawanActiveAtQuery(endOfMonth(point.date))))
+  )
+
+  return points.map((point, index) => ({
+    month: point.label,
+    total: totals[index],
+  }))
 }
 
 export async function GET() {
@@ -114,16 +161,17 @@ export async function GET() {
       }),
     ])
 
-    // Monthly karyawan trend (last 6 months)
-    const monthlyKaryawan = []
-    for (let i = 5; i >= 0; i--) {
-      const date = subMonths(now, i)
-      const count = await Karyawan.countDocuments({ tanggalMasuk: { $lte: endOfMonth(date) } })
-      monthlyKaryawan.push({
-        month: date.toLocaleString('id-ID', { month: 'short' }),
-        total: count,
-      })
-    }
+    const [
+      sevenDaysKaryawan,
+      thirtyDaysKaryawan,
+      sixMonthsKaryawan,
+      oneYearKaryawan,
+    ] = await Promise.all([
+      buildDailyKaryawanTrend(now, 7),
+      buildDailyKaryawanTrend(now, 30),
+      buildMonthlyKaryawanTrend(now, 6),
+      buildMonthlyKaryawanTrend(now, 12),
+    ])
 
     const calendarBirthday = calendarBirthdayRaw
       .map((k) => ({
@@ -194,7 +242,13 @@ export async function GET() {
       charts: {
         karyawanByKontrak: karyawanByKontrakRaw.map((k) => ({ name: k._id, value: k.count })),
         asetByKategori: asetByKategoriRaw.map((a) => ({ name: a._id, value: a.count })),
-        monthlyKaryawan,
+        monthlyKaryawan: sixMonthsKaryawan,
+        karyawanTrend: {
+          sevenDays: sevenDaysKaryawan,
+          thirtyDays: thirtyDaysKaryawan,
+          sixMonths: sixMonthsKaryawan,
+          oneYear: oneYearKaryawan,
+        },
       },
       calendarEvents,
     })

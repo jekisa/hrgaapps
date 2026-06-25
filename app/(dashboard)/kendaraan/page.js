@@ -12,10 +12,15 @@ import DataTable from '@/components/ui/DataTable'
 import { formatDate, getDaysDiff } from '@/lib/utils'
 import KendaraanModal from '@/components/kendaraan/KendaraanModal'
 
+const getInitialSearch = () => {
+  if (typeof window === 'undefined') return ''
+  return new URLSearchParams(window.location.search).get('search') || ''
+}
+
 export default function KendaraanPage() {
   const queryClient = useQueryClient()
   const [page, setPage] = useState(1)
-  const [search, setSearch] = useState('')
+  const [search, setSearch] = useState(getInitialSearch)
   const [statusFilter, setStatusFilter] = useState('')
   const [showModal, setShowModal] = useState(false)
   const [editData, setEditData] = useState(null)

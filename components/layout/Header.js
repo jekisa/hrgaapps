@@ -1,8 +1,23 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
-import { BellDot, ChevronDown, LogOut, PanelLeftOpen, Sparkles, CheckCheck, Menu } from 'lucide-react'
+import { useRouter } from 'next/navigation'
+import {
+  BellDot,
+  CarFront,
+  ChevronDown,
+  FileText,
+  LogOut,
+  MessageSquareText,
+  PackageCheck,
+  PanelLeftOpen,
+  Search,
+  Sparkles,
+  CheckCheck,
+  Menu,
+  UsersRound,
+} from 'lucide-react'
 import { useSession, signOut } from 'next-auth/react'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { formatDate } from '@/lib/utils'
@@ -28,11 +43,60 @@ const notifDot = (tipe) => {
   return map[tipe] || 'bg-gray-400'
 }
 
+const searchGroups = [
+  {
+    key: 'karyawan',
+    label: 'Karyawan',
+    icon: UsersRound,
+    href: '/karyawan',
+    endpoint: '/api/karyawan',
+    getTitle: (item) => item.nama,
+    getSubtitle: (item) => [item.nik, item.jabatan, item.departemen].filter(Boolean).join(' · '),
+    getHref: (item) => `/karyawan/${item._id || item.id}`,
+    iconClass: 'bg-blue-50 text-blue-600',
+  },
+  {
+    key: 'aset',
+    label: 'Aset',
+    icon: PackageCheck,
+    href: '/aset',
+    endpoint: '/api/aset',
+    getTitle: (item) => item.namaAset,
+    getSubtitle: (item) => [item.kodeAset, item.kategori, item.status].filter(Boolean).join(' · '),
+    getHref: (_item, term) => `/aset?search=${encodeURIComponent(term)}`,
+    iconClass: 'bg-emerald-50 text-emerald-600',
+  },
+  {
+    key: 'kendaraan',
+    label: 'Kendaraan',
+    icon: CarFront,
+    href: '/kendaraan',
+    endpoint: '/api/kendaraan',
+    getTitle: (item) => item.noPol,
+    getSubtitle: (item) => [item.merk, item.model, item.status].filter(Boolean).join(' · '),
+    getHref: (_item, term) => `/kendaraan?search=${encodeURIComponent(term)}`,
+    iconClass: 'bg-violet-50 text-violet-600',
+  },
+]
+
+const reportResults = [
+  { title: 'Laporan Karyawan', subtitle: 'Export data karyawan', href: '/laporan', icon: FileText },
+  { title: 'Laporan Inventaris Aset', subtitle: 'Export data aset', href: '/laporan', icon: FileText },
+  { title: 'Laporan Kendaraan', subtitle: 'Export data kendaraan', href: '/laporan', icon: FileText },
+]
+
 export default function Header({ collapsed, setCollapsed, setMobileOpen }) {
   const { data: session } = useSession()
+  const router = useRouter()
   const queryClient = useQueryClient()
   const [showNotif, setShowNotif] = useState(false)
   const [showUser, setShowUser] = useState(false)
+  const [searchOpen, setSearchOpen] = useState(false)
+  const [searchTerm, setSearchTerm] = useState('')
+  const [searchLoading, setSearchLoading] = useState(false)
+  const [searchResults, setSearchResults] = useState({})
+  const searchRef = useRef(null)
+  const searchInputRef = useRef(null)
 
   const { data: notifData } = useQuery({
     queryKey: ['notifications-header'],
@@ -56,15 +120,113 @@ export default function Header({ collapsed, setCollapsed, setMobileOpen }) {
   const now = new Date()
   const dayName = now.toLocaleDateString('id-ID', { weekday: 'long' })
   const dateStr = now.toLocaleDateString('id-ID', { day: '2-digit', month: 'long', year: 'numeric' })
+  const normalizedSearch = searchTerm.trim()
+  const hasSearchResults = searchGroups.some((group) => searchResults[group.key]?.length) || searchResults.laporan?.length
+
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'k') {
+        event.preventDefault()
+        setSearchOpen(true)
+        searchInputRef.current?.focus()
+      }
+      if (event.key === 'Escape') setSearchOpen(false)
+    }
+
+    const handleClickOutside = (event) => {
+      if (searchRef.current && !searchRef.current.contains(event.target)) {
+        setSearchOpen(false)
+      }
+    }
+
+    document.addEventListener('keydown', handleKeyDown)
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown)
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [])
+
+  useEffect(() => {
+    if (normalizedSearch.length < 2) {
+      setSearchResults({})
+      setSearchLoading(false)
+      return
+    }
+
+    const controller = new AbortController()
+    const timer = setTimeout(async () => {
+      setSearchLoading(true)
+      try {
+        const requests = searchGroups.map(async (group) => {
+          const params = new URLSearchParams({ search: normalizedSearch, limit: '4' })
+          const response = await fetch(`${group.endpoint}?${params}`, { signal: controller.signal })
+          const payload = response.ok ? await response.json() : { data: [] }
+          return [group.key, payload.data || []]
+        })
+
+        const entries = await Promise.all(requests)
+        const reportMatch = /laporan|report|export|excel/i.test(normalizedSearch)
+          ? reportResults
+          : reportResults.filter((item) => item.title.toLowerCase().includes(normalizedSearch.toLowerCase()))
+
+        setSearchResults({ ...Object.fromEntries(entries), laporan: reportMatch })
+      } catch (error) {
+        if (error.name !== 'AbortError') setSearchResults({})
+      } finally {
+        if (!controller.signal.aborted) setSearchLoading(false)
+      }
+    }, 250)
+
+    return () => {
+      clearTimeout(timer)
+      controller.abort()
+    }
+  }, [normalizedSearch])
+
+  const closeSearch = () => {
+    setSearchOpen(false)
+    setSearchTerm('')
+    setSearchResults({})
+  }
+
+  const goToSearch = (href) => {
+    router.push(href)
+    closeSearch()
+  }
+
+  const submitSearch = (event) => {
+    event.preventDefault()
+    if (!normalizedSearch) {
+      searchInputRef.current?.focus()
+      return
+    }
+
+    const firstGroup = searchGroups.find((group) => searchResults[group.key]?.length)
+    const firstItem = firstGroup ? searchResults[firstGroup.key][0] : null
+    const reportItem = searchResults.laporan?.[0]
+
+    if (firstGroup && firstItem) {
+      goToSearch(firstGroup.getHref(firstItem, normalizedSearch))
+      return
+    }
+
+    if (reportItem) {
+      goToSearch(reportItem.href)
+      return
+    }
+
+    goToSearch(`/karyawan?search=${encodeURIComponent(normalizedSearch)}`)
+  }
 
   return (
     <>
       <header
-        className="h-16 bg-white/90 backdrop-blur-md border-b border-gray-100 flex items-center justify-between px-4 sm:px-6 sticky top-0 z-30"
-        style={{ boxShadow: '0 1px 0 rgba(0,0,0,0.04), 0 2px 12px rgba(0,0,0,0.04)' }}
+        className="h-16 bg-white/95 backdrop-blur-md border-b border-slate-200/70 grid grid-cols-[auto_1fr_auto] items-center gap-4 px-4 sm:px-6 sticky top-0 z-30"
+        style={{ boxShadow: '0 1px 0 rgba(15,23,42,0.04), 0 8px 24px rgba(15,23,42,0.04)' }}
       >
         {/* Left */}
-        <div className="flex items-center gap-2">
+        <div className="flex min-w-0 items-center gap-2">
           {/* Mobile hamburger button */}
           <button
             onClick={() => setMobileOpen(prev => !prev)}
@@ -83,14 +245,138 @@ export default function Header({ collapsed, setCollapsed, setMobileOpen }) {
             </button>
           )}
 
-          <div className="hidden sm:block">
-            <p className="text-sm font-semibold text-gray-700 leading-none">{dayName}</p>
-            <p className="text-xs text-gray-400 mt-0.5">{dateStr}</p>
+          <div className="hidden min-w-[170px] sm:block">
+            <p className="truncate text-sm font-bold text-slate-900 leading-none">
+              {dayName}, <span className="font-medium text-slate-500">{dateStr}</span>
+            </p>
           </div>
         </div>
 
+        {/* Search */}
+        <div className="relative hidden justify-center md:flex" ref={searchRef}>
+          <form onSubmit={submitSearch} className="w-full max-w-[620px]">
+            <div className="flex h-10 items-center gap-3 rounded-lg border border-slate-200 bg-slate-50/80 px-4 text-sm text-slate-500 transition focus-within:border-primary-300 focus-within:bg-white focus-within:shadow-sm">
+              <Search className="h-5 w-5 shrink-0 text-slate-400" />
+              <input
+                ref={searchInputRef}
+                value={searchTerm}
+                onChange={(event) => {
+                  setSearchTerm(event.target.value)
+                  setSearchOpen(true)
+                }}
+                onFocus={() => setSearchOpen(true)}
+                placeholder="Cari karyawan, aset, kendaraan, laporan..."
+                className="min-w-0 flex-1 border-0 bg-transparent p-0 text-sm text-slate-700 placeholder:text-slate-400 focus:ring-0"
+              />
+              <span className="rounded-md border border-slate-200 bg-white px-1.5 py-0.5 text-[11px] font-semibold text-slate-500">Ctrl + K</span>
+            </div>
+          </form>
+
+          {searchOpen && (
+            <div className="absolute left-1/2 top-full z-50 mt-2 w-full max-w-[620px] -translate-x-1/2 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl shadow-slate-900/10">
+              <div className="border-b border-slate-100 px-4 py-3">
+                <p className="text-xs font-semibold text-slate-500">
+                  {normalizedSearch ? `Hasil pencarian untuk "${normalizedSearch}"` : 'Ketik minimal 2 karakter untuk mencari'}
+                </p>
+              </div>
+
+              <div className="max-h-[420px] overflow-y-auto p-2">
+                {normalizedSearch.length < 2 ? (
+                  <div className="grid grid-cols-2 gap-2">
+                    {[
+                      { label: 'Karyawan', href: '/karyawan', icon: UsersRound },
+                      { label: 'Aset', href: '/aset', icon: PackageCheck },
+                      { label: 'Kendaraan', href: '/kendaraan', icon: CarFront },
+                      { label: 'Laporan', href: '/laporan', icon: FileText },
+                    ].map((item) => (
+                      <button
+                        key={item.label}
+                        onClick={() => goToSearch(item.href)}
+                        className="flex items-center gap-3 rounded-xl border border-slate-100 px-3 py-3 text-left text-sm font-semibold text-slate-700 hover:bg-slate-50"
+                      >
+                        <item.icon className="h-4 w-4 text-primary-600" />
+                        {item.label}
+                      </button>
+                    ))}
+                  </div>
+                ) : searchLoading ? (
+                  <div className="space-y-2 p-2">
+                    {[0, 1, 2].map((item) => (
+                      <div key={item} className="h-12 rounded-xl bg-slate-100 animate-pulse" />
+                    ))}
+                  </div>
+                ) : hasSearchResults ? (
+                  <div className="space-y-3">
+                    {searchGroups.map((group) => {
+                      const items = searchResults[group.key] || []
+                      if (!items.length) return null
+                      return (
+                        <div key={group.key}>
+                          <div className="mb-1 flex items-center justify-between px-2">
+                            <p className="text-[11px] font-bold uppercase tracking-wide text-slate-400">{group.label}</p>
+                            <button
+                              onClick={() => goToSearch(`${group.href}?search=${encodeURIComponent(normalizedSearch)}`)}
+                              className="text-[11px] font-semibold text-primary-600 hover:text-primary-700"
+                            >
+                              Lihat semua
+                            </button>
+                          </div>
+                          <div className="space-y-1">
+                            {items.map((item) => {
+                              const title = group.getTitle(item)
+                              const subtitle = group.getSubtitle(item)
+                              return (
+                                <button
+                                  key={item._id || item.id || `${group.key}-${title}`}
+                                  onClick={() => goToSearch(group.getHref(item, normalizedSearch))}
+                                  className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left hover:bg-slate-50"
+                                >
+                                  <span className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-lg ${group.iconClass}`}>
+                                    <group.icon className="h-4 w-4" />
+                                  </span>
+                                  <span className="min-w-0 flex-1">
+                                    <span className="block truncate text-sm font-semibold text-slate-800">{title || '-'}</span>
+                                    <span className="block truncate text-xs text-slate-500">{subtitle || group.label}</span>
+                                  </span>
+                                </button>
+                              )
+                            })}
+                          </div>
+                        </div>
+                      )
+                    })}
+
+                    {!!searchResults.laporan?.length && (
+                      <div>
+                        <p className="mb-1 px-2 text-[11px] font-bold uppercase tracking-wide text-slate-400">Laporan</p>
+                        <div className="space-y-1">
+                          {searchResults.laporan.map((item) => (
+                            <button key={item.title} onClick={() => goToSearch(item.href)} className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left hover:bg-slate-50">
+                              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-cyan-50 text-cyan-600">
+                                <item.icon className="h-4 w-4" />
+                              </span>
+                              <span className="min-w-0">
+                                <span className="block truncate text-sm font-semibold text-slate-800">{item.title}</span>
+                                <span className="block truncate text-xs text-slate-500">{item.subtitle}</span>
+                              </span>
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  <div className="px-4 py-8 text-center text-sm text-slate-400">
+                    Tidak ada hasil. Tekan Enter untuk mencari di data karyawan.
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+        </div>
+
         {/* Right */}
-        <div className="flex items-center gap-1">
+        <div className="flex items-center justify-end gap-1">
           {/* Notifications */}
           <div className="relative">
             <button
@@ -196,6 +482,10 @@ export default function Header({ collapsed, setCollapsed, setMobileOpen }) {
               </div>
             )}
           </div>
+
+          <button className="hidden p-2 rounded-xl text-slate-500 transition-all duration-150 hover:bg-slate-100 hover:text-slate-700 sm:flex" aria-label="Pesan">
+            <MessageSquareText className="w-[18px] h-[18px]" />
+          </button>
 
           {/* Divider */}
           <div className="w-px h-6 bg-gray-200 mx-1" />

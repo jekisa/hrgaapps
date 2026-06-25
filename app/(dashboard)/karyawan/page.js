@@ -13,10 +13,15 @@ import DataTable from '@/components/ui/DataTable'
 import { formatDate, DEPARTEMEN_LIST } from '@/lib/utils'
 import KaryawanModal from '@/components/karyawan/KaryawanModal'
 
+const getInitialSearch = () => {
+  if (typeof window === 'undefined') return ''
+  return new URLSearchParams(window.location.search).get('search') || ''
+}
+
 export default function KaryawanPage() {
   const queryClient = useQueryClient()
   const [page, setPage] = useState(1)
-  const [search, setSearch] = useState('')
+  const [search, setSearch] = useState(getInitialSearch)
   const [statusFilter, setStatusFilter] = useState('')
   const [deptFilter, setDeptFilter] = useState('')
   const [showModal, setShowModal] = useState(false)
@@ -26,6 +31,7 @@ export default function KaryawanPage() {
 
   const params = new URLSearchParams({
     page, limit: pageSize,
+    statusAktif: 'true',
     ...(search && { search }),
     ...(statusFilter && { status: statusFilter }),
     ...(deptFilter && { departemen: deptFilter }),

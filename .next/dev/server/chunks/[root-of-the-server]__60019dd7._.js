@@ -524,6 +524,7 @@ async function GET(request) {
     const limit = parseInt(searchParams.get('limit') || '10');
     const search = searchParams.get('search') || '';
     const status = searchParams.get('status') || '';
+    const statusAktif = searchParams.get('statusAktif');
     const departemen = searchParams.get('departemen') || '';
     await (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$db$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"])();
     const query = {};
@@ -556,6 +557,8 @@ async function GET(request) {
         ];
     }
     if (status) query.statusKontrak = status;
+    if (statusAktif === 'true') query.statusAktif = true;
+    if (statusAktif === 'false') query.statusAktif = false;
     if (departemen) query.departemen = departemen;
     const [total, data] = await Promise.all([
         __TURBOPACK__imported__module__$5b$project$5d2f$models$2f$Karyawan$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"].countDocuments(query),

@@ -16,6 +16,7 @@ export async function GET(request) {
   const limit = parseInt(searchParams.get('limit') || '10')
   const search = searchParams.get('search') || ''
   const status = searchParams.get('status') || ''
+  const statusAktif = searchParams.get('statusAktif')
   const departemen = searchParams.get('departemen') || ''
 
   await dbConnect()
@@ -30,6 +31,8 @@ export async function GET(request) {
     ]
   }
   if (status) query.statusKontrak = status
+  if (statusAktif === 'true') query.statusAktif = true
+  if (statusAktif === 'false') query.statusAktif = false
   if (departemen) query.departemen = departemen
 
   const [total, data] = await Promise.all([

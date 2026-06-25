@@ -1,21 +1,6 @@
 {
-  "/(dashboard)/gedung/utilitas/page": "app/(dashboard)/gedung/utilitas/page.js",
-  "/(dashboard)/karyawan/[id]/page": "app/(dashboard)/karyawan/[id]/page.js",
-  "/(dashboard)/karyawan/page": "app/(dashboard)/karyawan/page.js",
-  "/(dashboard)/kendaraan/jadwal/page": "app/(dashboard)/kendaraan/jadwal/page.js",
-  "/(dashboard)/kendaraan/log-perjalanan/page": "app/(dashboard)/kendaraan/log-perjalanan/page.js",
-  "/(dashboard)/kendaraan/page": "app/(dashboard)/kendaraan/page.js",
   "/(dashboard)/page": "app/(dashboard)/page.js",
-  "/(dashboard)/reminder/page": "app/(dashboard)/reminder/page.js",
   "/api/auth/[...nextauth]/route": "app/api/auth/[...nextauth]/route.js",
   "/api/dashboard/route": "app/api/dashboard/route.js",
-  "/api/gedung/utilitas/route": "app/api/gedung/utilitas/route.js",
-  "/api/karyawan/[id]/dokumen/route": "app/api/karyawan/[id]/dokumen/route.js",
-  "/api/karyawan/[id]/route": "app/api/karyawan/[id]/route.js",
-  "/api/karyawan/route": "app/api/karyawan/route.js",
-  "/api/kendaraan/jadwal/route": "app/api/kendaraan/jadwal/route.js",
-  "/api/kendaraan/log-perjalanan/route": "app/api/kendaraan/log-perjalanan/route.js",
-  "/api/kendaraan/route": "app/api/kendaraan/route.js",
-  "/api/notifikasi/route": "app/api/notifikasi/route.js",
-  "/api/reminder/route": "app/api/reminder/route.js"
+  "/api/notifikasi/route": "app/api/notifikasi/route.js"
 }

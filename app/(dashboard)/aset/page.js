@@ -15,10 +15,15 @@ import AsetModal from '@/components/aset/AsetModal'
 const KATEGORI = ['ELEKTRONIK', 'PERALATAN', 'KENDARAAN', 'FURNITURE', 'LAINNYA']
 const STATUS = ['AKTIF', 'DIPINJAM', 'RUSAK', 'DISPOSAL']
 
+const getInitialSearch = () => {
+  if (typeof window === 'undefined') return ''
+  return new URLSearchParams(window.location.search).get('search') || ''
+}
+
 export default function AsetPage() {
   const queryClient = useQueryClient()
   const [page, setPage] = useState(1)
-  const [search, setSearch] = useState('')
+  const [search, setSearch] = useState(getInitialSearch)
   const [statusFilter, setStatusFilter] = useState('')
   const [kategoriFilter, setKategoriFilter] = useState('')
   const [showModal, setShowModal] = useState(false)

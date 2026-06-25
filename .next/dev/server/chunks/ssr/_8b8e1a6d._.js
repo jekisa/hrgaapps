@@ -1598,10 +1598,15 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$components$2f$kendaraan$2f$K
 ;
 ;
 ;
+const getInitialSearch = ()=>{
+    if ("TURBOPACK compile-time truthy", 1) return '';
+    //TURBOPACK unreachable
+    ;
+};
 function KendaraanPage() {
     const queryClient = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$tanstack$2f$react$2d$query$2f$build$2f$modern$2f$QueryClientProvider$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useQueryClient"])();
     const [page, setPage] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(1);
-    const [search, setSearch] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])('');
+    const [search, setSearch] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(getInitialSearch);
     const [statusFilter, setStatusFilter] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])('');
     const [showModal, setShowModal] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(false);
     const [editData, setEditData] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(null);
@@ -1655,7 +1660,7 @@ function KendaraanPage() {
                         children: getValue()
                     }, void 0, false, {
                         fileName: "[project]/app/(dashboard)/kendaraan/page.js",
-                        lineNumber: 55,
+                        lineNumber: 60,
                         columnNumber: 31
                     }, this)
             },
@@ -1675,7 +1680,7 @@ function KendaraanPage() {
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/app/(dashboard)/kendaraan/page.js",
-                                lineNumber: 64,
+                                lineNumber: 69,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1687,13 +1692,13 @@ function KendaraanPage() {
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/app/(dashboard)/kendaraan/page.js",
-                                lineNumber: 65,
+                                lineNumber: 70,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/app/(dashboard)/kendaraan/page.js",
-                        lineNumber: 63,
+                        lineNumber: 68,
                         columnNumber: 9
                     }, this)
             },
@@ -1709,7 +1714,7 @@ function KendaraanPage() {
                         status: getValue()
                     }, void 0, false, {
                         fileName: "[project]/app/(dashboard)/kendaraan/page.js",
-                        lineNumber: 77,
+                        lineNumber: 82,
                         columnNumber: 31
                     }, this)
             },
@@ -1734,13 +1739,13 @@ function KendaraanPage() {
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/app/(dashboard)/kendaraan/page.js",
-                                lineNumber: 90,
+                                lineNumber: 95,
                                 columnNumber: 35
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/app/(dashboard)/kendaraan/page.js",
-                        lineNumber: 88,
+                        lineNumber: 93,
                         columnNumber: 11
                     }, this);
                 }
@@ -1767,12 +1772,12 @@ function KendaraanPage() {
                                     className: "w-4 h-4"
                                 }, void 0, false, {
                                     fileName: "[project]/app/(dashboard)/kendaraan/page.js",
-                                    lineNumber: 108,
+                                    lineNumber: 113,
                                     columnNumber: 13
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/app/(dashboard)/kendaraan/page.js",
-                                lineNumber: 106,
+                                lineNumber: 111,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -1782,18 +1787,18 @@ function KendaraanPage() {
                                     className: "w-4 h-4"
                                 }, void 0, false, {
                                     fileName: "[project]/app/(dashboard)/kendaraan/page.js",
-                                    lineNumber: 112,
+                                    lineNumber: 117,
                                     columnNumber: 13
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/app/(dashboard)/kendaraan/page.js",
-                                lineNumber: 110,
+                                lineNumber: 115,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/app/(dashboard)/kendaraan/page.js",
-                        lineNumber: 105,
+                        lineNumber: 110,
                         columnNumber: 9
                     }, this)
             }
@@ -1823,19 +1828,19 @@ function KendaraanPage() {
                             className: "w-4 h-4"
                         }, void 0, false, {
                             fileName: "[project]/app/(dashboard)/kendaraan/page.js",
-                            lineNumber: 127,
+                            lineNumber: 132,
                             columnNumber: 13
                         }, void 0),
                         " Tambah Kendaraan"
                     ]
                 }, void 0, true, {
                     fileName: "[project]/app/(dashboard)/kendaraan/page.js",
-                    lineNumber: 126,
+                    lineNumber: 131,
                     columnNumber: 11
                 }, void 0)
             }, void 0, false, {
                 fileName: "[project]/app/(dashboard)/kendaraan/page.js",
-                lineNumber: 121,
+                lineNumber: 126,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1850,7 +1855,7 @@ function KendaraanPage() {
                                     className: "absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400"
                                 }, void 0, false, {
                                     fileName: "[project]/app/(dashboard)/kendaraan/page.js",
-                                    lineNumber: 135,
+                                    lineNumber: 140,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -1863,13 +1868,13 @@ function KendaraanPage() {
                                     }
                                 }, void 0, false, {
                                     fileName: "[project]/app/(dashboard)/kendaraan/page.js",
-                                    lineNumber: 136,
+                                    lineNumber: 141,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/app/(dashboard)/kendaraan/page.js",
-                            lineNumber: 134,
+                            lineNumber: 139,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("select", {
@@ -1885,7 +1890,7 @@ function KendaraanPage() {
                                     children: "Semua Status"
                                 }, void 0, false, {
                                     fileName: "[project]/app/(dashboard)/kendaraan/page.js",
-                                    lineNumber: 140,
+                                    lineNumber: 145,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
@@ -1893,7 +1898,7 @@ function KendaraanPage() {
                                     children: "Tersedia"
                                 }, void 0, false, {
                                     fileName: "[project]/app/(dashboard)/kendaraan/page.js",
-                                    lineNumber: 141,
+                                    lineNumber: 146,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
@@ -1901,7 +1906,7 @@ function KendaraanPage() {
                                     children: "Digunakan"
                                 }, void 0, false, {
                                     fileName: "[project]/app/(dashboard)/kendaraan/page.js",
-                                    lineNumber: 142,
+                                    lineNumber: 147,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
@@ -1909,7 +1914,7 @@ function KendaraanPage() {
                                     children: "Servis"
                                 }, void 0, false, {
                                     fileName: "[project]/app/(dashboard)/kendaraan/page.js",
-                                    lineNumber: 143,
+                                    lineNumber: 148,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
@@ -1917,24 +1922,24 @@ function KendaraanPage() {
                                     children: "Tidak Aktif"
                                 }, void 0, false, {
                                     fileName: "[project]/app/(dashboard)/kendaraan/page.js",
-                                    lineNumber: 144,
+                                    lineNumber: 149,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/app/(dashboard)/kendaraan/page.js",
-                            lineNumber: 139,
+                            lineNumber: 144,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/app/(dashboard)/kendaraan/page.js",
-                    lineNumber: 133,
+                    lineNumber: 138,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/app/(dashboard)/kendaraan/page.js",
-                lineNumber: 132,
+                lineNumber: 137,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1948,7 +1953,7 @@ function KendaraanPage() {
                         showPagination: false
                     }, void 0, false, {
                         fileName: "[project]/app/(dashboard)/kendaraan/page.js",
-                        lineNumber: 150,
+                        lineNumber: 155,
                         columnNumber: 9
                     }, this),
                     !isLoading && rows.length > 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1963,7 +1968,7 @@ function KendaraanPage() {
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/app/(dashboard)/kendaraan/page.js",
-                                lineNumber: 153,
+                                lineNumber: 158,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$Pagination$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
@@ -1977,19 +1982,19 @@ function KendaraanPage() {
                                 }
                             }, void 0, false, {
                                 fileName: "[project]/app/(dashboard)/kendaraan/page.js",
-                                lineNumber: 154,
+                                lineNumber: 159,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/app/(dashboard)/kendaraan/page.js",
-                        lineNumber: 152,
+                        lineNumber: 157,
                         columnNumber: 11
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/app/(dashboard)/kendaraan/page.js",
-                lineNumber: 149,
+                lineNumber: 154,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$kendaraan$2f$KendaraanModal$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
@@ -2010,7 +2015,7 @@ function KendaraanPage() {
                 editData: editData
             }, void 0, false, {
                 fileName: "[project]/app/(dashboard)/kendaraan/page.js",
-                lineNumber: 159,
+                lineNumber: 164,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$Modal$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["ConfirmModal"], {
@@ -2021,13 +2026,13 @@ function KendaraanPage() {
                 title: "Hapus Kendaraan"
             }, void 0, false, {
                 fileName: "[project]/app/(dashboard)/kendaraan/page.js",
-                lineNumber: 162,
+                lineNumber: 167,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/app/(dashboard)/kendaraan/page.js",
-        lineNumber: 120,
+        lineNumber: 125,
         columnNumber: 5
     }, this);
 }
