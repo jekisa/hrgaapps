@@ -667,7 +667,7 @@ export default function DashboardPage() {
               <AlertTile
                 icon={CalendarDays}
                 value={stats?.leavePending}
-                label="Cuti pending"
+                label="Pengajuan Cuti Pending"
                 href="/cuti/kelola"
                 className="border-amber-100"
                 iconClassName="bg-amber-50 text-amber-500"
