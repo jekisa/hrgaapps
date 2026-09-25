@@ -108,10 +108,11 @@ test('staff dashboard renders only personal actions and widgets, with a real upl
   assert.match(staffView, /Upload Surat Dokter/)
   assert.match(staffView, /\/cuti\/saya\/ajukan#lampiran/)
   assert.match(staffView, /Sisa Cuti Tahun Ini/)
-  assert.match(staffView, /Reminder Saya/)
+  assert.doesNotMatch(staffView, /Reminder Saya|activeReminderCount/)
   assert.match(staffView, /Notifikasi/)
   assert.match(staffView, /Status Pengajuan Cuti Terakhir/)
   assert.match(staffView, /visibleEventTypes/)
+  assert.match(staffView, /event\.type === 'ulangTahun'/)
   for (const companyWidget of ['EmployeeTrend', 'ContractStatus', 'InsightPanel', 'AssetDistribution', 'FloatingActions']) {
     assert.equal(staffView.includes(companyWidget), false, `${companyWidget} must not render for STAFF`)
   }

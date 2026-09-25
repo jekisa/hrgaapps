@@ -77,8 +77,8 @@ export default function AjukanCutiPage() {
         subtitle="Kirim pengajuan cuti untuk direview admin"
         breadcrumb={[{ label: 'Dashboard', href: '/' }, { label: 'Cuti Saya' }, { label: 'Ajukan Cuti' }]}
       />
-      <form onSubmit={handleSubmit(onSubmit)} className="staff-leave-form max-w-3xl rounded-2xl border border-slate-200/70 bg-white p-5 shadow-sm">
-        <div className="grid gap-4 md:grid-cols-2">
+      <form onSubmit={handleSubmit(onSubmit)} className="staff-leave-form w-full max-w-none rounded-2xl border border-slate-200/70 bg-white p-5 shadow-sm lg:p-8">
+        <div className="grid gap-x-8 gap-y-5 md:grid-cols-2">
           <div className="md:col-span-2">
             <label className="form-label">Jenis Cuti <span className="text-red-500">*</span></label>
             <select className="form-select" {...register('leaveTypeId', { required: 'Jenis cuti wajib dipilih' })}>
@@ -98,11 +98,11 @@ export default function AjukanCutiPage() {
           <div className="staff-day-count md:col-span-2 rounded-full bg-slate-50 px-4 py-3 text-sm text-slate-600" data-positive={totalDays > 0} aria-live="polite">
             Total hari kerja: <strong className="text-slate-900">{totalDays} hari</strong>
           </div>
-          <div className="md:col-span-2">
+          <div>
             <label className="form-label">Alasan</label>
-            <textarea className="form-input min-h-28" {...register('reason')} placeholder="Jelaskan alasan pengajuan cuti" />
+            <textarea className="form-input min-h-40" {...register('reason')} placeholder="Jelaskan alasan pengajuan cuti" />
           </div>
-          <div id="lampiran" className="md:col-span-2">
+          <div id="lampiran">
             <label className="form-label">
               Surat dokter / lampiran{' '}
               {attachmentRequired

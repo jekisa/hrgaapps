@@ -428,10 +428,10 @@ function UpcomingEvents({ events = [], staffAccent = false }) {
 
   return (
     <Panel className="p-5">
-      <PanelHeader icon={CalendarDays} title="Event Mendatang" actionHref="/reminder" />
+      <PanelHeader icon={CalendarDays} title="Event Mendatang" actionHref={staffAccent ? undefined : '/reminder'} />
       <div className="mt-4 space-y-3">
         {upcoming.length === 0 ? (
-          staffAccent ? <StaffEmptyState icon={CalendarDays} title="Belum ada event mendatang" description="Saat ada ulang tahun atau reminder untuk Anda, kami tampilkan di sini." href="/reminder" actionLabel="Lihat reminder" /> : <div className="rounded-xl bg-slate-50 px-4 py-8 text-center text-sm text-slate-400">Tidak ada event mendatang</div>
+          staffAccent ? <StaffEmptyState icon={CalendarDays} title="Belum ada event mendatang" description="Event personal Anda akan tampil di sini." href="/cuti/saya/ajukan" actionLabel="Ajukan cuti" /> : <div className="rounded-xl bg-slate-50 px-4 py-8 text-center text-sm text-slate-400">Tidak ada event mendatang</div>
         ) : (
           upcoming.map((event, index) => {
             const meta = eventMeta[event.type] || eventMeta.reminder
@@ -764,7 +764,8 @@ function StaffDashboard({ data, session }) {
     approved: 'Disetujui',
     rejected: 'Ditolak',
   }
-  const visibleEventTypes = ['ulangTahun', 'reminder']
+  const visibleEventTypes = ['ulangTahun']
+  const staffEvents = (data?.calendarEvents || []).filter((event) => event.type === 'ulangTahun')
   const annualLeaveType = (leaveTypeData?.data || []).find((item) => item.code === 'annual')
 
   return (
@@ -780,16 +781,15 @@ function StaffDashboard({ data, session }) {
         </Panel>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
         <StaffStatCard title="Sisa Cuti Tahun Ini" value={`${stats.leaveBalanceRemaining ?? 0} hari`} subtitle={stats.leaveBalanceType || 'Cuti Tahunan'} icon={CalendarDays} tone="rose"><StaffLeaveProgress remaining={stats.leaveBalanceRemaining} quota={annualLeaveType?.defaultQuotaPerYear} /></StaffStatCard>
-        <StaffStatCard title="Reminder Saya" value={stats.activeReminderCount ?? 0} subtitle={stats.activeReminderCount ? 'Belum selesai' : 'Semua reminder selesai'} icon={AlarmClockCheck} tone="amber" href="/reminder">{!stats.activeReminderCount && <StaffEmptyState icon={AlarmClockCheck} title="Tidak ada reminder" description="Waktu Anda masih aman—belum ada reminder tertunda." href="/reminder" actionLabel="Buka reminder" />}</StaffStatCard>
         <StaffStatCard title="Notifikasi" value={stats.unreadNotificationCount ?? 0} subtitle={stats.unreadNotificationCount ? 'Belum dibaca' : 'Tidak ada notifikasi baru'} icon={BellDot} tone="sky" href="/notifikasi">{!stats.unreadNotificationCount && <StaffEmptyState icon={BellDot} title="Kotak masuk tenang" description="Tidak ada notifikasi baru yang belum dibaca." href="/notifikasi" actionLabel="Lihat notifikasi" />}</StaffStatCard>
         <StaffStatCard title="Status Pengajuan Cuti Terakhir" value={leaveStatusLabels[stats.latestLeaveStatus] || '-'} subtitle="Pengajuan terbaru" icon={ClipboardList} tone="violet" href="/cuti/saya/ajukan">{!stats.latestLeaveStatus && <StaffEmptyState icon={Palmtree} title="Belum ada pengajuan cuti nih" description="Yuk ajukan kalau butuh istirahat!" href="/cuti/saya/ajukan" actionLabel="Ajukan cuti" />}</StaffStatCard>
       </div>
 
       <div className="grid gap-5 lg:grid-cols-3">
-        <MiniCalendar events={data?.calendarEvents || []} visibleEventTypes={visibleEventTypes} staffAccent />
-        <UpcomingEvents events={data?.calendarEvents || []} staffAccent />
+        <MiniCalendar events={staffEvents} visibleEventTypes={visibleEventTypes} staffAccent />
+        <UpcomingEvents events={staffEvents} staffAccent />
       </div>
 
       <StaffRecentActivity activities={data?.activities || []} />
