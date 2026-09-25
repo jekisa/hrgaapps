@@ -1,13 +1,16 @@
 'use client'
 
 import { useMemo } from 'react'
-import { useForm } from 'react-hook-form'
+import { Controller, useForm } from 'react-hook-form'
 import { useQuery } from '@tanstack/react-query'
 import toast from 'react-hot-toast'
-import { UploadCloud } from 'lucide-react'
+import { Plane } from 'lucide-react'
 import PageHeader from '@/components/ui/PageHeader'
 import leaveUtils from '@/lib/leave-utils'
 import leaveForm from '@/lib/leave-form'
+import StaffDatePicker from '@/components/ui/StaffDatePicker'
+import StaffFileDropzone from '@/components/ui/StaffFileDropzone'
+import { validateStaffAttachment } from '@/lib/staff-file'
 
 const { countBusinessDays } = leaveUtils
 const { buildLeaveSubmission, isLeaveAttachmentRequired } = leaveForm
@@ -20,7 +23,7 @@ async function fetchJson(url, options) {
 }
 
 export default function AjukanCutiPage() {
-  const { register, handleSubmit, watch, reset, formState: { errors, isSubmitting } } = useForm()
+  const { register, handleSubmit, watch, reset, control, formState: { errors, isSubmitting } } = useForm()
   const { data: typeData } = useQuery({
     queryKey: ['cuti', 'jenis'],
     queryFn: () => fetchJson('/api/cuti/jenis'),
@@ -44,6 +47,8 @@ export default function AjukanCutiPage() {
     try {
       if (!selectedType) throw new Error('Pilih jenis cuti')
       if (attachmentRequired && !data.file?.[0]) throw new Error('Surat dokter wajib untuk cuti sakit')
+      const attachmentValidation = validateStaffAttachment(data.file?.[0])
+      if (!attachmentValidation.valid) throw new Error(attachmentValidation.error)
 
       let attachmentUrl = null
       if (data.file?.[0]) {
@@ -66,13 +71,13 @@ export default function AjukanCutiPage() {
   }
 
   return (
-    <div>
+    <div className="staff-theme">
       <PageHeader
         title="Ajukan Cuti"
         subtitle="Kirim pengajuan cuti untuk direview admin"
         breadcrumb={[{ label: 'Dashboard', href: '/' }, { label: 'Cuti Saya' }, { label: 'Ajukan Cuti' }]}
       />
-      <form onSubmit={handleSubmit(onSubmit)} className="max-w-3xl rounded-2xl border border-slate-200/70 bg-white p-5 shadow-sm">
+      <form onSubmit={handleSubmit(onSubmit)} className="staff-leave-form max-w-3xl rounded-2xl border border-slate-200/70 bg-white p-5 shadow-sm">
         <div className="grid gap-4 md:grid-cols-2">
           <div className="md:col-span-2">
             <label className="form-label">Jenis Cuti <span className="text-red-500">*</span></label>
@@ -85,16 +90,12 @@ export default function AjukanCutiPage() {
             {errors.leaveTypeId && <p className="mt-1 text-xs text-red-500">{errors.leaveTypeId.message}</p>}
           </div>
           <div>
-            <label className="form-label">Tanggal Mulai <span className="text-red-500">*</span></label>
-            <input type="date" className="form-input" {...register('startDate', { required: 'Tanggal mulai wajib diisi' })} />
-            {errors.startDate && <p className="mt-1 text-xs text-red-500">{errors.startDate.message}</p>}
+            <Controller name="startDate" control={control} rules={{ required: 'Tanggal mulai wajib diisi' }} render={({ field }) => <StaffDatePicker id="startDate" label="Tanggal Mulai" value={field.value} onChange={field.onChange} error={errors.startDate?.message} />} />
           </div>
           <div>
-            <label className="form-label">Tanggal Selesai <span className="text-red-500">*</span></label>
-            <input type="date" className="form-input" {...register('endDate', { required: 'Tanggal selesai wajib diisi' })} />
-            {errors.endDate && <p className="mt-1 text-xs text-red-500">{errors.endDate.message}</p>}
+            <Controller name="endDate" control={control} rules={{ required: 'Tanggal selesai wajib diisi' }} render={({ field }) => <StaffDatePicker id="endDate" label="Tanggal Selesai" value={field.value} onChange={field.onChange} error={errors.endDate?.message} />} />
           </div>
-          <div className="md:col-span-2 rounded-xl bg-slate-50 px-4 py-3 text-sm text-slate-600">
+          <div className="staff-day-count md:col-span-2 rounded-full bg-slate-50 px-4 py-3 text-sm text-slate-600" data-positive={totalDays > 0} aria-live="polite">
             Total hari kerja: <strong className="text-slate-900">{totalDays} hari</strong>
           </div>
           <div className="md:col-span-2">
@@ -108,23 +109,12 @@ export default function AjukanCutiPage() {
                 ? <span className="text-red-500">* Wajib</span>
                 : <span className="text-slate-400">(Opsional)</span>}
             </label>
-            <div className="rounded-xl border border-dashed border-slate-300 p-4">
-              <input
-                type="file"
-                accept=".pdf,.jpg,.jpeg,.png"
-                required={attachmentRequired}
-                {...register('file', { required: attachmentRequired ? 'Surat dokter wajib untuk cuti sakit' : false })}
-              />
-              <p className="mt-2 flex items-center gap-1 text-xs text-slate-400">
-                <UploadCloud className="h-3.5 w-3.5" />PDF/JPG/PNG, maksimal 5 MB
-              </p>
-              {errors.file && <p className="mt-1 text-xs text-red-500">{errors.file.message}</p>}
-            </div>
+            <Controller name="file" control={control} rules={{ validate: (files) => !attachmentRequired || files?.length > 0 || 'Surat dokter wajib untuk cuti sakit' }} render={({ field }) => <StaffFileDropzone value={field.value} onChange={field.onChange} required={attachmentRequired} error={errors.file?.message} />} />
           </div>
         </div>
         <div className="mt-5 flex justify-end">
           <button type="submit" disabled={isSubmitting} className="btn-primary">
-            {isSubmitting ? 'Mengirim...' : 'Kirim Pengajuan'}
+            <Plane className="h-4 w-4" />{isSubmitting ? 'Mengirim...' : 'Kirim Pengajuan'}
           </button>
         </div>
       </form>
