@@ -29,7 +29,6 @@ const nextConfig = {
       },
     ],
   },
-  serverExternalPackages: ['mongoose'],
   turbopack: {},
 }
 

@@ -419,7 +419,11 @@ export default function Header({ collapsed, setCollapsed, setMobileOpen }) {
                   {unreadCount > 0 && (
                     <button
                       onClick={() => {
-                        fetch('/api/notifikasi/read-all', { method: 'PATCH' })
+                        fetch('/api/notifikasi', {
+                          method: 'POST',
+                          headers: { 'Content-Type': 'application/json' },
+                          body: JSON.stringify({ markAllRead: true }),
+                        })
                           .then(() => queryClient.invalidateQueries({ queryKey: ['notifications-header'] }))
                       }}
                       className="text-[11px] text-primary-600 hover:text-primary-700 font-medium flex items-center gap-1"

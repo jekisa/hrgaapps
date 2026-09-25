@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "db:seed": "node prisma/seed.js"
+    "db:seed": "node --env-file=.env.local prisma/seed.js"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.80.0",
@@ -18,10 +18,11 @@
     "bcryptjs": "^2.4.3",
     "clsx": "^2.1.1",
     "date-fns": "^3.6.0",
+    "dotenv": "^18.0.3",
     "jspdf": "^2.5.1",
     "jspdf-autotable": "^3.8.2",
     "lucide-react": "^0.414.0",
-    "mongoose": "^9.2.4",
+    "mongoose": "^9.10.2",
     "next": "16.1.6",
     "next-auth": "^4.24.7",
     "react": "19.2.4",

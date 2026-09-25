@@ -11,12 +11,12 @@ npm install
 
 ### 2. Setup Database
 ```bash
-# Buat tabel database
-npm run db:push
-
-# Isi data awal (seed)
+# Isi data awal ke MongoDB sesuai MONGODB_URI di .env.local
 npm run db:seed
 ```
+
+The app uses MongoDB through Mongoose. Make sure `.env.local` contains a valid
+`MONGODB_URI` before running the seed command.
 
 ### 3. Jalankan Aplikasi
 ```bash
