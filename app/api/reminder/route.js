@@ -5,6 +5,9 @@ import { authOptions } from '@/lib/auth'
 import dbConnect from '@/lib/db'
 import Reminder from '@/models/Reminder'
 import { createAuditLog, getIpAddress } from '@/lib/server-utils'
+import accessControl from '@/lib/access-control'
+
+const { getOwnerScope } = accessControl
 
 const nextDueDate = (date, recurrence) => {
   if (recurrence === 'MONTHLY') return addMonths(date, 1)
@@ -16,6 +19,7 @@ const nextDueDate = (date, recurrence) => {
 export async function GET(request) {
   const session = await getServerSession(authOptions)
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  const ownerScope = getOwnerScope(session.user.role, session.user.id, 'createdBy')
 
   const { searchParams } = new URL(request.url)
   const status = searchParams.get('status') || 'ACTIVE'
@@ -23,7 +27,7 @@ export async function GET(request) {
 
   await dbConnect()
 
-  const query = {}
+  const query = { ...ownerScope }
   if (status) query.status = status
   if (kategori) query.kategori = kategori
 
@@ -34,6 +38,7 @@ export async function GET(request) {
 export async function POST(request) {
   const session = await getServerSession(authOptions)
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  const ownerScope = getOwnerScope(session.user.role, session.user.id, 'createdBy')
 
   try {
     const body = await request.json()
@@ -41,6 +46,7 @@ export async function POST(request) {
 
     const reminder = await Reminder.create({
       judul: body.judul,
+      createdBy: ownerScope.createdBy || null,
       kategori: body.kategori,
       tanggalJatuhTempo: new Date(body.tanggalJatuhTempo),
       jumlah: body.jumlah ? parseFloat(body.jumlah) : null,
@@ -59,12 +65,13 @@ export async function POST(request) {
 export async function PATCH(request) {
   const session = await getServerSession(authOptions)
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  const ownerScope = getOwnerScope(session.user.role, session.user.id, 'createdBy')
 
   try {
     const body = await request.json()
     await dbConnect()
 
-    const reminder = await Reminder.findById(body.id)
+    const reminder = await Reminder.findOne({ _id: body.id, ...ownerScope })
     if (!reminder) return NextResponse.json({ error: 'Reminder tidak ditemukan' }, { status: 404 })
 
     if (body.action === 'DONE') {
@@ -95,7 +102,8 @@ export async function PATCH(request) {
       catatan: body.catatan || null,
     }
 
-    const updated = await Reminder.findByIdAndUpdate(body.id, update, { new: true })
+    const updated = await Reminder.findOneAndUpdate({ _id: body.id, ...ownerScope }, update, { new: true })
+    if (!updated) return NextResponse.json({ error: 'Reminder tidak ditemukan' }, { status: 404 })
     await createAuditLog(session.user.id, 'UPDATE', 'REMINDER', `Update reminder: ${updated.judul}`, getIpAddress(request))
     return NextResponse.json(updated)
   } catch (error) {
@@ -106,13 +114,14 @@ export async function PATCH(request) {
 export async function DELETE(request) {
   const session = await getServerSession(authOptions)
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  const ownerScope = getOwnerScope(session.user.role, session.user.id, 'createdBy')
 
   const { searchParams } = new URL(request.url)
   const id = searchParams.get('id')
   if (!id) return NextResponse.json({ error: 'ID wajib diisi' }, { status: 400 })
 
   await dbConnect()
-  const reminder = await Reminder.findByIdAndDelete(id)
+  const reminder = await Reminder.findOneAndDelete({ _id: id, ...ownerScope })
   if (!reminder) return NextResponse.json({ error: 'Reminder tidak ditemukan' }, { status: 404 })
 
   await createAuditLog(session.user.id, 'DELETE', 'REMINDER', `Hapus reminder: ${reminder.judul}`, getIpAddress(request))

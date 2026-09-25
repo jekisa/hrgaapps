@@ -12,6 +12,7 @@ import Notifikasi from '@/models/Notifikasi'
 import leaveAuth from '@/lib/leave-auth'
 import leaveReview from '@/lib/leave-review'
 import { createAuditLog, getIpAddress } from '@/lib/server-utils'
+import { normalizeEmail } from '@/lib/leave-utils'
 
 const { assertRole, getEmployeeForSession } = leaveAuth
 const { validateReviewPayload } = leaveReview
@@ -50,7 +51,21 @@ export async function PATCH(request, { params }) {
       await mongoSession.endSession()
     }
     if (!updatedRequest) return NextResponse.json({ error: 'Pengajuan sudah diproses atau tidak ditemukan' }, { status: 409 })
-    await Notifikasi.create({ judul: `Pengajuan Cuti ${review.status === 'approved' ? 'Disetujui' : 'Ditolak'}`, pesan: review.reviewNote || 'Status pengajuan cuti diperbarui', tipe: 'CUTI', targetId: updatedRequest.employeeId })
+    const applicant = await Karyawan.findById(updatedRequest.employeeId).select('email').lean()
+    const applicantEmail = normalizeEmail(applicant?.email)
+    if (applicantEmail) {
+      const staffUsers = await User.find({ role: 'STAFF' }).select('_id email').lean()
+      const recipient = staffUsers.find((user) => normalizeEmail(user.email) === applicantEmail)
+      if (recipient) {
+        await Notifikasi.create({
+          judul: `Pengajuan Cuti ${review.status === 'approved' ? 'Disetujui' : 'Ditolak'}`,
+          pesan: review.reviewNote || 'Status pengajuan cuti diperbarui',
+          tipe: 'CUTI',
+          targetId: updatedRequest.employeeId,
+          recipientUserId: recipient._id,
+        })
+      }
+    }
     await createAuditLog(session.user.id, 'UPDATE', 'CUTI', `Mengubah status pengajuan cuti menjadi ${review.status}`, getIpAddress(request))
     return NextResponse.json(updatedRequest)
   } catch (error) {

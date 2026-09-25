@@ -2,6 +2,7 @@ import mongoose from 'mongoose'
 
 const notifikasiSchema = new mongoose.Schema(
   {
+    recipientUserId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', default: null, index: true },
     judul: { type: String, required: true },
     pesan: { type: String, default: null },
     tipe: { type: String, default: null },

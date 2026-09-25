@@ -2,6 +2,7 @@ import mongoose from 'mongoose'
 
 const reminderSchema = new mongoose.Schema(
   {
+    createdBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User', default: null, index: true },
     judul: { type: String, required: true, trim: true },
     kategori: {
       type: String,

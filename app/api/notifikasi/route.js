@@ -3,10 +3,14 @@ import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import dbConnect from '@/lib/db'
 import Notifikasi from '@/models/Notifikasi'
+import accessControl from '@/lib/access-control'
+
+const { getOwnerScope } = accessControl
 
 export async function GET(request) {
   const session = await getServerSession(authOptions)
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  const ownerScope = getOwnerScope(session.user.role, session.user.id, 'recipientUserId')
 
   const { searchParams } = new URL(request.url)
   const limit = parseInt(searchParams.get('limit') || '20')
@@ -15,12 +19,12 @@ export async function GET(request) {
   await dbConnect()
 
   const [data, unreadCount, total] = await Promise.all([
-    Notifikasi.find()
+    Notifikasi.find(ownerScope)
       .sort({ createdAt: -1 })
       .skip((page - 1) * limit)
       .limit(limit),
-    Notifikasi.countDocuments({ status: 'BELUM_DIBACA' }),
-    Notifikasi.countDocuments(),
+    Notifikasi.countDocuments({ ...ownerScope, status: 'BELUM_DIBACA' }),
+    Notifikasi.countDocuments(ownerScope),
   ])
 
   return NextResponse.json({ data, unreadCount, total, totalPages: Math.ceil(total / limit) })
@@ -29,11 +33,12 @@ export async function GET(request) {
 export async function POST(request) {
   const session = await getServerSession(authOptions)
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  const ownerScope = getOwnerScope(session.user.role, session.user.id, 'recipientUserId')
 
   const body = await request.json()
   if (body.markAllRead) {
     await dbConnect()
-    await Notifikasi.updateMany({ status: 'BELUM_DIBACA' }, { status: 'SUDAH_DIBACA' })
+    await Notifikasi.updateMany({ ...ownerScope, status: 'BELUM_DIBACA' }, { status: 'SUDAH_DIBACA' })
     return NextResponse.json({ success: true })
   }
 
