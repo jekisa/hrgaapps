@@ -96,6 +96,7 @@ export async function GET() {
       kendaraanTersedia,
       pajakJatuhTempo,
       notifikasiUnread,
+      leavePending,
       asetByKategoriRaw,
       karyawanByKontrakRaw,
       // calendar sources
@@ -106,7 +107,6 @@ export async function GET() {
       calendarReminder,
       calendarBirthdayRaw,
       reminderJatuhTempo,
-      leavePending,
     ] = await Promise.all([
       Karyawan.countDocuments(),
       Karyawan.countDocuments({ statusAktif: true }),
