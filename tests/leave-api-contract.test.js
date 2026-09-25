@@ -7,6 +7,7 @@ const {
   parsePagination,
 } = require('../lib/leave-contract')
 const { getLeaveMenuItems, getLeavePendingTile } = require('../lib/leave-menu')
+const { getQuotaWarning, buildLeaveSubmission } = require('../lib/leave-form')
 
 test('rejects a missing session before building an admin scope', () => {
   assert.throws(() => buildStaffScope(null), (error) => error.status === 401)
@@ -51,4 +52,12 @@ test('returns separate admin and staff leave navigation', () => {
 test('hides the pending tile for non-admin users', () => {
   assert.equal(getLeavePendingTile('ADMIN', { leavePending: 4 }).value, 4)
   assert.equal(getLeavePendingTile('STAFF', { leavePending: 4 }), null)
+})
+
+test('warns when requested days exceed remaining quota without blocking submission', () => {
+  assert.equal(getQuotaWarning(5, 6), 'Pengajuan melebihi sisa kuota cuti')
+  assert.equal(getQuotaWarning(5, 5), null)
+  assert.deepEqual(buildLeaveSubmission({ leaveTypeId: 'type-1', startDate: '2026-09-24', endDate: '2026-09-25', reason: 'Acara keluarga', attachmentUrl: '/uploads/cuti/a.pdf' }), {
+    leaveTypeId: 'type-1', startDate: '2026-09-24', endDate: '2026-09-25', reason: 'Acara keluarga', attachmentUrl: '/uploads/cuti/a.pdf',
+  })
 })
