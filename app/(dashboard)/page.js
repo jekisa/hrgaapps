@@ -318,7 +318,7 @@ function ContractStatus({ data = [] }) {
   )
 }
 
-function MiniCalendar({ events = [] }) {
+function MiniCalendar({ events = [], visibleEventTypes = Object.keys(eventMeta) }) {
   const [cursor, setCursor] = useState(() => {
     const now = new Date()
     return { year: now.getFullYear(), month: now.getMonth() }
@@ -404,7 +404,7 @@ function MiniCalendar({ events = [] }) {
       </div>
 
       <div className="mt-4 flex flex-wrap gap-x-5 gap-y-2">
-        {Object.entries(eventMeta).map(([type, meta]) => (
+        {Object.entries(eventMeta).filter(([type]) => visibleEventTypes.includes(type)).map(([type, meta]) => (
           <div key={type} className="flex items-center gap-1.5 text-[11px] text-slate-500">
             <span className={`h-2 w-2 rounded-full ${meta.dot}`} />
             {meta.label}
@@ -486,6 +486,31 @@ function RecentActivity({ events = [] }) {
             )
           })
         )}
+      </div>
+    </Panel>
+  )
+}
+
+function StaffRecentActivity({ activities = [] }) {
+  return (
+    <Panel className="p-5">
+      <PanelHeader title="Aktivitas Cuti Saya" actionHref="/cuti/saya/ajukan" actionLabel="Ajukan cuti" />
+      <div className="mt-4 space-y-4">
+        {activities.length === 0 ? (
+          <div className="rounded-xl bg-slate-50 px-4 py-8 text-center text-sm text-slate-400">Belum ada aktivitas cuti</div>
+        ) : activities.map((activity) => (
+          <Link key={activity.id} href={activity.href || '/cuti/saya/ajukan'} className="flex items-center gap-3">
+            <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-blue-100 bg-blue-50 text-blue-600">
+              <CalendarDays className="h-4 w-4" />
+            </span>
+            <span className="min-w-0 flex-1">
+              <span className="block truncate text-sm font-semibold text-slate-800">{activity.label}</span>
+            </span>
+            <span className="shrink-0 text-xs text-slate-500">
+              {new Date(activity.occurredAt).toLocaleString('id-ID', { dateStyle: 'medium', timeStyle: 'short' })}
+            </span>
+          </Link>
+        ))}
       </div>
     </Panel>
   )
@@ -611,12 +636,21 @@ function FloatingActions() {
 export default function DashboardPage() {
   const { data: session } = useSession()
   const isAdmin = session?.user?.role === 'ADMIN'
-  const { data, isLoading } = useQuery({
+  const { data, isLoading, isError } = useQuery({
     queryKey: ['dashboard'],
-    queryFn: () => fetch('/api/dashboard').then((r) => r.json()),
+    queryFn: async () => {
+      const response = await fetch('/api/dashboard')
+      if (!response.ok) {
+        const result = await response.json().catch(() => ({}))
+        throw new Error(result.error || 'Gagal memuat dashboard')
+      }
+      return response.json()
+    },
   })
 
   if (isLoading) return <PageLoader />
+  if (isError) return <div role="alert" className="rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-700">Gagal memuat dashboard. Silakan coba lagi.</div>
+  if (!isAdmin) return <StaffDashboard data={data} session={session} />
 
   const { stats = {}, charts = {}, calendarEvents = [] } = data || {}
   const userName = session?.user?.name || 'Jeki'
@@ -714,6 +748,50 @@ export default function DashboardPage() {
       </div>
 
       <FloatingActions />
+    </div>
+  )
+}
+
+function StaffDashboard({ data, session }) {
+  const stats = data?.stats || {}
+  const userName = session?.user?.name || 'User'
+  const firstName = userName.split(' ')[0] || userName
+  const leaveStatusLabels = {
+    pending: 'Menunggu persetujuan',
+    approved: 'Disetujui',
+    rejected: 'Ditolak',
+  }
+  const visibleEventTypes = ['ulangTahun', 'reminder']
+
+  return (
+    <div className="space-y-6">
+      <div className="grid gap-5 xl:grid-cols-[1fr_1.45fr]">
+        <div>
+          <h1 className="text-2xl font-extrabold tracking-tight text-slate-950">Selamat datang, {firstName}!</h1>
+          <p className="mt-1 text-sm text-slate-500">Ringkasan aktivitas dan informasi pribadi Anda.</p>
+        </div>
+        <Panel className="p-5">
+          <h2 className="mb-4 text-sm font-bold text-slate-900">Quick Actions</h2>
+          <div className="grid gap-3 sm:grid-cols-2">
+            <QuickAction icon={CalendarDays} label="Ajukan Cuti" href="/cuti/saya/ajukan" color="bg-gradient-to-br from-primary-500 to-blue-700 shadow-primary-500/25" />
+            <QuickAction icon={FileText} label="Upload Surat Dokter" href="/cuti/saya/ajukan#lampiran" color="bg-gradient-to-br from-cyan-400 to-cyan-600 shadow-cyan-500/25" />
+          </div>
+        </Panel>
+      </div>
+
+      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+        <StatCard title="Sisa Cuti Tahun Ini" value={`${stats.leaveBalanceRemaining ?? 0} hari`} subtitle={stats.leaveBalanceType || 'Cuti Tahunan'} icon={CalendarDays} iconWrap="bg-blue-50 text-primary-600" sparkColor="#2563eb" />
+        <StatCard title="Reminder Saya" value={stats.activeReminderCount ?? 0} subtitle="Belum selesai" icon={AlarmClockCheck} iconWrap="bg-cyan-50 text-cyan-600" sparkColor="#0891b2" href="/reminder" />
+        <StatCard title="Notifikasi" value={stats.unreadNotificationCount ?? 0} subtitle="Belum dibaca" icon={BellDot} iconWrap="bg-orange-50 text-orange-500" sparkColor="#f97316" href="/notifikasi" />
+        <StatCard title="Status Pengajuan Cuti Terakhir" value={leaveStatusLabels[stats.latestLeaveStatus] || '-'} subtitle="Pengajuan terbaru" icon={ClipboardList} iconWrap="bg-violet-50 text-violet-600" sparkColor="#7c3aed" href="/cuti/saya/ajukan" />
+      </div>
+
+      <div className="grid gap-5 lg:grid-cols-3">
+        <MiniCalendar events={data?.calendarEvents || []} visibleEventTypes={visibleEventTypes} />
+        <UpcomingEvents events={data?.calendarEvents || []} />
+      </div>
+
+      <StaffRecentActivity activities={data?.activities || []} />
     </div>
   )
 }

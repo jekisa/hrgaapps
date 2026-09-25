@@ -94,3 +94,26 @@ test('maps one employee by normalized email without loading every employee email
   assert.deepEqual(employeeQuery, { email: { $regex: '^\\s*staff@example\\.com\\s*$', $options: 'i' } })
   assert.equal(result, employee)
 })
+
+test('staff dashboard renders only personal actions and widgets, with a real upload anchor', () => {
+  const page = readFileSync(path.resolve(process.cwd(), 'app/(dashboard)/page.js'), 'utf8')
+  const form = readFileSync(path.resolve(process.cwd(), 'app/(dashboard)/cuti/saya/ajukan/page.js'), 'utf8')
+  const start = page.indexOf('function StaffDashboard')
+  assert.ok(start !== -1)
+  const staffView = page.slice(start)
+
+  assert.match(page, /if\s*\(!isAdmin\)\s*return\s*<StaffDashboard/)
+  assert.match(page, /if\s*\(!response\.ok\)/)
+  assert.match(staffView, /Ajukan Cuti/)
+  assert.match(staffView, /Upload Surat Dokter/)
+  assert.match(staffView, /\/cuti\/saya\/ajukan#lampiran/)
+  assert.match(staffView, /Sisa Cuti Tahun Ini/)
+  assert.match(staffView, /Reminder Saya/)
+  assert.match(staffView, /Notifikasi/)
+  assert.match(staffView, /Status Pengajuan Cuti Terakhir/)
+  assert.match(staffView, /visibleEventTypes/)
+  for (const companyWidget of ['EmployeeTrend', 'ContractStatus', 'InsightPanel', 'AssetDistribution', 'FloatingActions']) {
+    assert.equal(staffView.includes(companyWidget), false, `${companyWidget} must not render for STAFF`)
+  }
+  assert.match(form, /id="lampiran"/)
+})
