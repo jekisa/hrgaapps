@@ -1,13 +1,18 @@
 import { NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
+import accessControl from '@/lib/access-control'
 import dbConnect from '@/lib/db'
 import LogPerjalanan from '@/models/LogPerjalanan'
 import { createAuditLog, getIpAddress } from '@/lib/server-utils'
 
+const { requireRole } = accessControl
+
 export async function GET(request) {
   const session = await getServerSession(authOptions)
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  const accessError = requireRole(session, ['ADMIN'])
+  if (accessError) return NextResponse.json({ error: accessError.error }, { status: accessError.status })
 
   const { searchParams } = new URL(request.url)
   const page = parseInt(searchParams.get('page') || '1')
@@ -43,6 +48,8 @@ export async function GET(request) {
 export async function POST(request) {
   const session = await getServerSession(authOptions)
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  const accessError = requireRole(session, ['ADMIN'])
+  if (accessError) return NextResponse.json({ error: accessError.error }, { status: accessError.status })
 
   try {
     const body = await request.json()

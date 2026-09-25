@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
+import accessControl from '@/lib/access-control'
 import dbConnect from '@/lib/db'
 import Karyawan from '@/models/Karyawan'
 import RiwayatJabatan from '@/models/RiwayatJabatan'
@@ -8,10 +9,14 @@ import DokumenKaryawan from '@/models/DokumenKaryawan'
 import PeminjamanAset from '@/models/PeminjamanAset'
 import { createAuditLog, getIpAddress } from '@/lib/server-utils'
 
+const { requireRole } = accessControl
+
 export async function GET(request, { params: paramsPromise }) {
   const params = await paramsPromise
   const session = await getServerSession(authOptions)
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  const accessError = requireRole(session, ['ADMIN'])
+  if (accessError) return NextResponse.json({ error: accessError.error }, { status: accessError.status })
 
   await dbConnect()
 
@@ -42,6 +47,8 @@ export async function PUT(request, { params: paramsPromise }) {
   const params = await paramsPromise
   const session = await getServerSession(authOptions)
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  const accessError = requireRole(session, ['ADMIN'])
+  if (accessError) return NextResponse.json({ error: accessError.error }, { status: accessError.status })
 
   try {
     const body = await request.json()
@@ -87,9 +94,8 @@ export async function DELETE(request, { params: paramsPromise }) {
   const params = await paramsPromise
   const session = await getServerSession(authOptions)
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-  if (session.user.role !== 'ADMIN') {
-    return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
-  }
+  const accessError = requireRole(session, ['ADMIN'])
+  if (accessError) return NextResponse.json({ error: accessError.error }, { status: accessError.status })
 
   try {
     await dbConnect()
