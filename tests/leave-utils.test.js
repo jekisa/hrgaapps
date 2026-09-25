@@ -2,6 +2,8 @@ const test = require('node:test')
 const assert = require('node:assert/strict')
 const { countBusinessDays, rangesOverlap, normalizeEmail, getRemainingBalance } = require('../lib/leave-utils')
 const { assertRole } = require('../lib/leave-auth')
+const { validateUploadMetadata } = require('../lib/leave-storage')
+const { validateReviewPayload, canReviewRequest } = require('../lib/leave-review')
 const LeaveType = require('../models/LeaveType')
 const LeaveBalance = require('../models/LeaveBalance')
 const LeaveRequest = require('../models/LeaveRequest')
@@ -39,4 +41,21 @@ test('defines leave schemas and balance uniqueness', () => {
   assert.equal(LeaveBalance.schema.path('employeeId').options.ref, 'Karyawan')
   assert.deepEqual(LeaveRequest.schema.path('status').options.enum, ['pending', 'approved', 'rejected'])
   assert.ok(LeaveBalance.schema.indexes().some(([fields, options]) => options.unique && fields.year === 1))
+})
+
+test('accepts supported attachment metadata up to 5 MB', () => {
+  assert.equal(validateUploadMetadata({ name: 'surat.pdf', type: 'application/pdf', size: 5 * 1024 * 1024 }).extension, '.pdf')
+})
+
+test('rejects unsupported, oversized, and MIME-mismatched attachments', () => {
+  assert.throws(() => validateUploadMetadata({ name: 'surat.exe', type: 'application/octet-stream', size: 10 }), /Format file/)
+  assert.throws(() => validateUploadMetadata({ name: 'surat.pdf', type: 'application/pdf', size: 5 * 1024 * 1024 + 1 }), /5 MB/)
+  assert.throws(() => validateUploadMetadata({ name: 'surat.pdf', type: 'image/png', size: 10 }), /MIME/)
+})
+
+test('requires review note for rejection and only pending requests can transition', () => {
+  assert.throws(() => validateReviewPayload({ status: 'rejected', reviewNote: '' }), /catatan/i)
+  assert.deepEqual(validateReviewPayload({ status: 'approved', reviewNote: '' }), { status: 'approved', reviewNote: null })
+  assert.equal(canReviewRequest('pending'), true)
+  assert.equal(canReviewRequest('approved'), false)
 })
