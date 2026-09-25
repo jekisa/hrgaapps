@@ -4,6 +4,33 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --staff-accent: #B54735;
+  --staff-accent-hover: #9F3D2D;
+  --staff-accent-tint: #FFF1ED;
+  --staff-accent-ring: rgba(181, 71, 53, 0.32);
+}
+
+.staff-theme .btn-primary { background-color: var(--staff-accent); }
+.staff-theme .btn-primary:hover { background-color: var(--staff-accent-hover); }
+.staff-theme :is(input, select, textarea, button, a):focus-visible { outline: 3px solid var(--staff-accent-ring); outline-offset: 2px; }
+.staff-theme .staff-greeting { background: linear-gradient(110deg, #fff 35%, var(--staff-accent-tint)); }
+.staff-theme .staff-stat-card { border-top: 3px solid var(--staff-accent); transition: transform .2s, box-shadow .2s; }
+.staff-theme .staff-stat-card:hover { transform: translateY(-3px); box-shadow: 0 14px 30px rgba(24, 35, 55, .1); }
+.staff-theme .staff-leave-progress { display:block; height:100%; border-radius:inherit; background:var(--staff-accent); transition:width .65s ease; }
+.staff-theme .staff-day-count { transition: background-color .2s, color .2s; }
+.staff-theme .staff-day-count[data-positive="true"] { color:var(--staff-accent); background:var(--staff-accent-tint); }
+.staff-theme .staff-date-trigger:focus-visible, .staff-theme .staff-dropzone:focus-visible { outline:3px solid var(--staff-accent-ring); outline-offset:2px; }
+.staff-theme .staff-date-selected { color:#fff; background:var(--staff-accent); }
+.staff-theme .staff-dropzone[data-dragging="true"] { border-color:var(--staff-accent); background:var(--staff-accent-tint); }
+.staff-theme .staff-dropzone { border:1px dashed #cbd5e1; }
+.staff-theme .staff-empty-state a { color:var(--staff-accent); }
+.staff-theme .staff-greeting img { max-height:140px; width:auto; }
+[data-role="STAFF"] .sidebar-link-active { background:var(--staff-accent); box-shadow:0 2px 10px rgba(181,71,53,.28), inset 0 1px 0 rgba(255,255,255,.16); }
+@media (prefers-reduced-motion: reduce) {
+  .staff-theme *, .staff-theme *::before, .staff-theme *::after { scroll-behavior:auto !important; animation-duration:.01ms !important; transition-duration:.01ms !important; }
+}
+
 @layer base {
   html {
     font-family: 'Inter', sans-serif;
