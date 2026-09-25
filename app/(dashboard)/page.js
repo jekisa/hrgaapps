@@ -26,6 +26,7 @@ import {
   UserRoundPlus,
   UsersRound,
   Wrench,
+  Palmtree,
 } from 'lucide-react'
 import {
   Area,
@@ -42,6 +43,7 @@ import {
 import { useQuery } from '@tanstack/react-query'
 import { useSession } from 'next-auth/react'
 import { PageLoader } from '@/components/ui/LoadingSpinner'
+import { StaffGreeting, StaffStatCard, StaffLeaveProgress, StaffEmptyState } from '@/components/dashboard/StaffDashboardVisuals'
 
 const CONTRACT_COLORS = ['#22c55e', '#3b82f6', '#7c3aed', '#f97316']
 const BAR_COLORS = ['#3b82f6', '#10b981', '#8b5cf6', '#f97316']
@@ -318,7 +320,7 @@ function ContractStatus({ data = [] }) {
   )
 }
 
-function MiniCalendar({ events = [], visibleEventTypes = Object.keys(eventMeta) }) {
+function MiniCalendar({ events = [], visibleEventTypes = Object.keys(eventMeta), staffAccent = false }) {
   const [cursor, setCursor] = useState(() => {
     const now = new Date()
     return { year: now.getFullYear(), month: now.getMonth() }
@@ -384,7 +386,7 @@ function MiniCalendar({ events = [], visibleEventTypes = Object.keys(eventMeta) 
               key={dateStr}
               className={[
                 'mx-auto flex h-10 w-10 flex-col items-center justify-center rounded-full text-xs font-semibold transition',
-                isToday ? 'bg-primary-600 text-white shadow-lg shadow-primary-500/25' :
+                isToday ? (staffAccent ? 'bg-[#B54735] text-white shadow-lg shadow-rose-900/20' : 'bg-primary-600 text-white shadow-lg shadow-primary-500/25') :
                   isSunday ? 'text-rose-500 hover:bg-rose-50' :
                   isSaturday ? 'text-primary-500 hover:bg-primary-50' :
                   'text-slate-700 hover:bg-slate-50',
@@ -394,7 +396,7 @@ function MiniCalendar({ events = [], visibleEventTypes = Object.keys(eventMeta) 
               {dayEvents.length > 0 && (
                 <span className="mt-0.5 flex gap-[3px]">
                   {[...new Set(dayEvents.map((event) => event.type))].slice(0, 3).map((type) => (
-                    <span key={type} className={`h-1 w-1 rounded-full ${isToday ? 'bg-white/80' : eventMeta[type]?.dot || 'bg-slate-300'}`} />
+                    <span key={type} className={`h-1 w-1 rounded-full ${staffAccent && isToday ? 'bg-white/80' : staffAccent ? 'bg-[#B54735]' : isToday ? 'bg-white/80' : eventMeta[type]?.dot || 'bg-slate-300'}`} />
                   ))}
                 </span>
               )}
@@ -406,7 +408,7 @@ function MiniCalendar({ events = [], visibleEventTypes = Object.keys(eventMeta) 
       <div className="mt-4 flex flex-wrap gap-x-5 gap-y-2">
         {Object.entries(eventMeta).filter(([type]) => visibleEventTypes.includes(type)).map(([type, meta]) => (
           <div key={type} className="flex items-center gap-1.5 text-[11px] text-slate-500">
-            <span className={`h-2 w-2 rounded-full ${meta.dot}`} />
+            <span className={`h-2 w-2 rounded-full ${staffAccent ? 'bg-[#B54735]' : meta.dot}`} />
             {meta.label}
           </div>
         ))}
@@ -415,7 +417,7 @@ function MiniCalendar({ events = [], visibleEventTypes = Object.keys(eventMeta) 
   )
 }
 
-function UpcomingEvents({ events = [] }) {
+function UpcomingEvents({ events = [], staffAccent = false }) {
   const upcoming = useMemo(() => {
     const today = getTodayStr()
     return events
@@ -429,22 +431,22 @@ function UpcomingEvents({ events = [] }) {
       <PanelHeader icon={CalendarDays} title="Event Mendatang" actionHref="/reminder" />
       <div className="mt-4 space-y-3">
         {upcoming.length === 0 ? (
-          <div className="rounded-xl bg-slate-50 px-4 py-8 text-center text-sm text-slate-400">Tidak ada event mendatang</div>
+          staffAccent ? <StaffEmptyState icon={CalendarDays} title="Belum ada event mendatang" description="Saat ada ulang tahun atau reminder untuk Anda, kami tampilkan di sini." href="/reminder" actionLabel="Lihat reminder" /> : <div className="rounded-xl bg-slate-50 px-4 py-8 text-center text-sm text-slate-400">Tidak ada event mendatang</div>
         ) : (
           upcoming.map((event, index) => {
             const meta = eventMeta[event.type] || eventMeta.reminder
             const diff = getDayDiff(event.date)
             return (
               <Link key={`${event.date}-${index}`} href={event.href || '#'} className="flex items-center gap-3 rounded-xl p-2.5 transition hover:bg-slate-50">
-                <span className="flex h-12 w-12 shrink-0 flex-col items-center justify-center rounded-xl bg-primary-50">
-                  <span className="text-base font-extrabold leading-none text-primary-600">{formatDate(event.date, { day: 'numeric' })}</span>
+                <span className={`flex h-12 w-12 shrink-0 flex-col items-center justify-center rounded-xl ${staffAccent ? 'bg-rose-50' : 'bg-primary-50'}`}>
+                  <span className={`text-base font-extrabold leading-none ${staffAccent ? 'text-[#B54735]' : 'text-primary-600'}`}>{formatDate(event.date, { day: 'numeric' })}</span>
                   <span className="mt-0.5 text-[9px] font-bold uppercase text-slate-500">{formatDate(event.date, { month: 'short' })}</span>
                 </span>
                 <span className="min-w-0 flex-1">
                   <span className="block truncate text-xs font-bold text-slate-800">{event.label}</span>
                   <span className="mt-1 block text-[11px] text-slate-500">{diff === 0 ? 'Hari ini' : `${diff} hari lagi`}</span>
                 </span>
-                <span className={`h-2 w-2 rounded-full ${meta.dot}`} />
+                <span className={`h-2 w-2 rounded-full ${staffAccent ? 'bg-[#B54735]' : meta.dot}`} />
               </Link>
             )
           })
@@ -497,7 +499,7 @@ function StaffRecentActivity({ activities = [] }) {
       <PanelHeader title="Aktivitas Cuti Saya" actionHref="/cuti/saya/ajukan" actionLabel="Ajukan cuti" />
       <div className="mt-4 space-y-4">
         {activities.length === 0 ? (
-          <div className="rounded-xl bg-slate-50 px-4 py-8 text-center text-sm text-slate-400">Belum ada aktivitas cuti</div>
+          <StaffEmptyState icon={Palmtree} title="Belum ada aktivitas cuti" description="Pengajuan atau pembaruan status cuti Anda akan muncul di sini." href="/cuti/saya/ajukan" actionLabel="Ajukan cuti" />
         ) : activities.map((activity) => (
           <Link key={activity.id} href={activity.href || '/cuti/saya/ajukan'} className="flex items-center gap-3">
             <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-blue-100 bg-blue-50 text-blue-600">
@@ -753,6 +755,7 @@ export default function DashboardPage() {
 }
 
 function StaffDashboard({ data, session }) {
+  const { data: leaveTypeData } = useQuery({ queryKey: ['cuti', 'jenis'], queryFn: async () => { const response = await fetch('/api/cuti/jenis'); if (!response.ok) return { data: [] }; return response.json() } })
   const stats = data?.stats || {}
   const userName = session?.user?.name || 'User'
   const firstName = userName.split(' ')[0] || userName
@@ -762,33 +765,31 @@ function StaffDashboard({ data, session }) {
     rejected: 'Ditolak',
   }
   const visibleEventTypes = ['ulangTahun', 'reminder']
+  const annualLeaveType = (leaveTypeData?.data || []).find((item) => item.code === 'annual')
 
   return (
-    <div className="space-y-6">
+    <div className="staff-theme space-y-6">
       <div className="grid gap-5 xl:grid-cols-[1fr_1.45fr]">
-        <div>
-          <h1 className="text-2xl font-extrabold tracking-tight text-slate-950">Selamat datang, {firstName}!</h1>
-          <p className="mt-1 text-sm text-slate-500">Ringkasan aktivitas dan informasi pribadi Anda.</p>
-        </div>
+        <StaffGreeting name={firstName} />
         <Panel className="p-5">
           <h2 className="mb-4 text-sm font-bold text-slate-900">Quick Actions</h2>
           <div className="grid gap-3 sm:grid-cols-2">
-            <QuickAction icon={CalendarDays} label="Ajukan Cuti" href="/cuti/saya/ajukan" color="bg-gradient-to-br from-primary-500 to-blue-700 shadow-primary-500/25" />
-            <QuickAction icon={FileText} label="Upload Surat Dokter" href="/cuti/saya/ajukan#lampiran" color="bg-gradient-to-br from-cyan-400 to-cyan-600 shadow-cyan-500/25" />
+            <QuickAction icon={CalendarDays} label="Ajukan Cuti" href="/cuti/saya/ajukan" color="bg-gradient-to-br from-[#B54735] to-[#9F3D2D] shadow-rose-900/20" />
+            <QuickAction icon={FileText} label="Upload Surat Dokter" href="/cuti/saya/ajukan#lampiran" color="bg-gradient-to-br from-orange-400 to-rose-500 shadow-orange-500/25" />
           </div>
         </Panel>
       </div>
 
       <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-        <StatCard title="Sisa Cuti Tahun Ini" value={`${stats.leaveBalanceRemaining ?? 0} hari`} subtitle={stats.leaveBalanceType || 'Cuti Tahunan'} icon={CalendarDays} iconWrap="bg-blue-50 text-primary-600" sparkColor="#2563eb" />
-        <StatCard title="Reminder Saya" value={stats.activeReminderCount ?? 0} subtitle="Belum selesai" icon={AlarmClockCheck} iconWrap="bg-cyan-50 text-cyan-600" sparkColor="#0891b2" href="/reminder" />
-        <StatCard title="Notifikasi" value={stats.unreadNotificationCount ?? 0} subtitle="Belum dibaca" icon={BellDot} iconWrap="bg-orange-50 text-orange-500" sparkColor="#f97316" href="/notifikasi" />
-        <StatCard title="Status Pengajuan Cuti Terakhir" value={leaveStatusLabels[stats.latestLeaveStatus] || '-'} subtitle="Pengajuan terbaru" icon={ClipboardList} iconWrap="bg-violet-50 text-violet-600" sparkColor="#7c3aed" href="/cuti/saya/ajukan" />
+        <StaffStatCard title="Sisa Cuti Tahun Ini" value={`${stats.leaveBalanceRemaining ?? 0} hari`} subtitle={stats.leaveBalanceType || 'Cuti Tahunan'} icon={CalendarDays} tone="rose"><StaffLeaveProgress remaining={stats.leaveBalanceRemaining} quota={annualLeaveType?.defaultQuotaPerYear} /></StaffStatCard>
+        <StaffStatCard title="Reminder Saya" value={stats.activeReminderCount ?? 0} subtitle={stats.activeReminderCount ? 'Belum selesai' : 'Semua reminder selesai'} icon={AlarmClockCheck} tone="amber" href="/reminder">{!stats.activeReminderCount && <StaffEmptyState icon={AlarmClockCheck} title="Tidak ada reminder" description="Waktu Anda masih aman—belum ada reminder tertunda." href="/reminder" actionLabel="Buka reminder" />}</StaffStatCard>
+        <StaffStatCard title="Notifikasi" value={stats.unreadNotificationCount ?? 0} subtitle={stats.unreadNotificationCount ? 'Belum dibaca' : 'Tidak ada notifikasi baru'} icon={BellDot} tone="sky" href="/notifikasi">{!stats.unreadNotificationCount && <StaffEmptyState icon={BellDot} title="Kotak masuk tenang" description="Tidak ada notifikasi baru yang belum dibaca." href="/notifikasi" actionLabel="Lihat notifikasi" />}</StaffStatCard>
+        <StaffStatCard title="Status Pengajuan Cuti Terakhir" value={leaveStatusLabels[stats.latestLeaveStatus] || '-'} subtitle="Pengajuan terbaru" icon={ClipboardList} tone="violet" href="/cuti/saya/ajukan">{!stats.latestLeaveStatus && <StaffEmptyState icon={Palmtree} title="Belum ada pengajuan cuti nih" description="Yuk ajukan kalau butuh istirahat!" href="/cuti/saya/ajukan" actionLabel="Ajukan cuti" />}</StaffStatCard>
       </div>
 
       <div className="grid gap-5 lg:grid-cols-3">
-        <MiniCalendar events={data?.calendarEvents || []} visibleEventTypes={visibleEventTypes} />
-        <UpcomingEvents events={data?.calendarEvents || []} />
+        <MiniCalendar events={data?.calendarEvents || []} visibleEventTypes={visibleEventTypes} staffAccent />
+        <UpcomingEvents events={data?.calendarEvents || []} staffAccent />
       </div>
 
       <StaffRecentActivity activities={data?.activities || []} />
