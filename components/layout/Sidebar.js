@@ -12,7 +12,10 @@ import {
 } from 'lucide-react'
 import { signOut, useSession } from 'next-auth/react'
 import { cn } from '@/lib/utils'
+import dashboardMenu from '@/lib/dashboard-menu'
 import AppLogo from '@/components/ui/AppLogo'
+
+const { getVisibleSidebarItems } = dashboardMenu
 
 const menuItems = [
   {
@@ -34,11 +37,7 @@ const menuItems = [
     label: 'Cuti Saya',
     roles: ['STAFF'],
     icon: CalendarDays,
-    children: [
-      { label: 'Ringkasan Cuti', href: '/cuti/saya', icon: CalendarDays },
-      { label: 'Ajukan Cuti', href: '/cuti/saya/ajukan', icon: CalendarCheck },
-      { label: 'Riwayat Pengajuan', href: '/cuti/saya/riwayat', icon: History },
-    ],
+    href: '/cuti/saya/ajukan',
   },
   {
     section: 'Manajemen SDM',
@@ -210,6 +209,13 @@ function MenuItem({ item, collapsed, onMobileClose }) {
 export default function Sidebar({ collapsed, setCollapsed, mobileOpen, setMobileOpen }) {
   const { data: session } = useSession()
   const isAdmin = session?.user?.role === 'ADMIN'
+  const staffMenuItems = [
+    { label: 'Dashboard', href: '/', icon: Gauge },
+    { label: 'Reminder', href: '/reminder', icon: AlarmClockCheck },
+    { label: 'Notifikasi', href: '/notifikasi', icon: BellDot },
+    { label: 'Cuti Saya', href: '/cuti/saya/ajukan', icon: CalendarDays },
+  ]
+  const visibleMenuItems = getVisibleSidebarItems(session?.user?.role, menuItems, staffMenuItems)
   const userName = session?.user?.name || 'User'
   const initials = userName.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase()
 
@@ -282,7 +288,7 @@ export default function Sidebar({ collapsed, setCollapsed, mobileOpen, setMobile
 
       {/* Navigation */}
       <nav className="flex-1 overflow-y-auto px-2.5 py-4 space-y-0.5">
-        {menuItems.map((item, idx) => (
+        {visibleMenuItems.map((item, idx) => (
           item.roles && !item.roles.includes(session?.user?.role) ? null : (
           item.section ? (
             !showCollapsed ? (

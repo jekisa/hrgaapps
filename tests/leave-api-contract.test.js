@@ -7,8 +7,9 @@ const {
   parsePagination,
   buildRekapFilters,
 } = require('../lib/leave-contract')
-const { getLeaveMenuItems, getLeavePendingTile } = require('../lib/leave-menu')
-const { getQuotaWarning, buildLeaveSubmission } = require('../lib/leave-form')
+const { getLeaveMenuItems, getLeavePendingTile, getStaffLeaveRedirect } = require('../lib/leave-menu')
+const { getVisibleSidebarItems } = require('../lib/dashboard-menu')
+const { getQuotaWarning, buildLeaveSubmission, isLeaveAttachmentRequired } = require('../lib/leave-form')
 
 test('rejects a missing session before building an admin scope', () => {
   assert.throws(() => buildStaffScope(null), (error) => error.status === 401)
@@ -47,7 +48,36 @@ test('validates leave type payload and pagination bounds', () => {
 
 test('returns separate admin and staff leave navigation', () => {
   assert.deepEqual(getLeaveMenuItems('ADMIN').map((item) => item.href), ['/cuti/kelola', '/cuti/jenis', '/cuti/rekap'])
-  assert.deepEqual(getLeaveMenuItems('STAFF').map((item) => item.href), ['/cuti/saya', '/cuti/saya/ajukan', '/cuti/saya/riwayat'])
+  assert.deepEqual(getLeaveMenuItems('STAFF').map((item) => item.href), ['/cuti/saya/ajukan'])
+})
+
+test('selects a dedicated four-item STAFF sidebar and preserves the complete ADMIN menu', () => {
+  const adminItems = [{ label: 'Dashboard' }, { section: 'Manajemen SDM' }, { label: 'Manajemen Karyawan' }]
+  const staffItems = [
+    { label: 'Dashboard', href: '/' },
+    { label: 'Reminder', href: '/reminder' },
+    { label: 'Notifikasi', href: '/notifikasi' },
+    { label: 'Cuti Saya', href: '/cuti/saya/ajukan' },
+  ]
+
+  assert.deepEqual(getVisibleSidebarItems('STAFF', adminItems, staffItems), staffItems)
+  assert.deepEqual(getVisibleSidebarItems('ADMIN', adminItems, staffItems), adminItems)
+  assert.deepEqual(getVisibleSidebarItems(null, adminItems, staffItems), [])
+  assert.deepEqual(staffItems.map((item) => item.href), ['/', '/reminder', '/notifikasi', '/cuti/saya/ajukan'])
+})
+
+test('redirects STAFF away from summary and history leave routes only', () => {
+  for (const pathname of ['/cuti/saya', '/cuti/saya/ringkasan', '/cuti/saya/riwayat', '/cuti/saya/riwayat/2026']) {
+    assert.equal(getStaffLeaveRedirect('STAFF', pathname), '/cuti/saya/ajukan')
+    assert.equal(getStaffLeaveRedirect('ADMIN', pathname), null)
+  }
+  assert.equal(getStaffLeaveRedirect('STAFF', '/cuti/saya/ajukan'), null)
+})
+
+test('requires attachments only for leave types marked as requiring them', () => {
+  assert.equal(isLeaveAttachmentRequired({ requiresAttachment: true }), true)
+  assert.equal(isLeaveAttachmentRequired({ requiresAttachment: false }), false)
+  assert.equal(isLeaveAttachmentRequired(null), false)
 })
 
 test('hides the pending tile for non-admin users', () => {
