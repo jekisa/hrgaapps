@@ -5,7 +5,7 @@ const path = require('node:path')
 const { buildStaffDashboardPayload } = require('../lib/staff-dashboard')
 const { getEmployeeForSession } = require('../lib/leave-auth')
 
-test('builds four personal dashboard cards, own event categories, and factual leave activities', () => {
+test('builds personal dashboard stats, own event categories, and factual leave activities', () => {
   const payload = buildStaffDashboardPayload({
     annualBalance: { quota: 12, used: 5 },
     annualLeaveTypeName: 'Cuti Tahunan',
@@ -63,6 +63,13 @@ test('uses dash for no latest leave request and keeps leave activity timestamps 
   assert.deepEqual(payload.activities, [])
 })
 
+test('staff dashboard payload includes only the matched employee name and position for form display', () => {
+  const payload = buildStaffDashboardPayload({
+    employeeProfile: { nama: 'Ayu Sari', jabatan: 'Analis HR' },
+  })
+  assert.deepEqual(payload.employee, { name: 'Ayu Sari', position: 'Analis HR' })
+})
+
 test('dashboard STAFF resolves its employee and handles a missing mapping before company queries', () => {
   const route = readFileSync(path.resolve(process.cwd(), 'app/api/dashboard/route.js'), 'utf8')
   const getHandler = route.indexOf('export async function GET')
@@ -73,6 +80,8 @@ test('dashboard STAFF resolves its employee and handles a missing mapping before
   assert.notEqual(staffBranch, -1)
   assert.ok(missingEmployee > staffBranch && missingEmployee < companyQuery)
   assert.match(route.slice(staffBranch, companyQuery), /status:\s*422/)
+  assert.match(route, /select\('nama jabatan tanggalLahir'\)/)
+  assert.match(route, /employeeProfile,/)
 })
 
 test('maps one employee by normalized email without loading every employee email', async () => {
@@ -95,7 +104,7 @@ test('maps one employee by normalized email without loading every employee email
   assert.equal(result, employee)
 })
 
-test('staff dashboard renders only personal actions and widgets, with a real upload anchor', () => {
+test('staff dashboard renders only personal actions and widgets, with a working upload modal trigger', () => {
   const page = readFileSync(path.resolve(process.cwd(), 'app/(dashboard)/page.js'), 'utf8')
   const form = readFileSync(path.resolve(process.cwd(), 'app/(dashboard)/cuti/saya/ajukan/page.js'), 'utf8')
   const start = page.indexOf('function StaffDashboard')
@@ -106,7 +115,8 @@ test('staff dashboard renders only personal actions and widgets, with a real upl
   assert.match(page, /if\s*\(!response\.ok\)/)
   assert.match(staffView, /Ajukan Cuti/)
   assert.match(staffView, /Upload Surat Dokter/)
-  assert.match(staffView, /\/cuti\/saya\/ajukan#lampiran/)
+  assert.match(staffView, /onClick=\{\(\) => setDoctorUploadOpen\(true\)\}/)
+  assert.match(staffView, /DoctorAttachmentModal/)
   assert.match(staffView, /Sisa Cuti Tahun Ini/)
   assert.doesNotMatch(staffView, /Reminder Saya|activeReminderCount/)
   assert.match(staffView, /Notifikasi/)

@@ -44,6 +44,7 @@ import { useQuery } from '@tanstack/react-query'
 import { useSession } from 'next-auth/react'
 import { PageLoader } from '@/components/ui/LoadingSpinner'
 import { StaffGreeting, StaffStatCard, StaffLeaveProgress, StaffEmptyState } from '@/components/dashboard/StaffDashboardVisuals'
+import DoctorAttachmentModal from '@/components/cuti/DoctorAttachmentModal'
 
 const CONTRACT_COLORS = ['#22c55e', '#3b82f6', '#7c3aed', '#f97316']
 const BAR_COLORS = ['#3b82f6', '#10b981', '#8b5cf6', '#f97316']
@@ -153,18 +154,17 @@ function AlertTile({ icon: Icon, value, label, href, className, iconClassName })
   )
 }
 
-function QuickAction({ icon: Icon, label, href, color }) {
-  return (
-    <Link
-      href={href}
-      className="group flex min-h-[78px] items-center gap-4 rounded-xl border border-slate-200 bg-white px-4 py-3 transition hover:-translate-y-0.5 hover:border-primary-200 hover:shadow-md"
-    >
+function QuickAction({ icon: Icon, label, href, onClick, color }) {
+  const className = 'group flex min-h-[78px] items-center gap-4 rounded-xl border border-slate-200 bg-white px-4 py-3 text-left transition hover:-translate-y-0.5 hover:border-primary-200 hover:shadow-md'
+  const content = <>
       <span className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl text-white shadow-lg ${color}`}>
         <Icon className="h-5 w-5" />
       </span>
       <span className="text-sm font-bold leading-snug text-slate-800 group-hover:text-primary-700">{label}</span>
-    </Link>
-  )
+    </>
+  return href
+    ? <Link href={href} className={className}>{content}</Link>
+    : <button type="button" onClick={onClick} className={className}>{content}</button>
 }
 
 function StatCard({ title, value, subtitle, trend, icon: Icon, iconWrap, sparkColor, data = [], href }) {
@@ -755,6 +755,7 @@ export default function DashboardPage() {
 }
 
 function StaffDashboard({ data, session }) {
+  const [doctorUploadOpen, setDoctorUploadOpen] = useState(false)
   const { data: leaveTypeData } = useQuery({ queryKey: ['cuti', 'jenis'], queryFn: async () => { const response = await fetch('/api/cuti/jenis'); if (!response.ok) return { data: [] }; return response.json() } })
   const stats = data?.stats || {}
   const userName = session?.user?.name || 'User'
@@ -776,7 +777,7 @@ function StaffDashboard({ data, session }) {
           <h2 className="mb-4 text-sm font-bold text-slate-900">Quick Actions</h2>
           <div className="grid gap-3 sm:grid-cols-2">
             <QuickAction icon={CalendarDays} label="Ajukan Cuti" href="/cuti/saya/ajukan" color="bg-gradient-to-br from-[#B54735] to-[#9F3D2D] shadow-rose-900/20" />
-            <QuickAction icon={FileText} label="Upload Surat Dokter" href="/cuti/saya/ajukan#lampiran" color="bg-gradient-to-br from-orange-400 to-rose-500 shadow-orange-500/25" />
+            <QuickAction icon={FileText} label="Upload Surat Dokter" onClick={() => setDoctorUploadOpen(true)} color="bg-gradient-to-br from-orange-400 to-rose-500 shadow-orange-500/25" />
           </div>
         </Panel>
       </div>
@@ -793,6 +794,7 @@ function StaffDashboard({ data, session }) {
       </div>
 
       <StaffRecentActivity activities={data?.activities || []} />
+      <DoctorAttachmentModal isOpen={doctorUploadOpen} onClose={() => setDoctorUploadOpen(false)} />
     </div>
   )
 }

@@ -11,6 +11,8 @@ import leaveForm from '@/lib/leave-form'
 import StaffDatePicker from '@/components/ui/StaffDatePicker'
 import StaffFileDropzone from '@/components/ui/StaffFileDropzone'
 import { validateStaffAttachment } from '@/lib/staff-file'
+import { useSession } from 'next-auth/react'
+import { getStaffSelectableLeaveTypes } from '@/lib/staff-leave-types'
 
 const { countBusinessDays } = leaveUtils
 const { buildLeaveSubmission, isLeaveAttachmentRequired } = leaveForm
@@ -23,17 +25,23 @@ async function fetchJson(url, options) {
 }
 
 export default function AjukanCutiPage() {
+  const { data: session } = useSession()
   const { register, handleSubmit, watch, reset, control, formState: { errors, isSubmitting } } = useForm()
   const { data: typeData } = useQuery({
     queryKey: ['cuti', 'jenis'],
     queryFn: () => fetchJson('/api/cuti/jenis'),
   })
+  const { data: profileData } = useQuery({
+    queryKey: ['dashboard'],
+    queryFn: () => fetchJson('/api/dashboard'),
+  })
+  const selectableLeaveTypes = useMemo(() => getStaffSelectableLeaveTypes(typeData?.data), [typeData])
   const leaveTypeId = watch('leaveTypeId')
   const startDate = watch('startDate')
   const endDate = watch('endDate')
   const selectedType = useMemo(
-    () => (typeData?.data || []).find((item) => item._id === leaveTypeId),
-    [typeData, leaveTypeId],
+    () => selectableLeaveTypes.find((item) => item._id === leaveTypeId),
+    [selectableLeaveTypes, leaveTypeId],
   )
   const attachmentRequired = isLeaveAttachmentRequired(selectedType)
   let totalDays = 0
@@ -46,7 +54,7 @@ export default function AjukanCutiPage() {
   const onSubmit = async (data) => {
     try {
       if (!selectedType) throw new Error('Pilih jenis cuti')
-      if (attachmentRequired && !data.file?.[0]) throw new Error('Surat dokter wajib untuk cuti sakit')
+      if (attachmentRequired && !data.file?.[0]) throw new Error('Lampiran wajib untuk jenis cuti ini')
       const attachmentValidation = validateStaffAttachment(data.file?.[0])
       if (!attachmentValidation.valid) throw new Error(attachmentValidation.error)
 
@@ -79,11 +87,19 @@ export default function AjukanCutiPage() {
       />
       <form onSubmit={handleSubmit(onSubmit)} className="staff-leave-form w-full max-w-none rounded-2xl border border-slate-200/70 bg-white p-5 shadow-sm lg:p-8">
         <div className="grid gap-x-8 gap-y-5 md:grid-cols-2">
+          <div>
+            <label className="form-label" htmlFor="employeeName">Nama Karyawan</label>
+            <input id="employeeName" className="form-input bg-slate-50" value={profileData?.employee?.name || session?.user?.name || ''} readOnly aria-readonly="true" />
+          </div>
+          <div>
+            <label className="form-label" htmlFor="employeePosition">Jabatan</label>
+            <input id="employeePosition" className="form-input bg-slate-50" value={profileData?.employee?.position || ''} placeholder="Data jabatan tidak tersedia" readOnly aria-readonly="true" />
+          </div>
           <div className="md:col-span-2">
             <label className="form-label">Jenis Cuti <span className="text-red-500">*</span></label>
             <select className="form-select" {...register('leaveTypeId', { required: 'Jenis cuti wajib dipilih' })}>
               <option value="">Pilih jenis cuti</option>
-              {(typeData?.data || []).map((item) => (
+              {selectableLeaveTypes.map((item) => (
                 <option key={item._id} value={item._id}>{item.name} · kuota {item.defaultQuotaPerYear} hari</option>
               ))}
             </select>
@@ -109,7 +125,7 @@ export default function AjukanCutiPage() {
                 ? <span className="text-red-500">* Wajib</span>
                 : <span className="text-slate-400">(Opsional)</span>}
             </label>
-            <Controller name="file" control={control} rules={{ validate: (files) => !attachmentRequired || files?.length > 0 || 'Surat dokter wajib untuk cuti sakit' }} render={({ field }) => <StaffFileDropzone value={field.value} onChange={field.onChange} required={attachmentRequired} error={errors.file?.message} />} />
+            <Controller name="file" control={control} rules={{ validate: (files) => !attachmentRequired || files?.length > 0 || 'Lampiran wajib untuk jenis cuti ini' }} render={({ field }) => <StaffFileDropzone value={field.value} onChange={field.onChange} required={attachmentRequired} error={errors.file?.message} />} />
           </div>
         </div>
         <div className="mt-5 flex justify-end">

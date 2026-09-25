@@ -93,7 +93,7 @@ async function loadStaffDashboard(session, employee, now) {
 
   const [annualLeaveType, employeeProfile, activeReminderCount, unreadNotificationCount, latestLeaveRequest, reminders, leaveRequests] = await Promise.all([
     LeaveType.findOne({ code: 'annual' }).select('name defaultQuotaPerYear').lean(),
-    Karyawan.findById(employeeId).select('nama tanggalLahir').lean(),
+    Karyawan.findById(employeeId).select('nama jabatan tanggalLahir').lean(),
     Reminder.countDocuments({ ...reminderScope, status: 'ACTIVE' }),
     Notifikasi.countDocuments({ ...notificationScope, status: 'BELUM_DIBACA' }),
     LeaveRequest.findOne({ employeeId }).sort({ createdAt: -1 }).select('status').lean(),
@@ -140,6 +140,7 @@ async function loadStaffDashboard(session, employee, now) {
   return buildStaffDashboardPayload({
     annualBalance,
     annualLeaveTypeName: annualLeaveType?.name,
+    employeeProfile,
     activeReminderCount,
     unreadNotificationCount,
     latestLeaveRequest,
