@@ -8,7 +8,7 @@ import {
   ChevronRight, BellDot, ChartNoAxesCombined, ShieldCheck, ScanLine,
   ContactRound, History, Hourglass, Boxes, Repeat2,
   HardHat, PlugZap, CalendarClock, MapPinned, ReceiptText,
-  LogOut, PanelLeftClose, PanelLeftOpen, UserX, X
+  LogOut, PanelLeftClose, PanelLeftOpen, UserX, X, CalendarDays, CalendarCheck
 } from 'lucide-react'
 import { signOut, useSession } from 'next-auth/react'
 import { cn } from '@/lib/utils'
@@ -31,6 +31,16 @@ const menuItems = [
     icon: BellDot,
   },
   {
+    label: 'Cuti Saya',
+    roles: ['STAFF'],
+    icon: CalendarDays,
+    children: [
+      { label: 'Ringkasan Cuti', href: '/cuti/saya', icon: CalendarDays },
+      { label: 'Ajukan Cuti', href: '/cuti/saya/ajukan', icon: CalendarCheck },
+      { label: 'Riwayat Pengajuan', href: '/cuti/saya/riwayat', icon: History },
+    ],
+  },
+  {
     section: 'Manajemen SDM',
   },
   {
@@ -41,6 +51,16 @@ const menuItems = [
       { label: 'Karyawan Nonaktif', href: '/karyawan/nonactive', icon: UserX },
       { label: 'Riwayat Jabatan', href: '/karyawan/riwayat', icon: History },
       { label: 'Status Kontrak', href: '/karyawan/kontrak', icon: Hourglass },
+    ],
+  },
+  {
+    label: 'Manajemen Cuti',
+    roles: ['ADMIN'],
+    icon: CalendarDays,
+    children: [
+      { label: 'Daftar Pengajuan', href: '/cuti/kelola', icon: CalendarCheck },
+      { label: 'Kelola Jenis Cuti', href: '/cuti/jenis', icon: CalendarDays },
+      { label: 'Rekap Cuti Karyawan', href: '/cuti/rekap', icon: ChartNoAxesCombined },
     ],
   },
   {
@@ -263,6 +283,7 @@ export default function Sidebar({ collapsed, setCollapsed, mobileOpen, setMobile
       {/* Navigation */}
       <nav className="flex-1 overflow-y-auto px-2.5 py-4 space-y-0.5">
         {menuItems.map((item, idx) => (
+          item.roles && !item.roles.includes(session?.user?.role) ? null : (
           item.section ? (
             !showCollapsed ? (
               <div key={idx} className="pt-5 pb-2">
@@ -276,6 +297,7 @@ export default function Sidebar({ collapsed, setCollapsed, mobileOpen, setMobile
             )
           ) : (
             <MenuItem key={idx} item={item} collapsed={showCollapsed} onMobileClose={onMobileClose} />
+          )
           )
         ))}
 

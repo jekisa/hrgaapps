@@ -25,14 +25,14 @@
  *    jadi tidak akan menimpa sisa cuti yang sudah terpakai kalau dijalankan ulang.
  */
 
-require('dotenv').config();
+require('dotenv').config({ path: '.env.local' });
 const mongoose = require('mongoose');
 
 const MONGODB_URI = process.env.MONGODB_URI; // SESUAIKAN kalau nama env var kamu beda
 const CURRENT_YEAR = new Date().getFullYear();
 
 if (!MONGODB_URI) {
-  console.error('❌ MONGODB_URI tidak ditemukan di .env');
+  console.error('❌ MONGODB_URI tidak ditemukan di .env.local');
   process.exit(1);
 }
 
@@ -53,7 +53,7 @@ const LeaveTypeSchema = new mongoose.Schema(
 
 const LeaveBalanceSchema = new mongoose.Schema(
   {
-    employeeId: { type: mongoose.Schema.Types.ObjectId, ref: 'Employee', required: true },
+    employeeId: { type: mongoose.Schema.Types.ObjectId, ref: 'Karyawan', required: true },
     leaveTypeId: { type: mongoose.Schema.Types.ObjectId, ref: 'LeaveType', required: true },
     year: { type: Number, required: true },
     quota: { type: Number, required: true, default: 0 },
@@ -65,7 +65,7 @@ LeaveBalanceSchema.index({ employeeId: 1, leaveTypeId: 1, year: 1 }, { unique: t
 
 const LeaveRequestSchema = new mongoose.Schema(
   {
-    employeeId: { type: mongoose.Schema.Types.ObjectId, ref: 'Employee', required: true },
+    employeeId: { type: mongoose.Schema.Types.ObjectId, ref: 'Karyawan', required: true },
     leaveTypeId: { type: mongoose.Schema.Types.ObjectId, ref: 'LeaveType', required: true },
     startDate: { type: Date, required: true },
     endDate: { type: Date, required: true },
@@ -87,16 +87,16 @@ const LeaveRequest = mongoose.models.LeaveRequest || mongoose.model('LeaveReques
 // Model Employee HANYA di-reference (bukan dibuat ulang) karena kamu sudah
 // punya koleksi karyawan. SESUAIKAN nama model & field di bawah agar sama
 // persis dengan model Employee/Karyawan yang sudah ada di project kamu.
-const Employee =
-  mongoose.models.Employee ||
+const Karyawan =
+  mongoose.models.Karyawan ||
   mongoose.model(
-    'Employee',
+    'Karyawan',
     new mongoose.Schema(
       {
-        name: String,
-        contractStatus: String, // 'PROBATION' | 'PKWTT'  -- SESUAIKAN
+        nama: String,
+        statusKontrak: String,
       },
-      { collection: 'employees', strict: false } // strict:false = tidak error walau field lain beda
+      { collection: 'karyawans', strict: false }
     )
   );
 
@@ -173,7 +173,7 @@ async function seedLeaveTypes() {
 
 async function seedLeaveBalances(leaveTypes) {
   console.log('\n👥 Seeding Leave Balances untuk semua karyawan...');
-  const employees = await Employee.find({}).lean();
+  const employees = await Karyawan.find({}).lean();
 
   if (employees.length === 0) {
     console.warn('  ⚠ Tidak ada data karyawan ditemukan. Lewati seeding balance.');
@@ -186,7 +186,7 @@ async function seedLeaveBalances(leaveTypes) {
 
   for (const emp of employees) {
     for (const lt of leaveTypes) {
-      const quota = getQuotaForContractStatus(lt.code, emp.contractStatus);
+      const quota = getQuotaForContractStatus(lt.code, emp.statusKontrak);
 
       const existing = await LeaveBalance.findOne({
         employeeId: emp._id,

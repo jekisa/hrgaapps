@@ -7,7 +7,10 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "db:seed": "node --env-file=.env.local prisma/seed.js"
+    "test": "npm run test:leave",
+    "test:leave": "node --test tests/leave-utils.test.js tests/leave-api-contract.test.js",
+    "db:seed": "node --env-file=.env.local prisma/seed.js",
+    "db:seed:leave": "node \"Seedleavemanagement .js\""
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.80.0",

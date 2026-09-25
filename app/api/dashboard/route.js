@@ -11,6 +11,7 @@ import Notifikasi from '@/models/Notifikasi'
 import Utilitas from '@/models/Utilitas'
 import JadwalKendaraan from '@/models/JadwalKendaraan'
 import Reminder from '@/models/Reminder'
+import LeaveRequest from '@/models/LeaveRequest'
 import { addDays, addYears, endOfDay, endOfMonth, subDays, subMonths, startOfDay } from 'date-fns'
 
 const toDateStr = (d) => {
@@ -105,6 +106,7 @@ export async function GET() {
       calendarReminder,
       calendarBirthdayRaw,
       reminderJatuhTempo,
+      leavePending,
     ] = await Promise.all([
       Karyawan.countDocuments(),
       Karyawan.countDocuments({ statusAktif: true }),
@@ -122,6 +124,7 @@ export async function GET() {
         tanggalJatuhTempo: { $gte: now, $lte: thirtyDaysLater },
       }),
       Notifikasi.countDocuments({ status: 'BELUM_DIBACA' }),
+      session.user.role === 'ADMIN' ? LeaveRequest.countDocuments({ status: 'pending' }) : Promise.resolve(0),
       Aset.aggregate([{ $group: { _id: '$kategori', count: { $sum: 1 } } }]),
       Karyawan.aggregate([
         { $match: { statusAktif: true } },
@@ -238,6 +241,7 @@ export async function GET() {
         reminderJatuhTempo,
         ulangTahunJatuhTempo,
         notifikasiUnread,
+        leavePending,
       },
       charts: {
         karyawanByKontrak: karyawanByKontrakRaw.map((k) => ({ name: k._id, value: k.count })),
