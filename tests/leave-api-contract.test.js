@@ -5,6 +5,7 @@ const {
   validateRequestPayload,
   buildStaffScope,
   parsePagination,
+  buildRekapFilters,
 } = require('../lib/leave-contract')
 const { getLeaveMenuItems, getLeavePendingTile } = require('../lib/leave-menu')
 const { getQuotaWarning, buildLeaveSubmission } = require('../lib/leave-form')
@@ -59,5 +60,13 @@ test('warns when requested days exceed remaining quota without blocking submissi
   assert.equal(getQuotaWarning(5, 5), null)
   assert.deepEqual(buildLeaveSubmission({ leaveTypeId: 'type-1', startDate: '2026-09-24', endDate: '2026-09-25', reason: 'Acara keluarga', attachmentUrl: '/uploads/cuti/a.pdf' }), {
     leaveTypeId: 'type-1', startDate: '2026-09-24', endDate: '2026-09-25', reason: 'Acara keluarga', attachmentUrl: '/uploads/cuti/a.pdf',
+  })
+})
+
+test('builds admin rekap filters from employee and leave type query parameters', () => {
+  assert.deepEqual(buildRekapFilters({ year: '2026', employeeId: 'employee-1', leaveTypeId: 'type-1' }), {
+    year: 2026,
+    employeeId: 'employee-1',
+    leaveTypeId: 'type-1',
   })
 })

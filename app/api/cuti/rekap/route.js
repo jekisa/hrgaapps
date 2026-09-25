@@ -5,8 +5,10 @@ import { authOptions } from '@/lib/auth'
 import dbConnect from '@/lib/db'
 import LeaveBalance from '@/models/LeaveBalance'
 import leaveAuth from '@/lib/leave-auth'
+import leaveContract from '@/lib/leave-contract'
 
 const { assertRole } = leaveAuth
+const { buildRekapFilters } = leaveContract
 
 export async function GET(request) {
   const session = await getServerSession(authOptions)
@@ -14,9 +16,12 @@ export async function GET(request) {
   if (accessError) return NextResponse.json({ error: accessError.error }, { status: accessError.status })
   try {
     const { searchParams } = new URL(request.url)
-    const year = Number.parseInt(searchParams.get('year') || new Date().getFullYear(), 10)
+    const { year, employeeId, leaveTypeId } = buildRekapFilters({ year: searchParams.get('year'), employeeId: searchParams.get('employeeId'), leaveTypeId: searchParams.get('leaveTypeId') })
     await dbConnect()
-    const rows = await LeaveBalance.find({ year }).populate('employeeId', 'nama email').populate('leaveTypeId', 'name code').lean()
+    const query = { year }
+    if (employeeId) query.employeeId = employeeId
+    if (leaveTypeId) query.leaveTypeId = leaveTypeId
+    const rows = await LeaveBalance.find(query).populate('employeeId', 'nama email').populate('leaveTypeId', 'name code').lean()
     const data = rows.map((row) => ({
       employeeId: row.employeeId?._id,
       employeeName: row.employeeId?.nama || 'Tanpa Nama',

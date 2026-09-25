@@ -42,11 +42,12 @@ function ReviewModal({ request, onClose, onSaved }) {
 
 export default function KelolaCutiPage() {
   const queryClient = useQueryClient()
-  const [filters, setFilters] = useState({ status: '', leaveTypeId: '', from: '', to: '' })
+  const [filters, setFilters] = useState({ status: '', leaveTypeId: '', employeeId: '', from: '', to: '' })
   const [reviewRequest, setReviewRequest] = useState(null)
   const queryString = new URLSearchParams(Object.entries(filters).filter(([, value]) => value)).toString()
   const { data: requestData, isLoading } = useQuery({ queryKey: ['cuti', 'pengajuan', filters], queryFn: () => fetchJson(`/api/cuti/pengajuan?${queryString}`) })
   const { data: typeData } = useQuery({ queryKey: ['cuti', 'jenis'], queryFn: () => fetchJson('/api/cuti/jenis') })
+  const { data: employeeData } = useQuery({ queryKey: ['karyawan', 'cuti-filter'], queryFn: () => fetchJson('/api/karyawan?limit=1000&statusAktif=true') })
   const columns = useMemo(() => [
     { header: 'Karyawan', accessorKey: 'employeeId.nama', cell: ({ row }) => <span className="font-semibold text-slate-800">{row.original.employeeId?.nama || '—'}</span> },
     { header: 'Jenis Cuti', accessorKey: 'leaveTypeId.name', cell: ({ row }) => row.original.leaveTypeId?.name || '—' },
@@ -59,7 +60,7 @@ export default function KelolaCutiPage() {
   return (
     <div>
       <PageHeader title="Daftar Pengajuan Cuti" subtitle="Review pengajuan cuti seluruh karyawan" breadcrumb={[{ label: 'Dashboard', href: '/' }, { label: 'Manajemen Cuti' }, { label: 'Daftar Pengajuan' }]} />
-      <div className="page-section mb-5"><div className="grid gap-3 md:grid-cols-4"><select className="form-select" value={filters.status} onChange={(event) => setFilters({ ...filters, status: event.target.value })}><option value="">Semua status</option><option value="pending">Pending</option><option value="approved">Disetujui</option><option value="rejected">Ditolak</option></select><select className="form-select" value={filters.leaveTypeId} onChange={(event) => setFilters({ ...filters, leaveTypeId: event.target.value })}><option value="">Semua jenis cuti</option>{(typeData?.data || []).map((type) => <option key={type._id} value={type._id}>{type.name}</option>)}</select><input type="date" className="form-input" value={filters.from} onChange={(event) => setFilters({ ...filters, from: event.target.value })} /><input type="date" className="form-input" value={filters.to} onChange={(event) => setFilters({ ...filters, to: event.target.value })} /></div></div>
+      <div className="page-section mb-5"><div className="grid gap-3 md:grid-cols-5"><select className="form-select" value={filters.status} onChange={(event) => setFilters({ ...filters, status: event.target.value })}><option value="">Semua status</option><option value="pending">Pending</option><option value="approved">Disetujui</option><option value="rejected">Ditolak</option></select><select className="form-select" value={filters.leaveTypeId} onChange={(event) => setFilters({ ...filters, leaveTypeId: event.target.value })}><option value="">Semua jenis cuti</option>{(typeData?.data || []).map((type) => <option key={type._id} value={type._id}>{type.name}</option>)}</select><select className="form-select" value={filters.employeeId} onChange={(event) => setFilters({ ...filters, employeeId: event.target.value })}><option value="">Semua karyawan</option>{(employeeData?.data || []).map((employee) => <option key={employee._id} value={employee._id}>{employee.nama}</option>)}</select><input type="date" className="form-input" value={filters.from} onChange={(event) => setFilters({ ...filters, from: event.target.value })} /><input type="date" className="form-input" value={filters.to} onChange={(event) => setFilters({ ...filters, to: event.target.value })} /></div></div>
       <DataTable data={requestData?.data || []} columns={columns} isLoading={isLoading} emptyMessage="Belum ada pengajuan cuti" />
       {reviewRequest && <ReviewModal request={reviewRequest} onClose={() => setReviewRequest(null)} onSaved={() => { setReviewRequest(null); queryClient.invalidateQueries({ queryKey: ['cuti'] }); queryClient.invalidateQueries({ queryKey: ['dashboard'] }) }} />}
     </div>
