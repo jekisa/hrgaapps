@@ -6,6 +6,7 @@ const {
   buildStaffScope,
   parsePagination,
 } = require('../lib/leave-contract')
+const { getLeaveMenuItems, getLeavePendingTile } = require('../lib/leave-menu')
 
 test('rejects a missing session before building an admin scope', () => {
   assert.throws(() => buildStaffScope(null), (error) => error.status === 401)
@@ -40,4 +41,14 @@ test('sanitizes request payload and never accepts client employee identity', () 
 test('validates leave type payload and pagination bounds', () => {
   assert.throws(() => validateLeaveTypePayload({ code: 'Annual Leave', name: '', defaultQuotaPerYear: -1 }), /Jenis cuti/)
   assert.deepEqual(parsePagination({ page: '0', limit: '500' }), { page: 1, limit: 100 })
+})
+
+test('returns separate admin and staff leave navigation', () => {
+  assert.deepEqual(getLeaveMenuItems('ADMIN').map((item) => item.href), ['/cuti/kelola', '/cuti/jenis', '/cuti/rekap'])
+  assert.deepEqual(getLeaveMenuItems('STAFF').map((item) => item.href), ['/cuti/saya', '/cuti/saya/ajukan', '/cuti/saya/riwayat'])
+})
+
+test('hides the pending tile for non-admin users', () => {
+  assert.equal(getLeavePendingTile('ADMIN', { leavePending: 4 }).value, 4)
+  assert.equal(getLeavePendingTile('STAFF', { leavePending: 4 }), null)
 })

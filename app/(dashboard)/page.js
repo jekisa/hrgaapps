@@ -610,6 +610,7 @@ function FloatingActions() {
 
 export default function DashboardPage() {
   const { data: session } = useSession()
+  const isAdmin = session?.user?.role === 'ADMIN'
   const { data, isLoading } = useQuery({
     queryKey: ['dashboard'],
     queryFn: () => fetch('/api/dashboard').then((r) => r.json()),
@@ -662,6 +663,16 @@ export default function DashboardPage() {
               className="border-blue-100"
               iconClassName="bg-blue-50 text-blue-500"
             />
+            {isAdmin && (
+              <AlertTile
+                icon={CalendarDays}
+                value={stats?.leavePending}
+                label="Cuti pending"
+                href="/cuti/kelola"
+                className="border-amber-100"
+                iconClassName="bg-amber-50 text-amber-500"
+              />
+            )}
           </div>
         </div>
 
