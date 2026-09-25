@@ -209,6 +209,7 @@ function MenuItem({ item, collapsed, onMobileClose }) {
 export default function Sidebar({ collapsed, setCollapsed, mobileOpen, setMobileOpen }) {
   const { data: session } = useSession()
   const isAdmin = session?.user?.role === 'ADMIN'
+  const isStaff = session?.user?.role === 'STAFF'
   const staffMenuItems = [
     { label: 'Dashboard', href: '/', icon: Gauge },
     { label: 'Reminder', href: '/reminder', icon: AlarmClockCheck },
@@ -233,6 +234,7 @@ export default function Sidebar({ collapsed, setCollapsed, mobileOpen, setMobile
 
   return (
     <aside
+      data-role={isStaff ? 'STAFF' : undefined}
       className={cn(
         'fixed left-0 top-0 h-full z-40 flex flex-col transition-all duration-300 ease-in-out',
         'bg-gradient-to-b from-[#0f172a] via-[#111827] to-[#1a2332]',

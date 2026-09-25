@@ -1,0 +1,10 @@
+const test = require('node:test')
+const assert = require('node:assert/strict')
+const { readFileSync } = require('node:fs')
+const path = require('node:path')
+test('sidebar scopes active coral to STAFF role', () => {
+  const sidebar = readFileSync(path.resolve(__dirname, '../components/layout/Sidebar.js'), 'utf8')
+  const css = readFileSync(path.resolve(__dirname, '../app/globals.css'), 'utf8')
+  assert.match(sidebar, /data-role=\{isStaff \? 'STAFF' : undefined\}/)
+  assert.match(css, /\[data-role="STAFF"\] \.sidebar-link-active/)
+})
