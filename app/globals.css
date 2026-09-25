@@ -17,7 +17,8 @@
 .staff-theme .staff-greeting { background: linear-gradient(110deg, #fff 35%, var(--staff-accent-tint)); }
 .staff-theme .staff-stat-card { border-top: 3px solid var(--staff-accent); transition: transform .2s, box-shadow .2s; }
 .staff-theme .staff-stat-card:hover { transform: translateY(-3px); box-shadow: 0 14px 30px rgba(24, 35, 55, .1); }
-.staff-theme .staff-leave-progress { display:block; height:100%; border-radius:inherit; background:var(--staff-accent); transition:width .65s ease; }
+.staff-theme .staff-leave-progress { display:block; height:100%; border-radius:inherit; background:var(--staff-accent); transition:width .65s ease; transform-origin:left; animation:staff-progress-fill .7s ease-out both; }
+@keyframes staff-progress-fill { from { transform:scaleX(0); } to { transform:scaleX(1); } }
 .staff-theme .staff-day-count { transition: background-color .2s, color .2s; }
 .staff-theme .staff-day-count[data-positive="true"] { color:var(--staff-accent); background:var(--staff-accent-tint); }
 .staff-theme .staff-date-trigger:focus-visible, .staff-theme .staff-dropzone:focus-visible { outline:3px solid var(--staff-accent-ring); outline-offset:2px; }

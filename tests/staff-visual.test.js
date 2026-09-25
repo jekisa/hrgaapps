@@ -18,5 +18,6 @@ test('staff primary styling is scoped; admin token remains untouched', () => {
   const css = readFileSync(path.resolve(__dirname, '../app/globals.css'), 'utf8')
   assert.match(css, /--staff-accent:\s*#B54735/i)
   assert.match(css, /\.staff-theme\s+\.btn-primary/)
+  assert.match(css, /@keyframes\s+staff-progress-fill/)
   assert.doesNotMatch(css, /(^|\n)\.btn-primary\s*\{[^}]*staff-accent/s)
 })
