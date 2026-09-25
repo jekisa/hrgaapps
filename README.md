@@ -11,12 +11,15 @@ npm install
 
 ### 2. Setup Database
 ```bash
-# Buat tabel database
-npm run db:push
-
-# Isi data awal (seed)
+# Isi data awal ke MongoDB sesuai MONGODB_URI di .env.local
 npm run db:seed
+
+# Seed jenis dan saldo cuti ke MongoDB
+npm run db:seed:leave
 ```
+
+The app uses MongoDB through Mongoose. Make sure `.env.local` contains a valid
+`MONGODB_URI` before running the seed command.
 
 ### 3. Jalankan Aplikasi
 ```bash
@@ -46,6 +49,15 @@ Buka [http://localhost:3000](http://localhost:3000)
 - Laporan & export (CSV/Excel)
 - Audit trail (log aktivitas pengguna)
 - Mobile-friendly
+
+### Manajemen Cuti
+
+Modul Manajemen Cuti memakai akun User yang dibuat ADMIN. STAFF dipetakan ke
+data Karyawan berdasarkan email yang sama pada `User.email` dan
+`Karyawan.email`; pastikan kedua email cocok agar menu Cuti Saya dapat digunakan.
+
+Seed cuti menggunakan `.env.local`, membuat enam jenis cuti default, dan
+menyiapkan saldo tahun berjalan tanpa menimpa saldo yang sudah terpakai.
 
 ## Teknologi
 - **Framework**: Next.js 14 (App Router)
