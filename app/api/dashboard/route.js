@@ -8,11 +8,21 @@ import MaintenanceRequest from '@/models/MaintenanceRequest'
 import Kendaraan from '@/models/Kendaraan'
 import PembayaranPajak from '@/models/PembayaranPajak'
 import Notifikasi from '@/models/Notifikasi'
+import User from '@/models/User'
 import Utilitas from '@/models/Utilitas'
 import JadwalKendaraan from '@/models/JadwalKendaraan'
 import Reminder from '@/models/Reminder'
 import LeaveRequest from '@/models/LeaveRequest'
+import LeaveBalance from '@/models/LeaveBalance'
+import LeaveType from '@/models/LeaveType'
+import leaveAuth from '@/lib/leave-auth'
+import accessControl from '@/lib/access-control'
+import staffDashboard from '@/lib/staff-dashboard'
 import { addDays, addYears, endOfDay, endOfMonth, subDays, subMonths, startOfDay } from 'date-fns'
+
+const { getEmployeeForSession } = leaveAuth
+const { getOwnerScope } = accessControl
+const { buildStaffDashboardPayload } = staffDashboard
 
 const toDateStr = (d) => {
   const date = new Date(d)
@@ -73,12 +83,88 @@ const buildMonthlyKaryawanTrend = async (now, months) => {
   }))
 }
 
+async function loadStaffDashboard(session, employee, now) {
+  const employeeId = employee._id
+  const reminderScope = getOwnerScope(session.user.role, session.user.id, 'createdBy')
+  const notificationScope = getOwnerScope(session.user.role, session.user.id, 'recipientUserId')
+  const today = startOfDay(now)
+  const sixtyDaysLater = addDays(now, 60)
+  const oneYearLater = addYears(now, 1)
+
+  const [annualLeaveType, employeeProfile, activeReminderCount, unreadNotificationCount, latestLeaveRequest, reminders, leaveRequests] = await Promise.all([
+    LeaveType.findOne({ code: 'annual' }).select('name defaultQuotaPerYear').lean(),
+    Karyawan.findById(employeeId).select('nama tanggalLahir').lean(),
+    Reminder.countDocuments({ ...reminderScope, status: 'ACTIVE' }),
+    Notifikasi.countDocuments({ ...notificationScope, status: 'BELUM_DIBACA' }),
+    LeaveRequest.findOne({ employeeId }).sort({ createdAt: -1 }).select('status').lean(),
+    Reminder.find({
+      ...reminderScope,
+      status: 'ACTIVE',
+      tanggalJatuhTempo: { $gte: today, $lte: sixtyDaysLater },
+    }).select('judul kategori tanggalJatuhTempo').sort({ tanggalJatuhTempo: 1 }).limit(40).lean(),
+    LeaveRequest.find({ employeeId })
+      .populate('leaveTypeId', 'name')
+      .sort({ updatedAt: -1 })
+      .limit(5)
+      .lean(),
+  ])
+
+  const annualBalance = annualLeaveType
+    ? await LeaveBalance.findOneAndUpdate(
+      { employeeId, leaveTypeId: annualLeaveType._id, year: now.getFullYear() },
+      { $setOnInsert: { quota: annualLeaveType.defaultQuotaPerYear, used: 0 } },
+      { upsert: true, new: true, setDefaultsOnInsert: true }
+    ).lean()
+    : null
+
+  let birthdayEvent = null
+  if (employeeProfile?.tanggalLahir) {
+    const nextBirthday = getNextBirthday(employeeProfile.tanggalLahir, now)
+    if (nextBirthday >= today && nextBirthday <= oneYearLater) {
+      birthdayEvent = {
+        date: toDateStr(nextBirthday),
+        type: 'ulangTahun',
+        label: 'Ulang tahun Anda',
+        href: '/cuti/saya/ajukan',
+      }
+    }
+  }
+
+  const reminderEvents = reminders.map((reminder) => ({
+    date: toDateStr(reminder.tanggalJatuhTempo),
+    type: 'reminder',
+    label: `${reminder.kategori.replaceAll('_', ' ')}: ${reminder.judul}`,
+    href: '/reminder',
+  }))
+
+  return buildStaffDashboardPayload({
+    annualBalance,
+    annualLeaveTypeName: annualLeaveType?.name,
+    activeReminderCount,
+    unreadNotificationCount,
+    latestLeaveRequest,
+    birthdayEvent,
+    reminderEvents,
+    leaveRequests,
+  })
+}
+
 export async function GET() {
   const session = await getServerSession(authOptions)
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  if (!['ADMIN', 'STAFF'].includes(session.user?.role)) {
+    return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
+  }
 
   try {
     await dbConnect()
+
+    if (session.user.role === 'STAFF') {
+      const employee = await getEmployeeForSession(session, { dbConnect, User, Karyawan })
+      if (!employee) return NextResponse.json({ error: 'Profil karyawan belum terhubung' }, { status: 422 })
+      const personalPayload = await loadStaffDashboard(session, employee, new Date())
+      return NextResponse.json({ dashboardType: 'staff', ...personalPayload })
+    }
 
     const now = new Date()
     const thirtyDaysLater = addDays(now, 30)
