@@ -1,0 +1,17 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/(dashboard)/layout,_N_T_/(dashboard)/karyawan/layout,_N_T_/(dashboard)/karyawan/kontrak/layout,_N_T_/(dashboard)/karyawan/kontrak/page,_N_T_/karyawan/kontrak"
+  },
+  "segmentPaths": [
+    "/_tree",
+    "/_full",
+    "/!KGRhc2hib2FyZCk/karyawan/kontrak/__PAGE__",
+    "/!KGRhc2hib2FyZCk/karyawan/kontrak",
+    "/!KGRhc2hib2FyZCk/karyawan",
+    "/!KGRhc2hib2FyZCk",
+    "/_index",
+    "/_head"
+  ]
+}

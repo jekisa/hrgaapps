@@ -12,6 +12,7 @@ import leaveContract from '@/lib/leave-contract'
 import { countBusinessDays, parseLocalDate } from '@/lib/leave-utils'
 
 const { getEmployeeForSession } = leaveAuth
+const { assertRole } = leaveAuth
 const { buildStaffScope, validateRequestPayload, parsePagination } = leaveContract
 
 function errorResponse(error) {
@@ -22,6 +23,8 @@ export async function GET(request) {
   try {
     const session = await getServerSession(authOptions)
     if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    const accessError = assertRole(session, 'ADMIN')
+    if (accessError) return NextResponse.json({ error: accessError.error }, { status: accessError.status })
     const { searchParams } = new URL(request.url)
     const { page, limit } = parsePagination(searchParams)
     await dbConnect()
@@ -52,19 +55,23 @@ export async function POST(request) {
   try {
     const session = await getServerSession(authOptions)
     if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-    const payload = validateRequestPayload(await request.json())
+    const body = await request.json()
+    let payload = validateRequestPayload(body)
     await dbConnect()
     const employee = await getEmployeeForSession(session, { dbConnect, User, Karyawan })
     const { employeeId } = buildStaffScope(session, 'STAFF', employee)
     const leaveType = await LeaveType.findOne({ _id: payload.leaveTypeId, isActive: true })
     if (!leaveType) return NextResponse.json({ error: 'Jenis cuti tidak aktif atau tidak ditemukan' }, { status: 422 })
+    payload = validateRequestPayload(body, { leaveTypeCode: leaveType.code })
     const totalDays = countBusinessDays(payload.startDate, payload.endDate)
     if (totalDays === 0) return NextResponse.json({ error: 'Rentang tanggal tidak memiliki hari kerja' }, { status: 422 })
     if (leaveType.requiresAttachment && !payload.attachmentUrl) return NextResponse.json({ error: 'Lampiran wajib untuk jenis cuti ini' }, { status: 422 })
     const overlap = await LeaveRequest.exists({ employeeId, status: { $in: ['pending', 'approved'] }, startDate: { $lte: parseLocalDate(payload.endDate) }, endDate: { $gte: parseLocalDate(payload.startDate) } })
     if (overlap) return NextResponse.json({ error: 'Tanggal cuti bertumpuk dengan pengajuan lain' }, { status: 409 })
-    const data = await LeaveRequest.create({ ...payload, employeeId, startDate: parseLocalDate(payload.startDate), endDate: parseLocalDate(payload.endDate), totalDays, status: 'pending' })
-    await Notifikasi.create({ judul: 'Pengajuan Cuti Baru', pesan: `Pengajuan cuti baru dari ${employee.nama}`, tipe: 'CUTI', targetId: data._id })
+    const sickLeave = leaveType.code === 'sick'
+    const data = await LeaveRequest.create({ ...payload, ...(sickLeave ? { verificationStatus: 'pending' } : {}), employeeId, startDate: parseLocalDate(payload.startDate), endDate: parseLocalDate(payload.endDate), totalDays, status: 'pending' })
+    const employeeProfile = await Karyawan.findById(employeeId).select('nama').lean()
+    await Notifikasi.create({ judul: sickLeave ? 'Surat Dokter Menunggu Verifikasi' : 'Pengajuan Cuti Baru', pesan: sickLeave ? `${employeeProfile?.nama || 'Karyawan'} mengunggah surat dokter untuk verifikasi` : `Pengajuan cuti baru dari ${employeeProfile?.nama || 'Karyawan'}`, tipe: 'CUTI', targetId: data._id, ...(sickLeave ? { href: '/cuti/surat-dokter' } : {}) })
     return NextResponse.json(data, { status: 201 })
   } catch (error) {
     return errorResponse(error)

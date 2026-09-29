@@ -6,6 +6,8 @@ const leaveTypeSchema = new mongoose.Schema(
     name: { type: String, required: true, trim: true },
     defaultQuotaPerYear: { type: Number, required: true, min: 0, default: 0 },
     requiresAttachment: { type: Boolean, default: false },
+    allowDebt: { type: Boolean, default: false },
+    deductsQuota: { type: Boolean, default: true },
     isActive: { type: Boolean, default: true },
   },
   { timestamps: true }

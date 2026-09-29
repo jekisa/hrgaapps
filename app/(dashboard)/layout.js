@@ -2,16 +2,22 @@
 
 import { useState } from 'react'
 import { usePathname } from 'next/navigation'
+import { useSession } from 'next-auth/react'
 import Sidebar from '@/components/layout/Sidebar'
 import Header from '@/components/layout/Header'
 import AIChatbox from '@/components/ui/AIChatbox'
 import { cn } from '@/lib/utils'
+import appBrand from '@/lib/app-brand'
+
+const { APP_NAME } = appBrand
 
 export default function DashboardLayout({ children }) {
   const [collapsed, setCollapsed] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
   const pathname = usePathname()
+  const { data: session } = useSession()
   const isDashboardHome = pathname === '/'
+  const isStaff = session?.user?.role === 'STAFF'
 
   return (
     <div className="flex min-h-screen">
@@ -45,10 +51,10 @@ export default function DashboardLayout({ children }) {
           {children}
         </main>
         <footer className="py-3 px-4 lg:px-6 text-center text-xs text-gray-400 border-t border-gray-100 bg-white">
-          &copy; {new Date().getFullYear()} HRGA Apps - Human Resources & General Affairs Management System
+          &copy; {new Date().getFullYear()} {APP_NAME} - Human Resources & General Affairs Management System
         </footer>
       </div>
-      {!isDashboardHome && <AIChatbox />}
+      {!isDashboardHome && !isStaff && <AIChatbox />}
     </div>
   )
 }

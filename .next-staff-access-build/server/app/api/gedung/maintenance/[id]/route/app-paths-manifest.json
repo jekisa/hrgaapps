@@ -1,0 +1,3 @@
+{
+  "/api/gedung/maintenance/[id]/route": "app/api/gedung/maintenance/[id]/route.js"
+}

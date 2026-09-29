@@ -18,7 +18,7 @@ export function StaffStatCard({ title, value, subtitle, icon: Icon, href, childr
 
 export function StaffLeaveProgress({ remaining, quota }) {
   const progress = getLeaveBalanceProgress(remaining, quota)
-  return <div className="mt-3"><div className="h-2 overflow-hidden rounded-full bg-slate-100"><span className="staff-leave-progress" role="progressbar" aria-label="Cuti terpakai" aria-valuemin={0} aria-valuemax={100} aria-valuenow={progress.usedPercent} aria-valuetext={`${progress.used} hari terpakai dari ${progress.quota} hari`} style={{ width: `${progress.usedPercent}%` }} /></div><p className="mt-1 text-[11px] text-slate-500">{progress.used} terpakai · {progress.remaining} tersisa dari {progress.quota} hari</p></div>
+  return <div className="mt-3"><div className="h-2 overflow-hidden rounded-full bg-slate-100"><span className={`staff-leave-progress ${progress.isDebt ? '!bg-red-500' : ''}`} role="progressbar" aria-label="Cuti terpakai" aria-valuemin={0} aria-valuemax={100} aria-valuenow={progress.usedPercent} aria-valuetext={`${progress.used} hari terpakai dari ${progress.quota} hari`} style={{ width: `${progress.usedPercent}%` }} /></div><p className={`mt-1 text-[11px] ${progress.isDebt ? 'font-semibold text-red-600' : 'text-slate-500'}`}>{progress.isDebt ? `Hutang ${progress.debtDays} hari` : `${progress.used} terpakai · ${progress.remaining} tersisa dari ${progress.quota} hari`}</p></div>
 }
 
 export function StaffEmptyState({ icon: Icon, title, description, href = '/cuti/saya/ajukan', actionLabel = 'Ajukan cuti' }) {

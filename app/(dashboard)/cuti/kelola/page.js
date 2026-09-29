@@ -15,7 +15,12 @@ const statusLabel = { pending: 'Pending', approved: 'Disetujui', rejected: 'Dito
 async function fetchJson(url, options) {
   const response = await fetch(url, options)
   const payload = await response.json()
-  if (!response.ok) throw new Error(payload.error || 'Gagal memuat data')
+  if (!response.ok) {
+    const error = new Error(payload.error || 'Gagal memuat data')
+    error.status = response.status
+    error.payload = payload
+    throw error
+  }
   return payload
 }
 
@@ -25,7 +30,18 @@ function ReviewModal({ request, onClose, onSaved }) {
   const mutation = useMutation({
     mutationFn: (body) => fetchJson(`/api/cuti/pengajuan/${request._id}`, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) }),
     onSuccess: () => { toast.success('Status pengajuan diperbarui'); onSaved() },
-    onError: (error) => toast.error(error.message),
+    onError: (error, body) => {
+      if (error.payload?.requiresDebtConfirmation && !body.confirmDebt) {
+        const days = Math.abs(Number(error.payload.projectedRemaining) || 0)
+        if (window.confirm(`Persetujuan ini akan membuat saldo cuti menjadi hutang ${days} hari. Lanjutkan?`)) {
+          mutation.mutate({ ...body, confirmDebt: true })
+          return
+        }
+        toast('Persetujuan dibatalkan')
+        return
+      }
+      toast.error(error.message)
+    },
   })
   return (
     <Modal isOpen={!!request} onClose={onClose} title="Review Pengajuan Cuti" size="md" footer={(
@@ -60,7 +76,7 @@ export default function KelolaCutiPage() {
   return (
     <div>
       <PageHeader title="Daftar Pengajuan Cuti" subtitle="Review pengajuan cuti seluruh karyawan" breadcrumb={[{ label: 'Dashboard', href: '/' }, { label: 'Manajemen Cuti' }, { label: 'Daftar Pengajuan' }]} />
-      <div className="page-section mb-5"><div className="grid gap-3 md:grid-cols-5"><select className="form-select" value={filters.status} onChange={(event) => setFilters({ ...filters, status: event.target.value })}><option value="">Semua status</option><option value="pending">Pending</option><option value="approved">Disetujui</option><option value="rejected">Ditolak</option></select><select className="form-select" value={filters.leaveTypeId} onChange={(event) => setFilters({ ...filters, leaveTypeId: event.target.value })}><option value="">Semua jenis cuti</option>{(typeData?.data || []).map((type) => <option key={type._id} value={type._id}>{type.name}</option>)}</select><select className="form-select" value={filters.employeeId} onChange={(event) => setFilters({ ...filters, employeeId: event.target.value })}><option value="">Semua karyawan</option>{(employeeData?.data || []).map((employee) => <option key={employee._id} value={employee._id}>{employee.nama}</option>)}</select><input type="date" className="form-input" value={filters.from} onChange={(event) => setFilters({ ...filters, from: event.target.value })} /><input type="date" className="form-input" value={filters.to} onChange={(event) => setFilters({ ...filters, to: event.target.value })} /></div></div>
+      <div className="page-section mb-5"><div className="grid gap-3 md:grid-cols-5"><select className="form-select" value={filters.status} onChange={(event) => setFilters({ ...filters, status: event.target.value })}><option value="">Semua status</option><option value="pending">Pending</option><option value="approved">Disetujui</option><option value="rejected">Ditolak</option></select><select className="form-select" value={filters.leaveTypeId} onChange={(event) => setFilters({ ...filters, leaveTypeId: event.target.value })}><option value="">Semua jenis cuti</option>{(typeData?.data || []).map((type) => { const id = String(type._id ?? type.id ?? type.code ?? type.name); return <option key={id} value={type._id ?? type.id ?? type.code ?? id}>{type.name}</option> })}</select><select className="form-select" value={filters.employeeId} onChange={(event) => setFilters({ ...filters, employeeId: event.target.value })}><option value="">Semua karyawan</option>{(employeeData?.data || []).map((employee) => { const id = String(employee._id ?? employee.id ?? employee.nik ?? employee.nama); return <option key={id} value={employee._id ?? employee.id ?? id}>{employee.nama}</option> })}</select><input type="date" className="form-input" value={filters.from} onChange={(event) => setFilters({ ...filters, from: event.target.value })} /><input type="date" className="form-input" value={filters.to} onChange={(event) => setFilters({ ...filters, to: event.target.value })} /></div></div>
       <DataTable data={requestData?.data || []} columns={columns} isLoading={isLoading} emptyMessage="Belum ada pengajuan cuti" />
       {reviewRequest && <ReviewModal request={reviewRequest} onClose={() => setReviewRequest(null)} onSaved={() => { setReviewRequest(null); queryClient.invalidateQueries({ queryKey: ['cuti'] }); queryClient.invalidateQueries({ queryKey: ['dashboard'] }) }} />}
     </div>

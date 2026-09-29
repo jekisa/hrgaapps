@@ -60,6 +60,7 @@ const menuItems = [
       { label: 'Daftar Pengajuan', href: '/cuti/kelola', icon: CalendarCheck },
       { label: 'Kelola Jenis Cuti', href: '/cuti/jenis', icon: CalendarDays },
       { label: 'Rekap Cuti Karyawan', href: '/cuti/rekap', icon: ChartNoAxesCombined },
+      { label: 'Surat Dokter', href: '/cuti/surat-dokter', icon: ReceiptText },
     ],
   },
   {
@@ -212,7 +213,6 @@ export default function Sidebar({ collapsed, setCollapsed, mobileOpen, setMobile
   const isStaff = session?.user?.role === 'STAFF'
   const staffMenuItems = [
     { label: 'Dashboard', href: '/', icon: Gauge },
-    { label: 'Reminder', href: '/reminder', icon: AlarmClockCheck },
     { label: 'Notifikasi', href: '/notifikasi', icon: BellDot },
     { label: 'Cuti Saya', href: '/cuti/saya/ajukan', icon: CalendarDays },
   ]
@@ -235,6 +235,7 @@ export default function Sidebar({ collapsed, setCollapsed, mobileOpen, setMobile
   return (
     <aside
       data-role={isStaff ? 'STAFF' : undefined}
+      data-admin={isAdmin ? 'true' : undefined}
       className={cn(
         'fixed left-0 top-0 h-full z-40 flex flex-col transition-all duration-300 ease-in-out',
         'bg-gradient-to-b from-[#0f172a] via-[#111827] to-[#1a2332]',
@@ -248,7 +249,7 @@ export default function Sidebar({ collapsed, setCollapsed, mobileOpen, setMobile
     >
       {/* Logo */}
       <div className={cn(
-        'flex items-center h-16 border-b border-white/5 px-4 gap-3',
+        'flex items-center h-16 shrink-0 border-b border-white/5 px-4 gap-3',
         showCollapsed && 'lg:justify-center lg:gap-0'
       )}>
         <AppLogo
@@ -289,7 +290,7 @@ export default function Sidebar({ collapsed, setCollapsed, mobileOpen, setMobile
       )}
 
       {/* Navigation */}
-      <nav className="flex-1 overflow-y-auto px-2.5 py-4 space-y-0.5">
+      <nav className="flex-1 min-h-0 overflow-y-auto px-2.5 py-4 space-y-0.5">
         {visibleMenuItems.map((item, idx) => (
           item.roles && !item.roles.includes(session?.user?.role) ? null : (
           item.section ? (
@@ -331,16 +332,16 @@ export default function Sidebar({ collapsed, setCollapsed, mobileOpen, setMobile
       </nav>
 
       {/* User section */}
-      <div className="border-t border-white/5 p-3">
+      <div data-sidebar-footer className="shrink-0 border-t border-white/5 p-3">
         {!showCollapsed ? (
           <div className="flex items-center gap-2.5 px-1 py-1 rounded-lg">
-            <div className="relative shrink-0">
-              <div className="w-8 h-8 rounded-full flex items-center justify-center text-white text-xs font-bold ring-2 ring-primary-500/40"
-                style={{ background: 'linear-gradient(135deg, #3b82f6 0%, #6d28d9 100%)' }}
+            <div className={cn('relative shrink-0', isAdmin && 'admin-avatar-ring')}>
+              <div className={cn('w-8 h-8 rounded-full flex items-center justify-center text-white text-xs font-bold', isAdmin ? 'admin-avatar-core' : 'ring-2 ring-primary-500/40')}
+                style={{ background: isAdmin ? 'var(--admin-gradient-indigo)' : 'linear-gradient(135deg, #3b82f6 0%, #6d28d9 100%)' }}
               >
                 {initials}
               </div>
-              <div className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 bg-emerald-400 rounded-full border-2 border-[#0f172a]" />
+              <div className={cn('absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 bg-emerald-400 rounded-full border-2 border-[#0f172a]', isAdmin && 'admin-avatar-status')} />
             </div>
             <div className="flex-1 min-w-0">
               <p className="text-white text-xs font-semibold truncate">{userName}</p>

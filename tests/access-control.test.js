@@ -40,12 +40,13 @@ test('role allow-list returns 401 without a session, 403 for denied roles, and n
 })
 
 test('STAFF restricted module routes redirect, while ADMIN and lookalike prefixes do not', () => {
-  for (const prefix of ['/karyawan', '/aset', '/kendaraan', '/gedung', '/laporan']) {
+  for (const prefix of ['/karyawan', '/aset', '/kendaraan', '/gedung', '/laporan', '/reminder']) {
     assert.equal(getStaffRestrictedRedirect('STAFF', `${prefix}/detail`), '/')
     assert.equal(getStaffRestrictedRedirect('STAFF', prefix), '/')
     assert.equal(getStaffRestrictedRedirect('ADMIN', `${prefix}/detail`), null)
   }
   assert.equal(getStaffRestrictedRedirect('STAFF', '/karyawan-bantuan'), null)
+  assert.equal(getStaffRestrictedRedirect('STAFF', '/reminder-arsip'), null)
   assert.equal(getStaffRestrictedRedirect('STAFF', '/dashboard'), null)
 })
 

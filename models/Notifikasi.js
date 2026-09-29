@@ -7,6 +7,7 @@ const notifikasiSchema = new mongoose.Schema(
     pesan: { type: String, default: null },
     tipe: { type: String, default: null },
     targetId: { type: mongoose.Schema.Types.ObjectId, default: null },
+    href: { type: String, trim: true, default: null },
     status: { type: String, enum: ['BELUM_DIBACA', 'SUDAH_DIBACA'], default: 'BELUM_DIBACA' },
   },
   {

@@ -1,0 +1,3 @@
+{
+  "/(dashboard)/audit-trail/page": "app/(dashboard)/audit-trail/page.js"
+}

@@ -14,7 +14,7 @@ import { addDays } from 'date-fns'
 
 const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
 
-const SYSTEM_PROMPT = `You are an AI assistant embedded in HRGA Apps — a Human Resources & General Affairs management system for an Indonesian company.
+const SYSTEM_PROMPT = `You are an AI assistant embedded in Dea Trans HRGA — a Human Resources & General Affairs management system for an Indonesian company.
 Your job is to help HR and GA staff quickly understand data about employees (karyawan), assets (aset), vehicles (kendaraan), and buildings/facilities (gedung).
 Always use the available tools to fetch up-to-date data before answering. Never guess numbers.
 Respond in the same language the user writes in (Indonesian or English).

@@ -1,6 +1,6 @@
-# HRGA Apps
+# Dea Trans HRGA
 
-Human Resources & General Affairs Management System
+Dea Trans Human Resources & General Affairs Management System
 
 ## Cara Menjalankan
 
@@ -58,6 +58,25 @@ data Karyawan berdasarkan email yang sama pada `User.email` dan
 
 Seed cuti menggunakan `.env.local`, membuat enam jenis cuti default, dan
 menyiapkan saldo tahun berjalan tanpa menimpa saldo yang sudah terpakai.
+
+#### Hutang cuti dan rollover tahunan
+
+Saldo tahun baru dibuat otomatis untuk karyawan aktif setiap 1 Januari pukul
+00:05 WIB oleh Vercel Cron. Sisa positif tahun lalu hangus; hutang untuk jenis
+cuti yang mengizinkan debt dipotong dari kuota baru. Endpoint cron dilindungi
+dengan `CRON_SECRET`.
+
+1. Tambahkan `CRON_SECRET` di Vercel Project Settings → Environment Variables
+   untuk **Production** (gunakan secret acak minimal 16 karakter).
+2. Deploy ulang setelah menambahkan secret dan `vercel.json`; cron hanya aktif
+   pada deployment Production.
+3. Untuk pengujian manual, kirim `GET /api/cron/leave-rollover` dengan header
+   `Authorization: Bearer <CRON_SECRET>`.
+
+Vercel Cron memakai UTC, sehingga jadwal `5 17 31 12 *` sama dengan 1 Januari
+00:05 WIB. Paket Hobby dapat menjalankan cron dalam rentang sampai satu jam;
+presisi per menit tersedia pada Pro. Lihat [Vercel Cron Jobs](https://vercel.com/docs/cron-jobs)
+dan [pengamanan Cron](https://vercel.com/docs/cron-jobs/manage-cron-jobs).
 
 ## Teknologi
 - **Framework**: Next.js 14 (App Router)

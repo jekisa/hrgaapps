@@ -105,7 +105,7 @@
         "transform": "lodash/{{member}}"
       }
     },
-    "outputFileTracingRoot": "D:\\GA\\HRGA APPS\\hrga_apps",
+    "outputFileTracingRoot": "D:\\GA\\HRGA APPS\\hrga_apps - Copy",
     "cacheComponents": false,
     "cacheLife": {
       "default": {
@@ -297,15 +297,12 @@
     "htmlLimitedBots": "[\\w-]+-Google|Google-[\\w-]+|Chrome-Lighthouse|Slurp|DuckDuckBot|baiduspider|yandex|sogou|bitlybot|tumblr|vkShare|quora link preview|redditbot|ia_archiver|Bingbot|BingPreview|applebot|facebookexternalhit|facebookcatalog|Twitterbot|LinkedInBot|Slackbot|Discordbot|WhatsApp|SkypeUriPreview|Yeti|googleweblight",
     "bundlePagesRouterDependencies": false,
     "configFileName": "next.config.js",
-    "serverExternalPackages": [
-      "mongoose"
-    ],
     "turbopack": {
-      "root": "D:\\GA\\HRGA APPS\\hrga_apps"
+      "root": "D:\\GA\\HRGA APPS\\hrga_apps - Copy"
     },
     "distDirRoot": ".next"
   },
-  "appDir": "D:\\GA\\HRGA APPS\\hrga_apps",
+  "appDir": "D:\\GA\\HRGA APPS\\hrga_apps - Copy",
   "relativeAppDir": "",
   "files": [
     ".next\\routes-manifest.json",

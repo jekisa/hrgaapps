@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import {
   AlarmClockCheck,
   ArrowRight,
@@ -111,7 +112,7 @@ function getDayDiff(dateStr) {
 
 function Panel({ children, className = '' }) {
   return (
-    <section className={`rounded-2xl border border-slate-200/70 bg-white shadow-[0_10px_30px_rgba(15,23,42,0.06)] ${className}`}>
+    <section className={`dashboard-panel rounded-2xl border border-slate-200/70 bg-white shadow-[0_10px_30px_rgba(15,23,42,0.06)] ${className}`}>
       {children}
     </section>
   )
@@ -141,7 +142,7 @@ function AlertTile({ icon: Icon, value, label, href, className, iconClassName })
   return (
     <Link
       href={href}
-      className={`flex min-h-[72px] items-center gap-3 rounded-xl border bg-white px-3 py-3 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md ${className}`}
+      className={`flex min-h-[64px] items-center gap-2.5 rounded-xl border bg-white px-3 py-2.5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md ${className}`}
     >
       <span className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-lg ${iconClassName}`}>
         <Icon className="h-4 w-4" />
@@ -154,28 +155,30 @@ function AlertTile({ icon: Icon, value, label, href, className, iconClassName })
   )
 }
 
-function QuickAction({ icon: Icon, label, href, onClick, color }) {
-  const className = 'group flex min-h-[78px] items-center gap-4 rounded-xl border border-slate-200 bg-white px-4 py-3 text-left transition hover:-translate-y-0.5 hover:border-primary-200 hover:shadow-md'
+function QuickAction({ icon: Icon, label, href, onClick, color, admin = false, accent = false, gradient }) {
+  const density = admin ? 'min-h-[48px] gap-2 px-1.5 py-1.5' : 'min-h-[78px] gap-4 px-4 py-3'
+  const className = `group flex items-center rounded-xl border border-slate-200 bg-white text-left transition hover:-translate-y-0.5 hover:border-primary-200 hover:shadow-md ${density} ${admin ? 'admin-dashboard-action' : ''}`
+  const iconColor = admin ? '' : color
   const content = <>
-      <span className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl text-white shadow-lg ${color}`}>
-        <Icon className="h-5 w-5" />
+      <span className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl text-white shadow-lg ${iconColor} ${admin ? 'admin-quick-action-icon' : ''} ${accent ? 'admin-primary-action-icon' : ''}`} style={admin && gradient ? { background: `var(${gradient})` } : undefined}>
+        <Icon className={admin ? 'h-4 w-4' : 'h-5 w-5'} />
       </span>
-      <span className="text-sm font-bold leading-snug text-slate-800 group-hover:text-primary-700">{label}</span>
+      <span className={`text-sm font-bold leading-snug text-slate-800 group-hover:text-primary-700 ${admin ? 'admin-action-label' : ''}`}>{label}</span>
     </>
   return href
     ? <Link href={href} className={className}>{content}</Link>
     : <button type="button" onClick={onClick} className={className}>{content}</button>
 }
 
-function StatCard({ title, value, subtitle, trend, icon: Icon, iconWrap, sparkColor, data = [], href }) {
+function StatCard({ title, value, subtitle, trend, icon: Icon, iconWrap, sparkColor, data = [], href, tone }) {
   const content = (
-    <div className="group h-full rounded-2xl border border-slate-200/80 bg-white p-5 shadow-[0_10px_26px_rgba(15,23,42,0.05)] transition hover:-translate-y-0.5 hover:shadow-[0_16px_32px_rgba(15,23,42,0.08)]">
-      <div className="mb-4 flex items-start justify-between gap-3">
+    <div className="admin-dashboard-stat group h-full rounded-2xl border border-slate-200/80 bg-white p-4 shadow-[0_10px_26px_rgba(15,23,42,0.05)] transition hover:-translate-y-0.5 hover:shadow-[0_16px_32px_rgba(15,23,42,0.08)]">
+      <div className="mb-3 flex items-start justify-between gap-3">
         <div>
           <p className="text-[11px] font-extrabold uppercase tracking-wide text-primary-600">{title}</p>
-          <p className="mt-3 text-3xl font-extrabold leading-none text-slate-950">{value ?? 0}</p>
+          <p className="mt-2 text-3xl font-extrabold leading-none text-slate-950">{value ?? 0}</p>
         </div>
-        <span className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-xl ${iconWrap}`}>
+        <span className={`admin-stat-icon flex h-12 w-12 shrink-0 items-center justify-center rounded-xl ${iconWrap}`} data-tone={tone}>
           <Icon className="h-6 w-6" />
         </span>
       </div>
@@ -231,8 +234,8 @@ function EmployeeTrend({ trends = {} }) {
   const xInterval = activeRange === 'thirtyDays' ? 4 : activeRange === 'oneYear' ? 0 : 0
 
   return (
-    <Panel className="p-5 lg:col-span-2">
-      <div className="mb-4 flex items-start justify-between gap-4">
+    <Panel className="admin-dashboard-panel h-full p-4 lg:col-span-2">
+      <div className="mb-3 flex items-start justify-between gap-4">
         <PanelHeader title="Trend Karyawan" subtitle={activeRangeMeta.subtitle} />
         <div className="hidden items-center gap-1 rounded-lg border border-slate-200 p-1 text-[11px] font-semibold text-slate-600 sm:flex">
           {EMPLOYEE_TREND_RANGES.map((range) => (
@@ -250,7 +253,7 @@ function EmployeeTrend({ trends = {} }) {
           </button>
         </div>
       </div>
-      <div className="h-[220px]">
+      <div className="h-[190px]">
         <ResponsiveContainer width="100%" height="100%">
           <AreaChart data={data} margin={{ top: 10, right: 12, bottom: 0, left: -16 }}>
             <defs>
@@ -284,13 +287,13 @@ function ContractStatus({ data = [] }) {
   const total = data.reduce((sum, item) => sum + item.value, 0)
 
   return (
-    <Panel className="p-5">
+    <Panel className="admin-dashboard-panel h-full p-4">
       <PanelHeader title="Status Kontrak" subtitle="Karyawan aktif" actionHref="/karyawan/kontrak" actionLabel="Lihat detail" />
-      <div className="mt-5 grid items-center gap-4 sm:grid-cols-[150px_1fr] lg:grid-cols-1 xl:grid-cols-[150px_1fr]">
-        <div className="h-[160px]">
+      <div className="mt-3 grid items-center gap-3 sm:grid-cols-[160px_1fr] lg:grid-cols-1 xl:grid-cols-[160px_1fr]">
+        <div className="h-[180px]">
           <ResponsiveContainer width="100%" height="100%">
             <PieChart>
-              <Pie data={data} dataKey="value" innerRadius={52} outerRadius={74} paddingAngle={3} strokeWidth={0}>
+              <Pie data={data} dataKey="value" innerRadius={56} outerRadius={78} paddingAngle={3} strokeWidth={0}>
                 {data.map((_, idx) => (
                   <Cell key={idx} fill={CONTRACT_COLORS[idx % CONTRACT_COLORS.length]} />
                 ))}
@@ -299,7 +302,7 @@ function ContractStatus({ data = [] }) {
             </PieChart>
           </ResponsiveContainer>
         </div>
-        <div className="space-y-3">
+        <div className="space-y-2">
           {data.map((item, idx) => {
             const pct = total ? Math.round((item.value / total) * 100) : 0
             return (
@@ -344,8 +347,8 @@ function MiniCalendar({ events = [], visibleEventTypes = Object.keys(eventMeta),
   const next = () => setCursor((current) => current.month === 11 ? { year: current.year + 1, month: 0 } : { ...current, month: current.month + 1 })
 
   return (
-    <Panel className="p-5 lg:col-span-2">
-      <div className="mb-4 flex items-center justify-between">
+    <Panel className={`${staffAccent ? 'p-5' : 'p-4'} lg:col-span-2`}>
+      <div className={`${staffAccent ? 'mb-4' : 'mb-3'} flex items-center justify-between`}>
         <PanelHeader icon={CalendarDays} title="Kalender" subtitle={monthLabel} />
         <div className="flex items-center gap-1">
           <button onClick={prev} className="flex h-8 w-8 items-center justify-center rounded-lg text-slate-400 hover:bg-slate-50 hover:text-primary-600" aria-label="Bulan sebelumnya">
@@ -385,7 +388,7 @@ function MiniCalendar({ events = [], visibleEventTypes = Object.keys(eventMeta),
             <button
               key={dateStr}
               className={[
-                'mx-auto flex h-10 w-10 flex-col items-center justify-center rounded-full text-xs font-semibold transition',
+                `mx-auto flex ${staffAccent ? 'h-10 w-10' : 'h-9 w-9'} flex-col items-center justify-center rounded-full text-xs font-semibold transition`,
                 isToday ? (staffAccent ? 'bg-[#B54735] text-white shadow-lg shadow-rose-900/20' : 'bg-primary-600 text-white shadow-lg shadow-primary-500/25') :
                   isSunday ? 'text-rose-500 hover:bg-rose-50' :
                   isSaturday ? 'text-primary-500 hover:bg-primary-50' :
@@ -405,7 +408,7 @@ function MiniCalendar({ events = [], visibleEventTypes = Object.keys(eventMeta),
         })}
       </div>
 
-      <div className="mt-4 flex flex-wrap gap-x-5 gap-y-2">
+      <div className={`${staffAccent ? 'mt-4 gap-x-5 gap-y-2' : 'mt-3 gap-x-4 gap-y-1.5'} flex flex-wrap`}>
         {Object.entries(eventMeta).filter(([type]) => visibleEventTypes.includes(type)).map(([type, meta]) => (
           <div key={type} className="flex items-center gap-1.5 text-[11px] text-slate-500">
             <span className={`h-2 w-2 rounded-full ${staffAccent ? 'bg-[#B54735]' : meta.dot}`} />
@@ -427,9 +430,9 @@ function UpcomingEvents({ events = [], staffAccent = false }) {
   }, [events])
 
   return (
-    <Panel className="p-5">
+    <Panel className={staffAccent ? 'p-5' : 'admin-dashboard-panel flex flex-col p-4'}>
       <PanelHeader icon={CalendarDays} title="Event Mendatang" actionHref={staffAccent ? undefined : '/reminder'} />
-      <div className="mt-4 space-y-3">
+      <div className={staffAccent ? 'mt-4 space-y-3' : 'admin-upcoming-list mt-3 space-y-2'}>
         {upcoming.length === 0 ? (
           staffAccent ? <StaffEmptyState icon={CalendarDays} title="Belum ada event mendatang" description="Event personal Anda akan tampil di sini." href="/cuti/saya/ajukan" actionLabel="Ajukan cuti" /> : <div className="rounded-xl bg-slate-50 px-4 py-8 text-center text-sm text-slate-400">Tidak ada event mendatang</div>
         ) : (
@@ -437,8 +440,8 @@ function UpcomingEvents({ events = [], staffAccent = false }) {
             const meta = eventMeta[event.type] || eventMeta.reminder
             const diff = getDayDiff(event.date)
             return (
-              <Link key={`${event.date}-${index}`} href={event.href || '#'} className="flex items-center gap-3 rounded-xl p-2.5 transition hover:bg-slate-50">
-                <span className={`flex h-12 w-12 shrink-0 flex-col items-center justify-center rounded-xl ${staffAccent ? 'bg-rose-50' : 'bg-primary-50'}`}>
+              <Link key={`${event.date}-${index}`} href={event.href || '#'} className={`flex items-center rounded-xl transition hover:bg-slate-50 ${staffAccent ? 'gap-3 p-2.5' : 'gap-2.5 p-2'}`}>
+                <span className={`flex shrink-0 flex-col items-center justify-center rounded-xl ${staffAccent ? 'h-12 w-12' : 'h-10 w-10'} ${staffAccent ? 'bg-rose-50' : 'bg-primary-50'}`}>
                   <span className={`text-base font-extrabold leading-none ${staffAccent ? 'text-[#B54735]' : 'text-primary-600'}`}>{formatDate(event.date, { day: 'numeric' })}</span>
                   <span className="mt-0.5 text-[9px] font-bold uppercase text-slate-500">{formatDate(event.date, { month: 'short' })}</span>
                 </span>
@@ -466,9 +469,9 @@ function RecentActivity({ events = [] }) {
   }, [events])
 
   return (
-    <Panel className="p-5">
+    <Panel className="p-4">
       <PanelHeader title="Aktivitas Terbaru" actionHref="/audit-trail" />
-      <div className="mt-4 space-y-4">
+      <div className="mt-3 space-y-3">
         {latest.length === 0 ? (
           <div className="rounded-xl bg-slate-50 px-4 py-8 text-center text-sm text-slate-400">Belum ada aktivitas</div>
         ) : (
@@ -520,9 +523,9 @@ function StaffRecentActivity({ activities = [] }) {
 
 function AssetDistribution({ data = [], total = 0 }) {
   return (
-    <Panel className="p-5 lg:col-span-2">
+    <Panel className="p-4 lg:col-span-2">
       <PanelHeader title="Distribusi Aset per Kategori" subtitle={`${total} total aset`} actionHref="/aset" />
-      <div className="mt-5 space-y-5">
+      <div className="mt-3 space-y-3">
         {data.length === 0 ? (
           <div className="rounded-xl bg-slate-50 px-4 py-8 text-center text-sm text-slate-400">Belum ada data aset</div>
         ) : (
@@ -579,16 +582,16 @@ function InsightPanel({ stats }) {
   ]
 
   return (
-    <Panel className="p-5">
-      <div className="mb-4 flex items-center gap-2">
+    <Panel className="admin-dashboard-panel p-4">
+      <div className="mb-3 flex items-center gap-2">
         <Sparkles className="h-4 w-4 text-primary-600" />
         <h2 className="text-sm font-bold text-slate-900">AI Insight</h2>
         <span className="rounded-md border border-primary-200 bg-primary-50 px-1.5 py-0.5 text-[10px] font-bold text-primary-600">Beta</span>
       </div>
-      <div className="space-y-3">
+      <div className="admin-insights-grid grid grid-cols-1 gap-2 sm:grid-cols-2 xl:grid-cols-4">
         {insights.map((item) => (
-          <div key={item.text} className="flex gap-3 rounded-xl border border-slate-200 bg-white p-3 shadow-sm">
-            <span className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-lg ${item.className}`}>
+          <div key={item.text} className="flex gap-2.5 rounded-xl border border-slate-200 bg-white p-2.5 shadow-sm">
+            <span className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-lg ${item.className}`}>
               <item.icon className="h-4 w-4" />
             </span>
             <span className="min-w-0">
@@ -626,7 +629,7 @@ function FloatingActions() {
       )}
       <button
         onClick={() => setOpen((value) => !value)}
-        className="flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-primary-500 to-blue-700 text-white shadow-xl shadow-primary-500/30 transition hover:scale-105"
+        className="admin-dashboard-primary-action flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-primary-500 to-blue-700 text-white shadow-xl shadow-primary-500/30 transition hover:scale-105"
         aria-label="Quick actions"
       >
         <Plus className={`h-7 w-7 transition ${open ? 'rotate-45' : ''}`} />
@@ -661,93 +664,59 @@ export default function DashboardPage() {
   const sparkData = (employeeTrend.sixMonths || charts?.monthlyKaryawan || []).map((item) => item.total)
 
   return (
-    <div className="space-y-6">
-      <div className="grid gap-5 xl:grid-cols-[1fr_1.45fr]">
-        <div>
-          <h1 className="text-2xl font-extrabold tracking-tight text-slate-950">Selamat Pagi, {firstName}!</h1>
-          <p className="mt-1 text-sm text-slate-500">Semoga harimu menyenangkan.</p>
-          <div className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-4">
-            <AlertTile
-              icon={AlarmClockCheck}
-              value={stats?.reminderJatuhTempo}
-              label="Reminder"
-              href="/reminder"
-              className="border-rose-100"
-              iconClassName="bg-rose-50 text-rose-500"
-            />
-            <AlertTile
-              icon={Gift}
-              value={stats?.kontrakBerakhir}
-              label="Kontrak akan habis"
-              href="/karyawan/kontrak"
-              className="border-orange-100"
-              iconClassName="bg-orange-50 text-orange-500"
-            />
-            <AlertTile
-              icon={CalendarDays}
-              value={stats?.ulangTahunJatuhTempo}
-              label="Ulang Tahun"
-              href="/karyawan"
-              className="border-emerald-100"
-              iconClassName="bg-emerald-50 text-emerald-500"
-            />
-            <AlertTile
-              icon={PackageCheck}
-              value={stats?.asetDipinjam}
-              label="Aset dipinjam"
-              href="/aset/peminjaman"
-              className="border-blue-100"
-              iconClassName="bg-blue-50 text-blue-500"
-            />
-            {isAdmin && (
-              <AlertTile
-                icon={CalendarDays}
-                value={stats?.leavePending}
-                label="Pengajuan Cuti Pending"
-                href="/cuti/kelola"
-                className="border-amber-100"
-                iconClassName="bg-amber-50 text-amber-500"
-              />
-            )}
+    <div className="admin-dashboard space-y-4">
+      <div className="grid items-stretch gap-4 xl:grid-cols-[0.6fr_1.8fr]">
+        <Panel className="admin-dashboard-greeting relative flex min-h-[124px] items-center justify-between overflow-hidden p-4">
+          <div className="relative z-10">
+            <h1 className="text-2xl font-extrabold tracking-tight text-slate-950">Selamat Pagi, {firstName}!</h1>
+            <p className="mt-1 text-sm text-slate-500">Semoga harimu menyenangkan.</p>
           </div>
-        </div>
+          <Image src="/images/undraw-business-analytics-indigo.svg" width={160} height={110} alt="" aria-hidden="true" className="admin-greeting-illustration" priority />
+        </Panel>
 
-        <Panel className="p-5">
-          <h2 className="mb-4 text-sm font-bold text-slate-900">Quick Actions</h2>
-          <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-5">
-            <QuickAction icon={Plus} label="Tambah Karyawan" href="/karyawan" color="bg-gradient-to-br from-primary-500 to-blue-700 shadow-primary-500/25" />
-            <QuickAction icon={PackageCheck} label="Tambah Aset" href="/aset" color="bg-gradient-to-br from-emerald-400 to-emerald-600 shadow-emerald-500/25" />
-            <QuickAction icon={CarFront} label="Tambah Kendaraan" href="/kendaraan" color="bg-gradient-to-br from-violet-500 to-purple-700 shadow-violet-500/25" />
-            <QuickAction icon={Bell} label="Buat Reminder" href="/reminder" color="bg-gradient-to-br from-orange-400 to-orange-600 shadow-orange-500/25" />
-            <QuickAction icon={FileText} label="Generate Report" href="/laporan" color="bg-gradient-to-br from-cyan-400 to-cyan-600 shadow-cyan-500/25" />
+        <Panel className="admin-dashboard-panel p-4">
+          <h2 className="mb-2 text-sm font-bold text-slate-900">Quick Actions</h2>
+          <div className="admin-dashboard-actions">
+            <QuickAction admin accent icon={Plus} label="Tambah Karyawan" href="/karyawan" gradient="--admin-gradient-blue" />
+            <QuickAction admin icon={PackageCheck} label="Tambah Aset" href="/aset" gradient="--admin-gradient-green" />
+            <QuickAction admin icon={CarFront} label="Tambah Kendaraan" href="/kendaraan" gradient="--admin-gradient-violet" />
+            <QuickAction admin icon={Bell} label="Buat Reminder" href="/reminder" gradient="--admin-gradient-orange" />
+            <QuickAction admin icon={FileText} label="Generate Report" href="/laporan" gradient="--admin-gradient-cyan" />
           </div>
         </Panel>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-        <StatCard title="Total Karyawan" value={stats?.karyawanAktif} trend="+18%" subtitle="karyawan aktif" icon={UsersRound} iconWrap="bg-blue-50 text-primary-600" sparkColor="#2563eb" data={sparkData} href="/karyawan" />
-        <StatCard title="Total Aset" value={stats?.totalAset} trend="+9%" subtitle="+1 bulan ini" icon={PackageCheck} iconWrap="bg-emerald-50 text-emerald-600" sparkColor="#10b981" data={[2, 4, 3, 5, 4, 6, 3, 3, 6, 2, 4, 7]} href="/aset" />
-        <StatCard title="Kendaraan" value={stats?.totalKendaraan} trend="+5%" subtitle="+0 bulan ini" icon={CarFront} iconWrap="bg-violet-50 text-violet-600" sparkColor="#7c3aed" data={[3, 5, 4, 4, 3, 2, 5, 4, 5, 4, 4, 5]} href="/kendaraan" />
-        <StatCard title="Notifikasi" value={stats?.notifikasiUnread} trend="" subtitle="Belum dibaca" icon={BellDot} iconWrap="bg-orange-50 text-orange-500" sparkColor="#f97316" data={[]} href="/notifikasi" />
+      <div className="admin-dashboard-alert-grid grid grid-cols-1 gap-2.5 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+        <AlertTile icon={AlarmClockCheck} value={stats?.reminderJatuhTempo} label="Reminder" href="/reminder" className="border-rose-100" iconClassName="bg-rose-50 text-rose-500" />
+        <AlertTile icon={Gift} value={stats?.kontrakBerakhir} label="Kontrak akan habis" href="/karyawan/kontrak" className="border-orange-100" iconClassName="bg-orange-50 text-orange-500" />
+        <AlertTile icon={CalendarDays} value={stats?.ulangTahunJatuhTempo} label="Ulang Tahun" href="/karyawan" className="border-emerald-100" iconClassName="bg-emerald-50 text-emerald-500" />
+        <AlertTile icon={PackageCheck} value={stats?.asetDipinjam} label="Aset dipinjam" href="/aset/peminjaman" className="border-blue-100" iconClassName="bg-blue-50 text-blue-500" />
+        <AlertTile icon={CalendarDays} value={stats?.leavePending} label="Pengajuan Cuti Pending" href="/cuti/kelola" className="border-amber-200 ring-1 ring-amber-100" iconClassName="bg-amber-50 text-amber-500" />
       </div>
 
-      <div className="grid gap-5 lg:grid-cols-3">
+      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+        <StatCard title="Total Karyawan" value={stats?.karyawanAktif} trend="+18%" subtitle="karyawan aktif" icon={UsersRound} iconWrap="text-primary-600" tone="employee" sparkColor="#2563eb" data={sparkData} href="/karyawan" />
+        <StatCard title="Total Aset" value={stats?.totalAset} trend="+9%" subtitle="+1 bulan ini" icon={PackageCheck} iconWrap="text-emerald-600" tone="asset" sparkColor="#10b981" data={[2, 4, 3, 5, 4, 6, 3, 3, 6, 2, 4, 7]} href="/aset" />
+        <StatCard title="Kendaraan" value={stats?.totalKendaraan} trend="+5%" subtitle="+0 bulan ini" icon={CarFront} iconWrap="text-violet-600" tone="vehicle" sparkColor="#7c3aed" data={[3, 5, 4, 4, 3, 2, 5, 4, 5, 4, 4, 5]} href="/kendaraan" />
+        <StatCard title="Notifikasi" value={stats?.notifikasiUnread} trend="" subtitle="Belum dibaca" icon={BellDot} iconWrap="text-orange-700" tone="notification" sparkColor="#f97316" data={[]} href="/notifikasi" />
+      </div>
+
+      <div className="grid items-stretch gap-4 lg:grid-cols-3">
         <EmployeeTrend trends={employeeTrend} />
         <ContractStatus data={charts?.karyawanByKontrak || []} />
       </div>
 
-      <div className="grid gap-5 lg:grid-cols-3">
+      <div className="grid items-stretch gap-4 lg:grid-cols-3">
         <MiniCalendar events={calendarEvents} />
-        <div className="space-y-5">
-          <UpcomingEvents events={calendarEvents} />
-          <InsightPanel stats={stats} />
-        </div>
+        <UpcomingEvents events={calendarEvents} />
       </div>
 
-      <div className="grid gap-5 lg:grid-cols-3">
+      <div className="grid items-start gap-4 lg:grid-cols-3">
         <AssetDistribution data={charts?.asetByKategori || []} total={stats?.totalAset || 0} />
         <RecentActivity events={calendarEvents} />
       </div>
+
+      <InsightPanel stats={stats} />
 
       <FloatingActions />
     </div>
@@ -784,6 +753,7 @@ function StaffDashboard({ data, session }) {
 
       <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
         <StaffStatCard title="Sisa Cuti Tahun Ini" value={`${stats.leaveBalanceRemaining ?? 0} hari`} subtitle={stats.leaveBalanceType || 'Cuti Tahunan'} icon={CalendarDays} tone="rose"><StaffLeaveProgress remaining={stats.leaveBalanceRemaining} quota={annualLeaveType?.defaultQuotaPerYear} /></StaffStatCard>
+        <StaffStatCard title="Total Hari Tidak Masuk Kerja" value={`${stats.totalDaysAbsent ?? 0} hari`} subtitle="Cuti disetujui tahun ini" icon={CalendarDays} tone="amber" />
         <StaffStatCard title="Notifikasi" value={stats.unreadNotificationCount ?? 0} subtitle={stats.unreadNotificationCount ? 'Belum dibaca' : 'Tidak ada notifikasi baru'} icon={BellDot} tone="sky" href="/notifikasi">{!stats.unreadNotificationCount && <StaffEmptyState icon={BellDot} title="Kotak masuk tenang" description="Tidak ada notifikasi baru yang belum dibaca." href="/notifikasi" actionLabel="Lihat notifikasi" />}</StaffStatCard>
         <StaffStatCard title="Status Pengajuan Cuti Terakhir" value={leaveStatusLabels[stats.latestLeaveStatus] || '-'} subtitle="Pengajuan terbaru" icon={ClipboardList} tone="violet" href="/cuti/saya/ajukan">{!stats.latestLeaveStatus && <StaffEmptyState icon={Palmtree} title="Belum ada pengajuan cuti nih" description="Yuk ajukan kalau butuh istirahat!" href="/cuti/saya/ajukan" actionLabel="Ajukan cuti" />}</StaffStatCard>
       </div>

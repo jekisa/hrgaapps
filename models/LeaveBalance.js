@@ -7,6 +7,8 @@ const leaveBalanceSchema = new mongoose.Schema(
     year: { type: Number, required: true, min: 2000 },
     quota: { type: Number, required: true, min: 0, default: 0 },
     used: { type: Number, required: true, min: 0, default: 0 },
+    carriedDebt: { type: Number, required: true, min: 0, default: 0 },
+    adminAdjustment: { type: Number, required: true, default: 0 },
   },
   { timestamps: true }
 )

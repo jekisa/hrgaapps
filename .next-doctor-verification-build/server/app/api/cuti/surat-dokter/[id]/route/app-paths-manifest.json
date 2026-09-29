@@ -1,0 +1,3 @@
+{
+  "/api/cuti/surat-dokter/[id]/route": "app/api/cuti/surat-dokter/[id]/route.js"
+}

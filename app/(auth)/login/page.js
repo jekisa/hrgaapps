@@ -7,6 +7,9 @@ import { useForm } from 'react-hook-form'
 import { Eye, EyeOff, LogIn, Mail, LockKeyhole, UsersRound, PackageCheck, CarFront, Wrench, CircleCheckBig } from 'lucide-react'
 import toast from 'react-hot-toast'
 import AppLogo from '@/components/ui/AppLogo'
+import appBrand from '@/lib/app-brand'
+
+const { APP_NAME } = appBrand
 
 const features = [
   { icon: UsersRound, label: 'Manajemen Karyawan', desc: 'Data kepegawaian lengkap' },
@@ -116,7 +119,7 @@ export default function LoginPage() {
         </div>
 
         <p className="relative z-10 text-slate-600 text-xs">
-          &copy; {new Date().getFullYear()} HRGA Apps &mdash; All rights reserved
+          &copy; {new Date().getFullYear()} {APP_NAME} &mdash; All rights reserved
         </p>
       </div>
 

@@ -105,6 +105,12 @@ export default function AjukanCutiPage() {
             </select>
             {errors.leaveTypeId && <p className="mt-1 text-xs text-red-500">{errors.leaveTypeId.message}</p>}
           </div>
+          {selectedType?.code === 'sick' && <>
+            <div className="md:col-span-2 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900">Cuti sakit tidak mengurangi kuota cuti tahunan. Informasi dokter bersifat opsional; surat dokter tetap wajib diunggah.</div>
+            <div><label className="form-label" htmlFor="doctorName">Nama dokter / klinik (opsional)</label><input id="doctorName" className="form-input" {...register('doctorName')} /></div>
+            <div><label className="form-label" htmlFor="certificateNumber">Nomor surat (opsional)</label><input id="certificateNumber" className="form-input" {...register('certificateNumber')} /></div>
+            <div className="md:col-span-2"><label className="form-label" htmlFor="additionalNotes">Catatan tambahan (opsional)</label><textarea id="additionalNotes" className="form-input min-h-24" {...register('additionalNotes')} /></div>
+          </>}
           <div>
             <Controller name="startDate" control={control} rules={{ required: 'Tanggal mulai wajib diisi' }} render={({ field }) => <StaffDatePicker id="startDate" label="Tanggal Mulai" value={field.value} onChange={field.onChange} error={errors.startDate?.message} />} />
           </div>

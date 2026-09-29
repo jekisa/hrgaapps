@@ -1,0 +1,17 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/(dashboard)/layout,_N_T_/(dashboard)/gedung/layout,_N_T_/(dashboard)/gedung/maintenance/layout,_N_T_/(dashboard)/gedung/maintenance/page,_N_T_/gedung/maintenance"
+  },
+  "segmentPaths": [
+    "/_tree",
+    "/_full",
+    "/!KGRhc2hib2FyZCk/gedung/maintenance/__PAGE__",
+    "/!KGRhc2hib2FyZCk/gedung/maintenance",
+    "/!KGRhc2hib2FyZCk/gedung",
+    "/!KGRhc2hib2FyZCk",
+    "/_index",
+    "/_head"
+  ]
+}

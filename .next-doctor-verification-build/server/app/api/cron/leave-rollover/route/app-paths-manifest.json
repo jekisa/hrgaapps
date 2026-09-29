@@ -1,0 +1,3 @@
+{
+  "/api/cron/leave-rollover/route": "app/api/cron/leave-rollover/route.js"
+}

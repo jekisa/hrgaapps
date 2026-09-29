@@ -1,0 +1,17 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/(dashboard)/layout,_N_T_/(dashboard)/cuti/layout,_N_T_/(dashboard)/cuti/rekap/layout,_N_T_/(dashboard)/cuti/rekap/page,_N_T_/cuti/rekap"
+  },
+  "segmentPaths": [
+    "/_tree",
+    "/_full",
+    "/!KGRhc2hib2FyZCk/cuti/rekap/__PAGE__",
+    "/!KGRhc2hib2FyZCk/cuti/rekap",
+    "/!KGRhc2hib2FyZCk/cuti",
+    "/!KGRhc2hib2FyZCk",
+    "/_index",
+    "/_head"
+  ]
+}

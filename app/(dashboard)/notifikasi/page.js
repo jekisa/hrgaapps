@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import Link from 'next/link'
 import { BellDot, CheckCheck, Trash } from 'lucide-react'
 import toast from 'react-hot-toast'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
@@ -101,10 +102,13 @@ export default function NotifikasiPage() {
                     <div className="flex-1 min-w-0">
                       <div className="flex items-start justify-between gap-2">
                         <div className="flex-1">
-                          <p className={cn('text-sm font-semibold', notif.status === 'BELUM_DIBACA' ? 'text-gray-900' : 'text-gray-600')}>
-                            {notif.judul}
-                          </p>
-                          {notif.pesan && <p className="text-sm text-gray-500 mt-0.5 leading-snug">{notif.pesan}</p>}
+                          {notif.href ? <Link href={notif.href} onClick={() => { if (notif.status === 'BELUM_DIBACA') markAsRead(id) }} className="block rounded focus:outline-none focus:ring-2 focus:ring-primary-500">
+                            <p className={cn('text-sm font-semibold hover:text-primary-700', notif.status === 'BELUM_DIBACA' ? 'text-gray-900' : 'text-gray-600')}>{notif.judul}</p>
+                            {notif.pesan && <p className="text-sm text-gray-500 mt-0.5 leading-snug">{notif.pesan}</p>}
+                          </Link> : <>
+                            <p className={cn('text-sm font-semibold', notif.status === 'BELUM_DIBACA' ? 'text-gray-900' : 'text-gray-600')}>{notif.judul}</p>
+                            {notif.pesan && <p className="text-sm text-gray-500 mt-0.5 leading-snug">{notif.pesan}</p>}
+                          </>}
                           <p className="text-xs text-gray-400 mt-1">{formatDate(notif.createdAt, 'dd MMM yyyy HH:mm')}</p>
                         </div>
                         <div className="flex items-center gap-1 shrink-0">

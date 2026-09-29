@@ -23,6 +23,6 @@ export default withAuth(function middleware(request) {
 
 export const config = {
   matcher: [
-    '/((?!login|api/auth|_next/static|_next/image|favicon.ico).*)',
+    '/((?!login|api/auth|api/cron/leave-rollover|_next/static|_next/image|favicon.ico|dea-trans-logo.png|icon.png|logo.svg).*)',
   ],
 }

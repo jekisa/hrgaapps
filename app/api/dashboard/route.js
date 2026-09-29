@@ -15,14 +15,20 @@ import Reminder from '@/models/Reminder'
 import LeaveRequest from '@/models/LeaveRequest'
 import LeaveBalance from '@/models/LeaveBalance'
 import LeaveType from '@/models/LeaveType'
+import AuditLog from '@/models/AuditLog'
 import leaveAuth from '@/lib/leave-auth'
 import accessControl from '@/lib/access-control'
 import staffDashboard from '@/lib/staff-dashboard'
+import leaveBalanceService from '@/lib/leave-balance'
+import leaveAbsence from '@/lib/leave-absence'
 import { addDays, addYears, endOfDay, endOfMonth, subDays, subMonths, startOfDay } from 'date-fns'
 
 const { getEmployeeForSession } = leaveAuth
 const { getOwnerScope } = accessControl
 const { buildStaffDashboardPayload } = staffDashboard
+const { getTotalDaysAbsent } = leaveAbsence
+const { createMongooseLeaveBalanceRepository, createRolloverService, getJakartaYear } = leaveBalanceService
+const rolloverLeaveBalances = createRolloverService(createMongooseLeaveBalanceRepository({ Karyawan, LeaveType, LeaveBalance, AuditLog }))
 
 const toDateStr = (d) => {
   const date = new Date(d)
@@ -109,13 +115,16 @@ async function loadStaffDashboard(session, employee, now) {
       .lean(),
   ])
 
-  const annualBalance = annualLeaveType
-    ? await LeaveBalance.findOneAndUpdate(
-      { employeeId, leaveTypeId: annualLeaveType._id, year: now.getFullYear() },
-      { $setOnInsert: { quota: annualLeaveType.defaultQuotaPerYear, used: 0 } },
-      { upsert: true, new: true, setDefaultsOnInsert: true }
-    ).lean()
-    : null
+  const jakartaYear = getJakartaYear(now)
+  let annualBalance = null
+  if (annualLeaveType) {
+    const filter = { employeeId, leaveTypeId: annualLeaveType._id, year: jakartaYear }
+    annualBalance = await LeaveBalance.findOne(filter).lean()
+    if (!annualBalance) {
+      await rolloverLeaveBalances(jakartaYear, { employeeId })
+      annualBalance = await LeaveBalance.findOne(filter).lean()
+    }
+  }
 
   let birthdayEvent = null
   if (employeeProfile?.tanggalLahir) {
@@ -137,6 +146,7 @@ async function loadStaffDashboard(session, employee, now) {
     href: '/reminder',
   }))
 
+  const totalDaysAbsent = await getTotalDaysAbsent(LeaveRequest, employeeId, jakartaYear)
   return buildStaffDashboardPayload({
     annualBalance,
     annualLeaveTypeName: annualLeaveType?.name,
@@ -147,6 +157,7 @@ async function loadStaffDashboard(session, employee, now) {
     birthdayEvent,
     reminderEvents,
     leaveRequests,
+    totalDaysAbsent,
   })
 }
 

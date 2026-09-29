@@ -2,10 +2,13 @@ import './globals.css'
 import { Toaster } from 'react-hot-toast'
 import SessionProviderWrapper from '@/components/providers/SessionProvider'
 import QueryProvider from '@/components/providers/QueryProvider'
+import appBrand from '@/lib/app-brand'
+
+const { APP_NAME } = appBrand
 
 export const metadata = {
-  title: 'HRGA Apps',
-  description: 'Human Resources & General Affairs Management System',
+  title: APP_NAME,
+  description: `${APP_NAME} - Human Resources & General Affairs Management System`,
 }
 
 export default function RootLayout({ children }) {

@@ -1,0 +1,17 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/(dashboard)/layout,_N_T_/(dashboard)/gedung/layout,_N_T_/(dashboard)/gedung/utilitas/layout,_N_T_/(dashboard)/gedung/utilitas/page,_N_T_/gedung/utilitas"
+  },
+  "segmentPaths": [
+    "/_tree",
+    "/_full",
+    "/!KGRhc2hib2FyZCk/gedung/utilitas/__PAGE__",
+    "/!KGRhc2hib2FyZCk/gedung/utilitas",
+    "/!KGRhc2hib2FyZCk/gedung",
+    "/!KGRhc2hib2FyZCk",
+    "/_index",
+    "/_head"
+  ]
+}
