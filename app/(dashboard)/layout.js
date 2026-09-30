@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { usePathname } from 'next/navigation'
 import { useSession } from 'next-auth/react'
-import Sidebar from '@/components/layout/Sidebar'
+import Sidebar, { MobileBottomNav } from '@/components/layout/Sidebar'
 import Header from '@/components/layout/Header'
 import AIChatbox from '@/components/ui/AIChatbox'
 import { cn } from '@/lib/utils'
@@ -47,14 +47,15 @@ export default function DashboardLayout({ children }) {
           setCollapsed={setCollapsed}
           setMobileOpen={setMobileOpen}
         />
-        <main className="flex-1 overflow-auto bg-slate-50/70 p-4 lg:p-6">
+        <main className="flex-1 overflow-auto bg-slate-50/70 p-4 pb-[calc(6rem+env(safe-area-inset-bottom))] lg:p-6 md:pb-6">
           {children}
         </main>
-        <footer className="py-3 px-4 lg:px-6 text-center text-xs text-gray-400 border-t border-gray-100 bg-white">
+        <footer className="py-3 pb-[calc(5rem+env(safe-area-inset-bottom))] md:pb-3 px-4 lg:px-6 text-center text-xs text-gray-400 border-t border-gray-100 bg-white">
           &copy; {new Date().getFullYear()} {APP_NAME} - Human Resources & General Affairs Management System
         </footer>
       </div>
       {!isDashboardHome && !isStaff && <AIChatbox />}
+      <MobileBottomNav />
     </div>
   )
 }

@@ -8,7 +8,7 @@ import {
   ChevronRight, BellDot, ChartNoAxesCombined, ShieldCheck, ScanLine,
   ContactRound, History, Hourglass, Boxes, Repeat2,
   HardHat, PlugZap, CalendarClock, MapPinned, ReceiptText,
-  LogOut, PanelLeftClose, PanelLeftOpen, UserX, X, CalendarDays, CalendarCheck
+  LogOut, PanelLeftClose, PanelLeftOpen, UserX, X, CalendarDays, CalendarCheck, MoreHorizontal
 } from 'lucide-react'
 import { signOut, useSession } from 'next-auth/react'
 import { cn } from '@/lib/utils'
@@ -107,6 +107,79 @@ const adminMenuItems = [
   { label: 'Manajemen Pengguna', href: '/pengguna', icon: ShieldCheck },
   { label: 'Audit Trail', href: '/audit-trail', icon: ScanLine },
 ]
+
+const staffMenuItems = [
+  { label: 'Dashboard', href: '/', icon: Gauge },
+  { label: 'Reminder', href: '/reminder', icon: AlarmClockCheck },
+  { label: 'Notifikasi', href: '/notifikasi', icon: BellDot },
+  { label: 'Cuti Saya', href: '/cuti/saya/ajukan', icon: CalendarDays },
+]
+
+export function MobileBottomNav() {
+  const { data: session } = useSession()
+  const pathname = usePathname()
+  const [moreOpen, setMoreOpen] = useState(false)
+  const role = session?.user?.role
+  const isStaff = role === 'STAFF'
+  const navItems = [
+    { label: 'Dashboard', href: '/', icon: Gauge },
+    { label: 'Reminder', href: '/reminder', icon: AlarmClockCheck },
+    { label: 'Notifikasi', href: '/notifikasi', icon: BellDot },
+    { label: isStaff ? 'Cuti Saya' : 'Manajemen Cuti', href: isStaff ? '/cuti/saya/ajukan' : '/cuti/kelola', icon: CalendarDays },
+  ]
+  const visibleItems = getVisibleSidebarItems(role, menuItems, staffMenuItems)
+  const moreItems = [
+    ...visibleItems.filter((item) => item.section || !['Dashboard', 'Reminder', 'Notifikasi', 'Cuti Saya', 'Manajemen Cuti'].includes(item.label)),
+    ...(role === 'ADMIN' ? [{ section: 'Admin' }, ...adminMenuItems] : []),
+  ]
+  const hasMore = moreItems.some((item) => !item.section)
+
+  useEffect(() => {
+    if (!moreOpen) return
+    const onKeyDown = (event) => event.key === 'Escape' && setMoreOpen(false)
+    window.addEventListener('keydown', onKeyDown)
+    return () => window.removeEventListener('keydown', onKeyDown)
+  }, [moreOpen])
+
+  if (!role) return null
+
+  return (
+    <>
+      {moreOpen && (
+        <div className="mobile-more-overlay md:hidden" onClick={() => setMoreOpen(false)}>
+          <section className="mobile-more-sheet" role="dialog" aria-modal="true" aria-label="Menu lainnya" onClick={(event) => event.stopPropagation()}>
+            <div className="mobile-more-handle" />
+            <div className="mb-3 flex items-center justify-between px-1">
+              <h2 className="text-base font-bold text-slate-900">Menu lainnya</h2>
+              <button type="button" aria-label="Tutup menu" onClick={() => setMoreOpen(false)} className="flex h-11 w-11 items-center justify-center rounded-full text-slate-500 hover:bg-slate-100"><X className="h-5 w-5" /></button>
+            </div>
+            {hasMore ? <nav className="mobile-more-list">
+              {moreItems.map((item, index) => item.section ? (
+                <p key={`section-${item.section}-${index}`} className="mobile-more-section">{item.section}</p>
+              ) : item.children ? (
+                <div key={item.label} className="mobile-more-group">
+                  <p className="mobile-more-group-title"><item.icon className="h-4 w-4" />{item.label}</p>
+                  {item.children.map((child) => <Link key={child.href} href={child.href} onClick={() => setMoreOpen(false)} className="mobile-more-link mobile-more-child"><child.icon className="h-4 w-4" />{child.label}</Link>)}
+                </div>
+              ) : <Link key={item.href} href={item.href} onClick={() => setMoreOpen(false)} className="mobile-more-link"><item.icon className="h-4 w-4" />{item.label}</Link>)}
+            </nav> : <p className="px-2 py-5 text-center text-sm text-slate-500">Tidak ada menu lainnya untuk akun ini.</p>}
+          </section>
+        </div>
+      )}
+      <nav className="mobile-bottom-nav md:hidden" data-role={role || 'ADMIN'} aria-label="Navigasi utama">
+        {navItems.map((item) => {
+          const active = item.href === '/' ? pathname === '/' : pathname === item.href || pathname.startsWith(`${item.href}/`) || (item.label === 'Manajemen Cuti' && pathname.startsWith('/cuti/'))
+          return <Link key={item.href} href={item.href} aria-current={active ? 'page' : undefined} className={`mobile-bottom-link ${active ? 'mobile-bottom-link-active' : ''}`}>
+            <item.icon className="h-5 w-5" aria-hidden="true" /><span>{item.label}</span>
+          </Link>
+        })}
+        <button type="button" onClick={() => setMoreOpen(true)} aria-expanded={moreOpen} className={`mobile-bottom-link ${moreOpen ? 'mobile-bottom-link-active' : ''}`}>
+          <MoreHorizontal className="h-5 w-5" aria-hidden="true" /><span>Lainnya</span>
+        </button>
+      </nav>
+    </>
+  )
+}
 
 function MenuItem({ item, collapsed, onMobileClose }) {
   const pathname = usePathname()
@@ -211,11 +284,6 @@ export default function Sidebar({ collapsed, setCollapsed, mobileOpen, setMobile
   const { data: session } = useSession()
   const isAdmin = session?.user?.role === 'ADMIN'
   const isStaff = session?.user?.role === 'STAFF'
-  const staffMenuItems = [
-    { label: 'Dashboard', href: '/', icon: Gauge },
-    { label: 'Notifikasi', href: '/notifikasi', icon: BellDot },
-    { label: 'Cuti Saya', href: '/cuti/saya/ajukan', icon: CalendarDays },
-  ]
   const visibleMenuItems = getVisibleSidebarItems(session?.user?.role, menuItems, staffMenuItems)
   const userName = session?.user?.name || 'User'
   const initials = userName.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase()

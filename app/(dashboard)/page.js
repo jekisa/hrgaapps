@@ -142,7 +142,7 @@ function AlertTile({ icon: Icon, value, label, href, className, iconClassName })
   return (
     <Link
       href={href}
-      className={`flex min-h-[64px] items-center gap-2.5 rounded-xl border bg-white px-3 py-2.5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md ${className}`}
+      className={`admin-dashboard-alert-tile flex min-h-[64px] items-center gap-2.5 rounded-xl border bg-white px-3 py-2.5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md ${className}`}
     >
       <span className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-lg ${iconClassName}`}>
         <Icon className="h-4 w-4" />
@@ -155,9 +155,9 @@ function AlertTile({ icon: Icon, value, label, href, className, iconClassName })
   )
 }
 
-function QuickAction({ icon: Icon, label, href, onClick, color, admin = false, accent = false, gradient }) {
+function QuickAction({ icon: Icon, label, href, onClick, color, admin = false, accent = false, gradient, mobileTile = false }) {
   const density = admin ? 'min-h-[48px] gap-2 px-1.5 py-1.5' : 'min-h-[78px] gap-4 px-4 py-3'
-  const className = `group flex items-center rounded-xl border border-slate-200 bg-white text-left transition hover:-translate-y-0.5 hover:border-primary-200 hover:shadow-md ${density} ${admin ? 'admin-dashboard-action' : ''}`
+  const className = `group flex items-center rounded-xl border border-slate-200 bg-white text-left transition hover:-translate-y-0.5 hover:border-primary-200 hover:shadow-md ${density} ${admin ? 'admin-dashboard-action' : ''} ${mobileTile ? 'mobile-action-tile' : ''}`
   const iconColor = admin ? '' : color
   const content = <>
       <span className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl text-white shadow-lg ${iconColor} ${admin ? 'admin-quick-action-icon' : ''} ${accent ? 'admin-primary-action-icon' : ''}`} style={admin && gradient ? { background: `var(${gradient})` } : undefined}>
@@ -237,18 +237,18 @@ function EmployeeTrend({ trends = {} }) {
     <Panel className="admin-dashboard-panel h-full p-4 lg:col-span-2">
       <div className="mb-3 flex items-start justify-between gap-4">
         <PanelHeader title="Trend Karyawan" subtitle={activeRangeMeta.subtitle} />
-        <div className="hidden items-center gap-1 rounded-lg border border-slate-200 p-1 text-[11px] font-semibold text-slate-600 sm:flex">
+        <div className="flex max-w-[65vw] items-center gap-1 overflow-x-auto rounded-lg border border-slate-200 p-1 text-[11px] font-semibold text-slate-600 sm:max-w-none">
           {EMPLOYEE_TREND_RANGES.map((range) => (
             <button
               key={range.key}
               type="button"
               onClick={() => setActiveRange(range.key)}
-              className={`rounded-md px-2.5 py-1 transition ${activeRange === range.key ? 'bg-primary-600 text-white shadow-sm' : 'hover:bg-slate-50'}`}
+              className={`min-h-11 shrink-0 rounded-md px-2.5 py-1 transition ${activeRange === range.key ? 'bg-primary-600 text-white shadow-sm' : 'hover:bg-slate-50'}`}
             >
               {range.label}
             </button>
           ))}
-          <button className="rounded-md p-1 hover:bg-slate-50" aria-label="Menu grafik">
+          <button className="flex min-h-11 min-w-11 shrink-0 items-center justify-center rounded-md p-1 hover:bg-slate-50" aria-label="Menu grafik">
             <MoreVertical className="h-4 w-4" />
           </button>
         </div>
@@ -351,7 +351,7 @@ function MiniCalendar({ events = [], visibleEventTypes = Object.keys(eventMeta),
       <div className={`${staffAccent ? 'mb-4' : 'mb-3'} flex items-center justify-between`}>
         <PanelHeader icon={CalendarDays} title="Kalender" subtitle={monthLabel} />
         <div className="flex items-center gap-1">
-          <button onClick={prev} className="flex h-8 w-8 items-center justify-center rounded-lg text-slate-400 hover:bg-slate-50 hover:text-primary-600" aria-label="Bulan sebelumnya">
+          <button onClick={prev} className="flex h-11 w-11 items-center justify-center rounded-lg text-slate-400 hover:bg-slate-50 hover:text-primary-600 md:h-8 md:w-8" aria-label="Bulan sebelumnya">
             <ChevronLeft className="h-4 w-4" />
           </button>
           <button
@@ -359,12 +359,12 @@ function MiniCalendar({ events = [], visibleEventTypes = Object.keys(eventMeta),
               const now = new Date()
               setCursor({ year: now.getFullYear(), month: now.getMonth() })
             }}
-            className="flex h-8 w-8 items-center justify-center rounded-lg border border-slate-200 text-slate-400 hover:bg-slate-50 hover:text-primary-600"
+            className="flex h-11 w-11 items-center justify-center rounded-lg border border-slate-200 text-slate-400 hover:bg-slate-50 hover:text-primary-600 md:h-8 md:w-8"
             aria-label="Hari ini"
           >
             <LayoutGrid className="h-3.5 w-3.5" />
           </button>
-          <button onClick={next} className="flex h-8 w-8 items-center justify-center rounded-lg text-slate-400 hover:bg-slate-50 hover:text-primary-600" aria-label="Bulan berikutnya">
+          <button onClick={next} className="flex h-11 w-11 items-center justify-center rounded-lg text-slate-400 hover:bg-slate-50 hover:text-primary-600 md:h-8 md:w-8" aria-label="Bulan berikutnya">
             <ChevronRight className="h-4 w-4" />
           </button>
         </div>
@@ -616,7 +616,7 @@ function FloatingActions() {
   ]
 
   return (
-    <div className="fixed bottom-6 right-6 z-40 flex flex-col items-end gap-3">
+    <div className="fixed bottom-[calc(5.25rem+env(safe-area-inset-bottom))] right-4 z-40 flex flex-col items-end gap-3 md:bottom-6 md:right-6">
       {open && (
         <div className="rounded-xl border border-slate-200 bg-white p-2 shadow-2xl">
           {actions.map((action) => (
@@ -677,24 +677,24 @@ export default function DashboardPage() {
         <Panel className="admin-dashboard-panel p-4">
           <h2 className="mb-2 text-sm font-bold text-slate-900">Quick Actions</h2>
           <div className="admin-dashboard-actions">
-            <QuickAction admin accent icon={Plus} label="Tambah Karyawan" href="/karyawan" gradient="--admin-gradient-blue" />
-            <QuickAction admin icon={PackageCheck} label="Tambah Aset" href="/aset" gradient="--admin-gradient-green" />
-            <QuickAction admin icon={CarFront} label="Tambah Kendaraan" href="/kendaraan" gradient="--admin-gradient-violet" />
-            <QuickAction admin icon={Bell} label="Buat Reminder" href="/reminder" gradient="--admin-gradient-orange" />
-            <QuickAction admin icon={FileText} label="Generate Report" href="/laporan" gradient="--admin-gradient-cyan" />
+            <QuickAction admin mobileTile accent icon={Plus} label="Tambah Karyawan" href="/karyawan" gradient="--admin-gradient-blue" />
+            <QuickAction admin mobileTile icon={PackageCheck} label="Tambah Aset" href="/aset" gradient="--admin-gradient-green" />
+            <QuickAction admin mobileTile icon={CarFront} label="Tambah Kendaraan" href="/kendaraan" gradient="--admin-gradient-violet" />
+            <QuickAction admin mobileTile icon={Bell} label="Buat Reminder" href="/reminder" gradient="--admin-gradient-orange" />
+            <QuickAction admin mobileTile icon={FileText} label="Generate Report" href="/laporan" gradient="--admin-gradient-cyan" />
           </div>
         </Panel>
       </div>
 
-      <div className="admin-dashboard-alert-grid grid grid-cols-1 gap-2.5 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+      <div className="admin-dashboard-alert-grid grid grid-cols-2 gap-2.5 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
         <AlertTile icon={AlarmClockCheck} value={stats?.reminderJatuhTempo} label="Reminder" href="/reminder" className="border-rose-100" iconClassName="bg-rose-50 text-rose-500" />
         <AlertTile icon={Gift} value={stats?.kontrakBerakhir} label="Kontrak akan habis" href="/karyawan/kontrak" className="border-orange-100" iconClassName="bg-orange-50 text-orange-500" />
         <AlertTile icon={CalendarDays} value={stats?.ulangTahunJatuhTempo} label="Ulang Tahun" href="/karyawan" className="border-emerald-100" iconClassName="bg-emerald-50 text-emerald-500" />
         <AlertTile icon={PackageCheck} value={stats?.asetDipinjam} label="Aset dipinjam" href="/aset/peminjaman" className="border-blue-100" iconClassName="bg-blue-50 text-blue-500" />
-        <AlertTile icon={CalendarDays} value={stats?.leavePending} label="Pengajuan Cuti Pending" href="/cuti/kelola" className="border-amber-200 ring-1 ring-amber-100" iconClassName="bg-amber-50 text-amber-500" />
+        <AlertTile icon={CalendarDays} value={stats?.leavePending} label="Pengajuan Cuti Pending" href="/cuti/kelola" className="col-span-2 border-amber-200 ring-1 ring-amber-100 md:col-span-1" iconClassName="bg-amber-50 text-amber-500" />
       </div>
 
-      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+      <div className="grid grid-cols-2 gap-4 md:grid-cols-2 xl:grid-cols-4">
         <StatCard title="Total Karyawan" value={stats?.karyawanAktif} trend="+18%" subtitle="karyawan aktif" icon={UsersRound} iconWrap="text-primary-600" tone="employee" sparkColor="#2563eb" data={sparkData} href="/karyawan" />
         <StatCard title="Total Aset" value={stats?.totalAset} trend="+9%" subtitle="+1 bulan ini" icon={PackageCheck} iconWrap="text-emerald-600" tone="asset" sparkColor="#10b981" data={[2, 4, 3, 5, 4, 6, 3, 3, 6, 2, 4, 7]} href="/aset" />
         <StatCard title="Kendaraan" value={stats?.totalKendaraan} trend="+5%" subtitle="+0 bulan ini" icon={CarFront} iconWrap="text-violet-600" tone="vehicle" sparkColor="#7c3aed" data={[3, 5, 4, 4, 3, 2, 5, 4, 5, 4, 4, 5]} href="/kendaraan" />
@@ -744,14 +744,14 @@ function StaffDashboard({ data, session }) {
         <StaffGreeting name={firstName} />
         <Panel className="p-5">
           <h2 className="mb-4 text-sm font-bold text-slate-900">Quick Actions</h2>
-          <div className="grid gap-3 sm:grid-cols-2">
-            <QuickAction icon={CalendarDays} label="Ajukan Cuti" href="/cuti/saya/ajukan" color="bg-gradient-to-br from-[#B54735] to-[#9F3D2D] shadow-rose-900/20" />
-            <QuickAction icon={FileText} label="Upload Surat Dokter" onClick={() => setDoctorUploadOpen(true)} color="bg-gradient-to-br from-orange-400 to-rose-500 shadow-orange-500/25" />
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-2">
+            <QuickAction mobileTile icon={CalendarDays} label="Ajukan Cuti" href="/cuti/saya/ajukan" color="bg-gradient-to-br from-[#B54735] to-[#9F3D2D] shadow-rose-900/20" />
+            <QuickAction mobileTile icon={FileText} label="Upload Surat Dokter" onClick={() => setDoctorUploadOpen(true)} color="bg-gradient-to-br from-orange-400 to-rose-500 shadow-orange-500/25" />
           </div>
         </Panel>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+      <div className="grid grid-cols-2 gap-3 md:grid-cols-2 xl:grid-cols-3">
         <StaffStatCard title="Sisa Cuti Tahun Ini" value={`${stats.leaveBalanceRemaining ?? 0} hari`} subtitle={stats.leaveBalanceType || 'Cuti Tahunan'} icon={CalendarDays} tone="rose"><StaffLeaveProgress remaining={stats.leaveBalanceRemaining} quota={annualLeaveType?.defaultQuotaPerYear} /></StaffStatCard>
         <StaffStatCard title="Total Hari Tidak Masuk Kerja" value={`${stats.totalDaysAbsent ?? 0} hari`} subtitle="Cuti disetujui tahun ini" icon={CalendarDays} tone="amber" />
         <StaffStatCard title="Notifikasi" value={stats.unreadNotificationCount ?? 0} subtitle={stats.unreadNotificationCount ? 'Belum dibaca' : 'Tidak ada notifikasi baru'} icon={BellDot} tone="sky" href="/notifikasi">{!stats.unreadNotificationCount && <StaffEmptyState icon={BellDot} title="Kotak masuk tenang" description="Tidak ada notifikasi baru yang belum dibaca." href="/notifikasi" actionLabel="Lihat notifikasi" />}</StaffStatCard>
