@@ -7,8 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "test": "npm run test:leave",
+    "test": "npm run test:leave && npm run test:auth",
     "test:leave": "node --test tests/leave-utils.test.js tests/leave-api-contract.test.js tests/doctor-certificate.test.js",
+    "test:auth": "node --test tests/auth-policy.test.js tests/password-reset.test.js",
     "db:seed": "node --env-file=.env.local prisma/seed.js",
     "db:seed:leave": "node \"Seedleavemanagement .js\""
   },

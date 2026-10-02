@@ -1,5 +1,7 @@
 {
+  "/(auth)/forgot-password/page": "app/(auth)/forgot-password/page.js",
   "/(auth)/login/page": "app/(auth)/login/page.js",
+  "/(auth)/login/staff/page": "app/(auth)/login/staff/page.js",
   "/(dashboard)/aset/page": "app/(dashboard)/aset/page.js",
   "/(dashboard)/aset/peminjaman/page": "app/(dashboard)/aset/peminjaman/page.js",
   "/(dashboard)/audit-trail/page": "app/(dashboard)/audit-trail/page.js",
@@ -35,6 +37,7 @@
   "/api/aset/route": "app/api/aset/route.js",
   "/api/audit-trail/route": "app/api/audit-trail/route.js",
   "/api/auth/[...nextauth]/route": "app/api/auth/[...nextauth]/route.js",
+  "/api/auth/forgot-password/route": "app/api/auth/forgot-password/route.js",
   "/api/cron/leave-rollover/route": "app/api/cron/leave-rollover/route.js",
   "/api/cuti/jenis/[id]/route": "app/api/cuti/jenis/[id]/route.js",
   "/api/cuti/jenis/route": "app/api/cuti/jenis/route.js",

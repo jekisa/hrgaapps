@@ -5,8 +5,8 @@
       "runtime": "nodejs",
       "matchers": [
         {
-          "regexp": "^(?:\\/(_next\\/data\\/[^/]{1,}))?(?:\\/((?!login|api\\/auth|api\\/cron\\/leave-rollover|_next\\/static|_next\\/image|favicon.ico|dea-trans-logo.png|icon.png|logo.svg).*))(\\.json)?[\\/#\\?]?$",
-          "originalSource": "/((?!login|api/auth|api/cron/leave-rollover|_next/static|_next/image|favicon.ico|dea-trans-logo.png|icon.png|logo.svg).*)"
+          "regexp": "^(?:\\/(_next\\/data\\/[^/]{1,}))?(?:\\/((?!login|forgot-password|api\\/auth|api\\/cron\\/leave-rollover|_next\\/static|_next\\/image|favicon.ico|dea-trans-logo.png|icon.png|logo.svg).*))(\\.json)?[\\/#\\?]?$",
+          "originalSource": "/((?!login|forgot-password|api/auth|api/cron/leave-rollover|_next/static|_next/image|favicon.ico|dea-trans-logo.png|icon.png|logo.svg).*)"
         }
       ]
     }

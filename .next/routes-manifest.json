@@ -174,6 +174,12 @@
       "namedRegex": "^/api/audit\\-trail(?:/)?$"
     },
     {
+      "page": "/api/auth/forgot-password",
+      "regex": "^/api/auth/forgot\\-password(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/auth/forgot\\-password(?:/)?$"
+    },
+    {
       "page": "/api/cron/leave-rollover",
       "regex": "^/api/cron/leave\\-rollover(?:/)?$",
       "routeKeys": {},
@@ -378,6 +384,12 @@
       "namedRegex": "^/cuti/surat\\-dokter(?:/)?$"
     },
     {
+      "page": "/forgot-password",
+      "regex": "^/forgot\\-password(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/forgot\\-password(?:/)?$"
+    },
+    {
       "page": "/gedung/maintenance",
       "regex": "^/gedung/maintenance(?:/)?$",
       "routeKeys": {},
@@ -460,6 +472,12 @@
       "regex": "^/login(?:/)?$",
       "routeKeys": {},
       "namedRegex": "^/login(?:/)?$"
+    },
+    {
+      "page": "/login/staff",
+      "regex": "^/login/staff(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/login/staff(?:/)?$"
     },
     {
       "page": "/notifikasi",
