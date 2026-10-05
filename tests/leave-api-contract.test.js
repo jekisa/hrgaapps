@@ -123,6 +123,13 @@ test('awaits Next.js dynamic params before using the leave review request id', (
   assert.doesNotMatch(route, /params\.id/)
 })
 
+test('shows leave period and reason in the admin review modal', () => {
+  const page = readFileSync(path.resolve(process.cwd(), 'app/(dashboard)/cuti/kelola/page.js'), 'utf8')
+  assert.match(page, /formatDate\(request\.startDate\)/)
+  assert.match(page, /formatDate\(request\.endDate\)/)
+  assert.match(page, /request\.reason/)
+})
+
 test('hides the pending tile for non-admin users', () => {
   assert.equal(getLeavePendingTile('ADMIN', { leavePending: 4 }).value, 4)
   assert.equal(getLeavePendingTile('STAFF', { leavePending: 4 }), null)
