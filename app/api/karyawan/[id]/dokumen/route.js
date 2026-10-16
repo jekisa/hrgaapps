@@ -16,8 +16,8 @@ async function saveKaryawanDocument(file, karyawanId) {
   const safeName = `${Date.now()}-${crypto.randomUUID()}${ext}`
   const buffer = Buffer.from(await file.arrayBuffer())
 
-  // Gunakan Vercel Blob di production (BLOB_READ_WRITE_TOKEN tersedia di Vercel)
-  if (process.env.BLOB_READ_WRITE_TOKEN) {
+  // Gunakan Vercel Blob di production (BLOB_READ_WRITE_TOKEN = token manual, BLOB_STORE_ID = OIDC)
+  if (process.env.BLOB_READ_WRITE_TOKEN || process.env.BLOB_STORE_ID) {
     const { put } = await import('@vercel/blob')
     const blob = await put(`dokumen/${karyawanId}/${safeName}`, buffer, {
       access: 'public',
