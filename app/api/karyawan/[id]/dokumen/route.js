@@ -7,8 +7,31 @@ import DokumenKaryawan from '@/models/DokumenKaryawan'
 import { createAuditLog, getIpAddress } from '@/lib/server-utils'
 import { writeFile, mkdir } from 'fs/promises'
 import path from 'path'
+import crypto from 'crypto'
 
 const { requireRole } = accessControl
+
+async function saveKaryawanDocument(file, karyawanId) {
+  const ext = path.extname(file.name)
+  const safeName = `${Date.now()}-${crypto.randomUUID()}${ext}`
+  const buffer = Buffer.from(await file.arrayBuffer())
+
+  // Gunakan Vercel Blob di production (BLOB_READ_WRITE_TOKEN tersedia di Vercel)
+  if (process.env.BLOB_READ_WRITE_TOKEN) {
+    const { put } = await import('@vercel/blob')
+    const blob = await put(`dokumen/${karyawanId}/${safeName}`, buffer, {
+      access: 'public',
+      contentType: file.type,
+    })
+    return blob.url
+  }
+
+  // Fallback: simpan ke public/uploads/dokumen (untuk local development)
+  const uploadDir = path.join(process.cwd(), 'public', 'uploads', 'dokumen', karyawanId)
+  await mkdir(uploadDir, { recursive: true })
+  await writeFile(path.join(uploadDir, safeName), buffer)
+  return `/uploads/dokumen/${karyawanId}/${safeName}`
+}
 
 export async function POST(request, { params: paramsPromise }) {
   const params = await paramsPromise
@@ -30,17 +53,7 @@ export async function POST(request, { params: paramsPromise }) {
       return NextResponse.json({ error: 'File dan jenis dokumen wajib diisi' }, { status: 400 })
     }
 
-    const bytes = await file.arrayBuffer()
-    const buffer = Buffer.from(bytes)
-
-    const uploadDir = path.join(process.cwd(), 'public', 'uploads', 'dokumen', params.id)
-    await mkdir(uploadDir, { recursive: true })
-
-    const ext = path.extname(file.name)
-    const safeName = `${Date.now()}-${Math.random().toString(36).slice(2)}${ext}`
-    await writeFile(path.join(uploadDir, safeName), buffer)
-
-    const fileUrl = `/uploads/dokumen/${params.id}/${safeName}`
+    const fileUrl = await saveKaryawanDocument(file, params.id)
 
     await dbConnect()
     const dok = await DokumenKaryawan.create({
